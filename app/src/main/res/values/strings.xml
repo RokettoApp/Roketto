@@ -4,4 +4,7 @@
     <string name="news">News</string>
     <string name="favorites">Favorites</string>
     <string name="settings">Settings</string>
+    <string name="eventsTitle">Events</string>
+    <string name="seeMoreString">See more</string>
+    <string name="astroString">Trending Astronauts</string>
 </resources>
