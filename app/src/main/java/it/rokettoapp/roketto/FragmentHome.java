@@ -1,9 +1,11 @@
 package it.rokettoapp.roketto;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +23,7 @@ import it.rokettoapp.roketto.spaceEvents.SpaceEvents;
 public class FragmentHome extends Fragment {
 
     private List<SpaceEvents> mEvents;
-
+    private Button mBtnSeeMore;
     public FragmentHome() {
     }
 
@@ -29,11 +31,10 @@ public class FragmentHome extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mEvents = new ArrayList<>();
-        mEvents.add(new SpaceEvents("Apollo 1", "prova 1", new Date(1637570235000L)));
-        mEvents.add(new SpaceEvents("Apollo 2", "prova 2", new Date(1537570235000L)));
-        mEvents.add(new SpaceEvents("Apollo 3", "prova 3", new Date(1437570235000L)));
-        mEvents.add(new SpaceEvents("Apollo 4", "prova 4", new Date(1337570235000L)));
-        mEvents.add(new SpaceEvents("Apollo 5", "prova 5", new Date(127570235000L)));
+
+        mEvents.add(new SpaceEvents("Apollo #1", "Apollo 12 fu la sesta missione con equipaggio nell'ambito del programma Apollo della NASA e la seconda ad atterrare sulla Luna, dopo l'Apollo 11. Decollò dal John F. Kennedy Space Center il 14 novembre 1969 alle 16:22 UTC. Durante la missione. ", new Date(1637570235000L)));
+        mEvents.add(new SpaceEvents("Apollo #2", "Apollo 12 fu la sesta missione con equipaggio nell'ambito del programma Apollo della NASA e la seconda ad atterrare sulla Luna, dopo l'Apollo 11. Decollò dal John F. Kennedy Space Center il 14 novembre 1969 alle 16:22 UTC. Durante la missione. ", new Date(1637570235000L)));
+        mEvents.add(new SpaceEvents("Apollo #1", "Apollo 12 fu la sesta missione con equipaggio nell'ambito del programma Apollo della NASA e la seconda ad atterrare sulla Luna, dopo l'Apollo 11. Decollò dal John F. Kennedy Space Center il 14 novembre 1969 alle 16:22 UTC. Durante la missione. ", new Date(1637570235000L)));
     }
 
 
@@ -41,12 +42,28 @@ public class FragmentHome extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home,container, false);
-
+        mBtnSeeMore = rootView.findViewById(R.id.seeMoreButton);
         RecyclerView myrv = (RecyclerView) rootView.findViewById(R.id.rvEvents);
-        myrv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        myrv.setLayoutManager(llm);
 
         RecyclerViewAdapterEvents myAdapter = new RecyclerViewAdapterEvents(getContext(), mEvents);
         myrv.setAdapter(myAdapter);
+        /*
+        mBtnSeeMore.setVisibility(View.VISIBLE);
+        myrv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Log.i("Pos",llm.findFirstVisibleItemPosition() + "");
+                if (llm.findFirstVisibleItemPosition() == 0) {
+                    mBtnSeeMore.setVisibility(View.GONE);
+                }
+                else {
+                    mBtnSeeMore.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });*/
         return rootView;
     }
 }

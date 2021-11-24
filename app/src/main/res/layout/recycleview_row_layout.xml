@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/event_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="8dp"
+        app:cardCornerRadius="12dp">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginVertical="16dp"
+            android:layout_marginEnd="16dp"
+
+            android:text="22/03/2021"
+            android:textSize="8dp" />
+
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Apollo # 12"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/event_d"
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_title"
+            android:layout_alignEnd="@id/eventDate"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="46dp"
+            android:minLines="3"
+            android:maxLines="3"
+            android:text="Descrizione"
+
+            android:textSize="8dp" />
+
+            <Button
+                android:id="@+id/idbutton"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:text="TAP TO READ"
+                android:textSize="8dp"
+                android:layout_marginVertical="16dp"
+                android:layout_below="@id/event_d"
+                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/accent_color"
+                android:fontFamily="sans-serif-medium"
+                 />
+    </RelativeLayout>
+    </androidx.cardview.widget.CardView>

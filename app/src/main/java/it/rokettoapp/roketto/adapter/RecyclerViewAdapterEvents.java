@@ -29,7 +29,7 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
 
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
-        view = mInflater.inflate(R.layout.recycleview_row_events,parent,false);
+        view = mInflater.inflate(R.layout.recycleview_row_layout,parent,false);
         return new MyViewHolderEvents(view);
     }
 
