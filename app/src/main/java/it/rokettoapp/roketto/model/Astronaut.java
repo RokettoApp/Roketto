@@ -6,6 +6,9 @@ import java.util.Date;
 
 public class Astronaut {
 
+    @SerializedName("id")
+    private int mId;
+
     @SerializedName("name")
     private String mName;
 
@@ -47,6 +50,8 @@ public class Astronaut {
 
     @SerializedName("first_flight")
     private Date mFirstFlight;
+
+    // TODO: flights and landings
 
     public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
                      String nationality, String biography, String twitter, String instagram, String wikipedia,

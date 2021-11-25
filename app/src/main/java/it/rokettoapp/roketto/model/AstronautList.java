@@ -4,17 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AstronautResponse {
+public class AstronautList {
 
     @SerializedName("count")
     private int mCount;
 
+    @SerializedName("next")
+    private String mNext;
+
     @SerializedName("results")
     private List<Astronaut> mAstronauts;
 
-    public AstronautResponse() { }
+    public AstronautList() { }
 
-    public AstronautResponse(int count, List<Astronaut> astronauts) {
+    public AstronautList(int count, List<Astronaut> astronauts) {
 
         this.mCount = count;
         this.mAstronauts = astronauts;
