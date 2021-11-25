@@ -2,6 +2,7 @@ package it.rokettoapp.roketto.util;
 
 import it.rokettoapp.roketto.service.AgencyApiService;
 import it.rokettoapp.roketto.service.AstronautApiService;
+import it.rokettoapp.roketto.service.SpacecraftApiService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -33,5 +34,12 @@ public class ServiceLocator {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(AgencyApiService.class);
+    }
+
+    public SpacecraftApiService getSpacecraftApiService() {
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        return retrofit.create(SpacecraftApiService.class);
     }
 }
