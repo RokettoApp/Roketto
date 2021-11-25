@@ -4,12 +4,26 @@ import com.google.gson.annotations.SerializedName;
 
 public class AstronautType {
 
+    @SerializedName("id")
+    int mId;
+
     @SerializedName("name")
     private String mName;
 
-    public AstronautType(String name) {
+    public AstronautType(int id, String name) {
 
+        this.mId = id;
         this.mName = name;
+    }
+
+    public int getId() {
+
+        return mId;
+    }
+
+    public void setId(int id) {
+
+        this.mId = id;
     }
 
     public String getName() {
