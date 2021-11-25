@@ -5,4 +5,6 @@ public class Constants {
     public static final String API_BASE_URL = "https://ll.thespacedevs.com/2.2.0/";
     public static final String ASTRONAUTS_ENDPOINT = "astronaut";
     public static final String ASTRONAUT_ENDPOINT = "astronaut/{id}";
+    public static final String AGENCIES_ENDPOINT = "agencies";
+    public static final String AGENCY_ENDPOINT = "agencies/{id}";
 }
