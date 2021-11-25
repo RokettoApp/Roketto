@@ -3,6 +3,7 @@ package it.rokettoapp.roketto.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class Astronaut {
 
@@ -45,17 +46,23 @@ public class Astronaut {
     @SerializedName("profile_image")
     private String mProfileImage;
 
+    // TODO:
+    // @SerializedName("flights")
+    // Launch mFlights
+
+    @SerializedName("landings")
+    List<SpacecraftFlight> mLandings;
+
     @SerializedName("last_flight")
     private Date mLastFlight;
 
     @SerializedName("first_flight")
     private Date mFirstFlight;
 
-    // TODO: flights and landings
-
     public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
                      String nationality, String biography, String twitter, String instagram, String wikipedia,
-                     Agency agency, String profileImage, Date lastFlight, Date firstFlight) {
+                     Agency agency, String profileImage, List<SpacecraftFlight> landings,
+                     Date lastFlight, Date firstFlight) {
 
         this.mName = name;
         this.mStatus = status;
@@ -69,6 +76,7 @@ public class Astronaut {
         this.mWikipedia = wikipedia;
         this.mAgency = agency;
         this.mProfileImage = profileImage;
+        this.mLandings = landings;
         this.mLastFlight = lastFlight;
         this.mFirstFlight = firstFlight;
     }
@@ -201,6 +209,16 @@ public class Astronaut {
     public void setProfileImage(String profileImage) {
 
         this.mProfileImage = profileImage;
+    }
+
+    public List<SpacecraftFlight> getLandings() {
+
+        return mLandings;
+    }
+
+    public void getLandings(List<SpacecraftFlight> landings) {
+
+        this.mLandings = landings;
     }
 
     public Date getLastFlight() {

@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Astronaut;
-import it.rokettoapp.roketto.model.AstronautList;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
@@ -26,15 +26,15 @@ public class AstronautRepository {
 
     public void fetchAstronauts() {
 
-        Call<AstronautList> astronautResponseCall = astronautApiService.getAstronauts(5);
-        astronautResponseCall.enqueue(new Callback<AstronautList>() {
+        Call<ResponseList<Astronaut>> astronautResponseCall = astronautApiService.getAstronauts(5);
+        astronautResponseCall.enqueue(new Callback<ResponseList<Astronaut>>() {
 
             @Override
-            public void onResponse(@NonNull Call<AstronautList> call,
-                                   @NonNull Response<AstronautList> response) {
+            public void onResponse(@NonNull Call<ResponseList<Astronaut>> call,
+                                   @NonNull Response<ResponseList<Astronaut>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    List<Astronaut> astronautList = response.body().getAstronauts();
+                    List<Astronaut> astronautList = response.body().getResults();
                     StringBuilder debugString = new StringBuilder();
                     for (Astronaut astronaut : astronautList) {
                         debugString.append(astronaut.getName()).append(" --- ");
@@ -46,7 +46,7 @@ public class AstronautRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<AstronautList> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<Astronaut>> call, @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }

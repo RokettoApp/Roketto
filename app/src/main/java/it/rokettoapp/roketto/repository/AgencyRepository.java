@@ -7,11 +7,8 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Agency;
-import it.rokettoapp.roketto.model.AgencyList;
-import it.rokettoapp.roketto.model.Astronaut;
-import it.rokettoapp.roketto.model.AstronautList;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AgencyApiService;
-import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,17 +26,17 @@ public class AgencyRepository {
 
     public void fetchAgencies() {
 
-        Call<AgencyList> astronautResponseCall = agencyApiService.getAgencies(5);
-        astronautResponseCall.enqueue(new Callback<AgencyList>() {
+        Call<ResponseList<Agency>> astronautResponseCall = agencyApiService.getAgencies(5);
+        astronautResponseCall.enqueue(new Callback<ResponseList<Agency>>() {
 
             @Override
-            public void onResponse(@NonNull Call<AgencyList> call,
-                                   @NonNull Response<AgencyList> response) {
+            public void onResponse(@NonNull Call<ResponseList<Agency>> call,
+                                   @NonNull Response<ResponseList<Agency>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    List<Agency> astronautList = response.body().getAgencies();
+                    List<Agency> agencyList = response.body().getResults();
                     StringBuilder debugString = new StringBuilder();
-                    for (Agency agency : astronautList) {
+                    for (Agency agency : agencyList) {
                         debugString.append(agency.getName()).append(" --- ");
                     }
                     Log.d(TAG, debugString.toString());
@@ -49,7 +46,7 @@ public class AgencyRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<AgencyList> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<Agency>> call, @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }

@@ -2,6 +2,8 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Agency {
 
     @SerializedName("id")
@@ -85,7 +87,12 @@ public class Agency {
     @SerializedName("nation_url")
     private String mNationUrl;
 
-    // TODO: launcher_list e spacecraft_list
+    // TODO:
+    // @SerializedName("launcher_list")
+    // private List<LauncherConfigDetail> mLauncherList
+
+    @SerializedName("spacecraft_list")
+    private List<SpacecraftConfigurationDetail> mSpacecraftList;
 
     public Agency(int id, String name, boolean featured, String type, String countryCode,
                   String abbreviation, String description, String administrator,
@@ -94,7 +101,8 @@ public class Agency {
                   int consecutiveSuccessfulLaunches, int failedLaunches, int pendingLaunches,
                   int successfulLandings, int failedLandings, int attemptedLandings,
                   int consecutiveSuccessfulLandings, String infoUrl, String wikipedia,
-                  String logoUrl, String imageUrl, String nationUrl) {
+                  String logoUrl, String imageUrl, String nationUrl,
+                  List<SpacecraftConfigurationDetail> spacecraftList) {
 
         this.mId = id;
         this.mName = name;
@@ -123,6 +131,7 @@ public class Agency {
         this.mLogoUrl = logoUrl;
         this.mImageUrl = imageUrl;
         this.mNationUrl = nationUrl;
+        this.mSpacecraftList = spacecraftList;
     }
 
     public int getId() {
@@ -393,5 +402,15 @@ public class Agency {
     public void setNationUrl(String nationUrl) {
 
         this.mNationUrl = nationUrl;
+    }
+
+    public List<SpacecraftConfigurationDetail> getSpacecraftList() {
+
+        return mSpacecraftList;
+    }
+
+    public void setSpacecraftList(List<SpacecraftConfigurationDetail> spacecraftList) {
+
+        this.mSpacecraftList = spacecraftList;
     }
 }
