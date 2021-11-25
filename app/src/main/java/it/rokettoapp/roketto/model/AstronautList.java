@@ -17,9 +17,10 @@ public class AstronautList {
 
     public AstronautList() { }
 
-    public AstronautList(int count, List<Astronaut> astronauts) {
+    public AstronautList(int count, String next, List<Astronaut> astronauts) {
 
         this.mCount = count;
+        this.mNext = next;
         this.mAstronauts = astronauts;
     }
 
@@ -29,6 +30,16 @@ public class AstronautList {
     }
 
     public void setCount(int count) {
+
+        this.mCount = count;
+    }
+
+    public String getNext() {
+
+        return mNext;
+    }
+
+    public void setNext(int count) {
 
         this.mCount = count;
     }

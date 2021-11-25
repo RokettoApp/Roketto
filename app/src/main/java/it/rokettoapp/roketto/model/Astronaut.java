@@ -73,6 +73,16 @@ public class Astronaut {
         this.mFirstFlight = firstFlight;
     }
 
+    public int getId() {
+
+        return mId;
+    }
+
+    public void setId(int id) {
+
+        this.mId = id;
+    }
+
     public String getName() {
 
         return mName;
