@@ -12,4 +12,6 @@ public class Constants {
     public static final String SPACECRAFT_ENDPOINT = "spacecraft/{id}/";
     public static final String SPACECRAFT_FLIGHTS_ENDPOINT = "spacecraft/flight/";
     public static final String SPACECRAFT_FLIGHT_ENDPOINT = "spacecraft/flight/{id}";
+    public static final String DOCKING_EVENTS_ENDPOINT = "docking_event/";
+    public static final String DOCKING_EVENT_ENDPOINT = "docking_event/{id}";
 }
