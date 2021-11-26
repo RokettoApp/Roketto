@@ -23,6 +23,6 @@ public interface AgencyDao {
     @Delete
     void delete(Agency agency);
 
-    @Delete
+    @Query("DELETE FROM favorite_agencie")
     void deleteAll();
 }

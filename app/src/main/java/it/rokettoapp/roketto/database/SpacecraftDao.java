@@ -23,6 +23,6 @@ public interface SpacecraftDao {
     @Delete
     void delete(Spacecraft spacecraft);
 
-    @Delete
+    @Query("DELETE FROM favorite_spacecraft")
     void deleteAll();
 }

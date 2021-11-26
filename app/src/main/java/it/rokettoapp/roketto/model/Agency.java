@@ -96,9 +96,47 @@ public class Agency {
     // TODO:
     // @SerializedName("launcher_list")
     // private List<LauncherConfigDetail> mLauncherList
-    @Ignore
     @SerializedName("spacecraft_list")
+    @Ignore
     private List<SpacecraftConfigurationDetail> mSpacecraftList;
+
+    public Agency(int id, String name, boolean featured, String type, String countryCode,
+                  String abbreviation, String description, String administrator,
+                  String foundingYear, String launchers, String spacecraft, String parent,
+                  String launchLibraryUrl, int totalLaunchCount, int successfulLaunches,
+                  int consecutiveSuccessfulLaunches, int failedLaunches, int pendingLaunches,
+                  int successfulLandings, int failedLandings, int attemptedLandings,
+                  int consecutiveSuccessfulLandings, String infoUrl, String wikipedia,
+                  String logoUrl, String imageUrl, String nationUrl) {
+
+        this.mId = id;
+        this.mName = name;
+        this.mFeatured = featured;
+        this.mType = type;
+        this.mCountryCode = countryCode;
+        this.mAbbreviation = abbreviation;
+        this.mDescription = description;
+        this.mAdministrator = administrator;
+        this.mFoundingYear = foundingYear;
+        this.mLaunchers = launchers;
+        this.mSpacecraft = spacecraft;
+        this.mParent = parent;
+        this.mLaunchLibraryUrl = launchLibraryUrl;
+        this.mTotalLaunchCount = totalLaunchCount;
+        this.mSuccessfulLaunches = successfulLaunches;
+        this.mConsecutiveSuccessfulLaunches = consecutiveSuccessfulLaunches;
+        this.mFailedLaunches = failedLaunches;
+        this.mPendingLaunches = pendingLaunches;
+        this.mSuccessfulLandings = successfulLandings;
+        this.mFailedLandings = failedLandings;
+        this.mAttemptedLandings = attemptedLandings;
+        this.mConsecutiveSuccessfulLandings = consecutiveSuccessfulLandings;
+        this.mInfoUrl = infoUrl;
+        this.mWikipedia = wikipedia;
+        this.mLogoUrl = logoUrl;
+        this.mImageUrl = imageUrl;
+        this.mNationUrl = nationUrl;
+    }
 
     public Agency(int id, String name, boolean featured, String type, String countryCode,
                   String abbreviation, String description, String administrator,

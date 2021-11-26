@@ -70,6 +70,26 @@ public class Astronaut {
 
     public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
                      String nationality, String biography, String twitter, String instagram, String wikipedia,
+                     Agency agency, String profileImage, Date lastFlight, Date firstFlight) {
+
+        this.mName = name;
+        this.mStatus = status;
+        this.mType = type;
+        this.mDateOfDeath = dateOfDeath;
+        this.mDateOfBirth = dateOfBirth;
+        this.mNationality = nationality;
+        this.mBiography = biography;
+        this.mTwitter = twitter;
+        this.mInstagram = instagram;
+        this.mWikipedia = wikipedia;
+        this.mAgency = agency;
+        this.mProfileImage = profileImage;
+        this.mLastFlight = lastFlight;
+        this.mFirstFlight = firstFlight;
+    }
+
+    public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
+                     String nationality, String biography, String twitter, String instagram, String wikipedia,
                      Agency agency, String profileImage, List<SpacecraftFlight> landings,
                      Date lastFlight, Date firstFlight) {
 

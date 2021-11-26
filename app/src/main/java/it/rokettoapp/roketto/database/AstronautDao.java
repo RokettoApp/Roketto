@@ -23,6 +23,6 @@ public interface AstronautDao {
     @Delete
     void delete(Astronaut astronaut);
 
-    @Delete
+    @Query("DELETE FROM favorite_astronaut")
     void deleteAll();
 }

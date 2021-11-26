@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,6 +15,7 @@ import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.Spacecraft;
 
 @Database(entities = {Agency.class, Astronaut.class, Spacecraft.class}, version =1)
+@TypeConverters({Converters.class})
 public abstract class RokettoDatabase extends RoomDatabase {
     public abstract AgencyDao agencyDao();
     public abstract AstronautDao astronautDao();

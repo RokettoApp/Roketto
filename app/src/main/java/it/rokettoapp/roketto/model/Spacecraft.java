@@ -38,6 +38,17 @@ public class Spacecraft {
     List<SpacecraftFlight> mSpacecraftFlight;
 
     public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
+                      String description, SpacecraftConfigurationDetail spacecraftConfigurationDetail) {
+
+        this.mId = id;
+        this.mName = name;
+        this.mSerialNumber = serialNumber;
+        this.mStatus = status;
+        this.mDescription = description;
+        this.mSpacecraftConfigurationDetail = spacecraftConfigurationDetail;
+    }
+
+    public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
                       String description, List<SpacecraftFlight> spacecraftFlight,
                       SpacecraftConfigurationDetail spacecraftConfigurationDetail) {
 

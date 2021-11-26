@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class SpacecraftConfigurationDetail {
@@ -10,9 +12,11 @@ public class SpacecraftConfigurationDetail {
     @SerializedName("name")
     String mName;
 
+    @Embedded(prefix = "type_")
     @SerializedName("type")
     SpacecraftConfigType mSpacecraftConfigType;
 
+    @Embedded(prefix = "agency_")
     @SerializedName("agency")
     Agency mAgency;
 
