@@ -8,19 +8,19 @@ public class Constants {
     public static final String ASTRONAUT_ENDPOINT = "astronaut/{id}";
     public static final String AGENCIES_ENDPOINT = "agencies";
     public static final String AGENCY_ENDPOINT = "agencies/{id}";
-    public static final String SPACECRAFTS_ENDPOINT = "spacecraft/";
+    public static final String SPACECRAFTS_ENDPOINT = "spacecraft";
     public static final String SPACECRAFT_ENDPOINT = "spacecraft/{id}/";
-    public static final String SPACECRAFT_FLIGHTS_ENDPOINT = "spacecraft/flight/";
+    public static final String SPACECRAFT_FLIGHTS_ENDPOINT = "spacecraft/flight";
     public static final String SPACECRAFT_FLIGHT_ENDPOINT = "spacecraft/flight/{id}";
-    public static final String DOCKING_EVENTS_ENDPOINT = "docking_event/";
+    public static final String DOCKING_EVENTS_ENDPOINT = "docking_event";
     public static final String DOCKING_EVENT_ENDPOINT = "docking_event/{id}";
-    public static final String LOCATIONS_ENDPOINT = "location/";
+    public static final String LOCATIONS_ENDPOINT = "location";
     public static final String LOCATION_ENDPOINT = "location/{id}";
-    public static final String PADS_ENDPOINT = "pad/";
+    public static final String PADS_ENDPOINT = "pad";
     public static final String PAD_ENDPOINT = "pad/{id}";
-    public static final String PROGRAMS_ENDPOINT = "program/";
+    public static final String PROGRAMS_ENDPOINT = "program";
     public static final String PROGRAM_ENDPOINT = "program/{id}";
-    public static final String LAUNCHERS_ENDPOINT = "launcher/";
+    public static final String LAUNCHERS_ENDPOINT = "launcher";
     public static final String LAUNCHER_ENDPOINT = "launcher/{id}";
     public static final String LAUNCHES_ENDPOINT = "launch";
     public static final String LAUNCH_ENDPOINT = "launch/{id}";
@@ -28,4 +28,8 @@ public class Constants {
     public static final String LAUNCH_PREVIOUS_ENDPOINT = "launch/previous/{id}";
     public static final String LAUNCHES_UPCOMING_ENDPOINT = "launch/upcoming";
     public static final String LAUNCH_UPCOMING_ENDPOINT = "launch/upcoming/{id}";
+    public static final String EXPEDITIONS_ENDPOINT = "expedition";
+    public static final String EXPEDITION_ENDPOINT = "expedition/{id}";
+    public static final String SPACESTATIONS_ENDPOINT = "spacestation";
+    public static final String SPACESTATION_ENDPOINT = "spacestation/{id}";
 }

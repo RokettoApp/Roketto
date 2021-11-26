@@ -24,12 +24,12 @@ public class DockingEvent {
     @SerializedName("docking_location")
     private DockingLocation mDockingLocation;
 
-    // TODO:
-    // @SerializedName("space_station")
-    // private SpaceStation mSpaceStation;
+    @SerializedName("space_station")
+    private SpaceStation mSpaceStation;
 
     public DockingEvent(int id, String launchId, Date docking, Date departure,
-                        SpacecraftFlight flightVehicle, DockingLocation dockingLocation) {
+                        SpacecraftFlight flightVehicle, DockingLocation dockingLocation,
+                        SpaceStation spaceStation) {
 
         this.mId = id;
         this.mLaunchId = launchId;
@@ -37,6 +37,7 @@ public class DockingEvent {
         this.mDeparture = departure;
         this.mFlightVehicle = flightVehicle;
         this.mDockingLocation = dockingLocation;
+        this.mSpaceStation = spaceStation;
     }
 
     public int getId() {
@@ -97,5 +98,15 @@ public class DockingEvent {
     public void setDockingLocation(DockingLocation dockingLocation) {
 
         this.mDockingLocation = dockingLocation;
+    }
+
+    public SpaceStation getSpaceStation() {
+
+        return mSpaceStation;
+    }
+
+    public void setSpaceStation(SpaceStation spaceStation) {
+
+        this.mSpaceStation = spaceStation;
     }
 }
