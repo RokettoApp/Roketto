@@ -5,37 +5,37 @@ import com.google.gson.annotations.SerializedName;
 public class Pad {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("agency_id")
-    int mAgencyId;
+    private int mAgencyId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("info_url")
-    String mInfoUrl;
+    private String mInfoUrl;
 
     @SerializedName("wiki_url")
-    String mWikipedia;
+    private String mWikipedia;
 
     @SerializedName("map_url")
-    String mMapUrl;
+    private String mMapUrl;
 
     @SerializedName("latitude")
-    String mLatitude;
+    private String mLatitude;
 
     @SerializedName("longitude")
-    String mLongitude;
+    private String mLongitude;
 
     @SerializedName("location")
-    Location mLocation;
+    private Location mLocation;
 
     @SerializedName("map_image")
-    String mMapImage;
+    private String mMapImage;
 
     @SerializedName("total_launch_count")
-    int mTotalLaunchCounter;
+    private int mTotalLaunchCounter;
 
     public Pad(int id, int agencyId, String name, String infoUrl, String wikipedia,
                String mapUrl, String latitude, String longitude, Location location,

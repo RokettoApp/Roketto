@@ -12,6 +12,7 @@ import java.util.List;
 
 @Entity(tableName = "favorite_astronaut")
 public class Astronaut {
+
     @PrimaryKey
     @SerializedName("id")
     private int mId;
@@ -57,10 +58,11 @@ public class Astronaut {
 
     // TODO:
     // @SerializedName("flights")
-    // Launch mFlights
+    // private Launch mFlights
+
     @Ignore
     @SerializedName("landings")
-    List<SpacecraftFlight> mLandings;
+    private List<SpacecraftFlight> mLandings;
 
     @SerializedName("last_flight")
     private Date mLastFlight;

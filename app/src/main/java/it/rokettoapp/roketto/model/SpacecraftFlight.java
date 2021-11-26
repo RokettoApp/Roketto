@@ -8,33 +8,33 @@ import java.util.List;
 public class SpacecraftFlight {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("mission_end")
-    Date mMissionEnd;
+    private Date mMissionEnd;
 
     @SerializedName("destination")
-    String mDestination;
+    private String mDestination;
 
     @SerializedName("launch_crew")
-    List<AstronautFlight> mLaunchCrew;
+    private List<AstronautFlight> mLaunchCrew;
 
     @SerializedName("onboard_crew")
-    List<AstronautFlight> mOnboardCrew;
+    private List<AstronautFlight> mOnboardCrew;
 
     @SerializedName("landing_crew")
-    List<AstronautFlight> mLandingCrew;
+    private List<AstronautFlight> mLandingCrew;
 
     @SerializedName("spacecraft")
-    Spacecraft mSpacecraft;
+    private Spacecraft mSpacecraft;
 
     // TODO:
     // @SerializedName("launch")
-    // Launch mLaunch
+    // private Launch mLaunch
 
     // TODO:
     @SerializedName("docking_events")
-    List<DockingEvent> mDockingEvent;
+    private List<DockingEvent> mDockingEvent;
 
     public SpacecraftFlight(int id, Date missionEnd, String destination,
                             List<AstronautFlight> launchCrew, List<AstronautFlight> onboardCrew,

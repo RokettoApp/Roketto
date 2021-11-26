@@ -14,28 +14,28 @@ public class Spacecraft {
 
     @PrimaryKey
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("serial_number")
-    String mSerialNumber;
+    private String mSerialNumber;
 
     @Embedded(prefix = "status_")
     @SerializedName("status")
-    SpacecraftStatus mStatus;
+    private SpacecraftStatus mStatus;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @Embedded(prefix = "config_")
     @SerializedName("spacecraft_config")
-    SpacecraftConfigurationDetail mSpacecraftConfigurationDetail;
+    private SpacecraftConfigurationDetail mSpacecraftConfigurationDetail;
 
     @Ignore
     @SerializedName("flights")
-    List<SpacecraftFlight> mSpacecraftFlight;
+    private List<SpacecraftFlight> mSpacecraftFlight;
 
     public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
                       String description, SpacecraftConfigurationDetail spacecraftConfigurationDetail) {

@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName;
 public class MissionPatch {
 
     @SerializedName("id")
-    String mId;
+    private String mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("priority")
-    int mPriority;
+    private int mPriority;
 
     @SerializedName("image_url")
-    String mImageUrl;
+    private String mImageUrl;
 
     @SerializedName("agency")
-    Agency mAgency;
+    private Agency mAgency;
 
     public MissionPatch(String id, String name, int priority, String imageUrl, Agency agency) {
 

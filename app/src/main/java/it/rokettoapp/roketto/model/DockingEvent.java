@@ -7,26 +7,26 @@ import java.util.Date;
 public class DockingEvent {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("launch_id")
-    String mLaunchId;
+    private String mLaunchId;
 
     @SerializedName("docking")
-    Date mDocking;
+    private Date mDocking;
 
     @SerializedName("departure")
-    Date mDeparture;
+    private Date mDeparture;
 
     @SerializedName("flight_vehicle")
-    SpacecraftFlight mFlightVehicle;
+    private SpacecraftFlight mFlightVehicle;
 
     @SerializedName("docking_location")
-    DockingLocation mDockingLocation;
+    private DockingLocation mDockingLocation;
 
     // TODO:
     // @SerializedName("space_station")
-    // SpaceStation mSpaceStation;
+    // private SpaceStation mSpaceStation;
 
     public DockingEvent(int id, String launchId, Date docking, Date departure,
                         SpacecraftFlight flightVehicle, DockingLocation dockingLocation) {

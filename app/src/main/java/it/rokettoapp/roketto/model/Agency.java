@@ -96,6 +96,7 @@ public class Agency {
     // TODO:
     // @SerializedName("launcher_list")
     // private List<LauncherConfigDetail> mLauncherList
+
     @SerializedName("spacecraft_list")
     @Ignore
     private List<SpacecraftConfigurationDetail> mSpacecraftList;

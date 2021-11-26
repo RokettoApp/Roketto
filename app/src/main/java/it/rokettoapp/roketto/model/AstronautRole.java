@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class AstronautRole {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("role")
-    String mRole;
+    private String mRole;
 
     @SerializedName("priority")
-    int mPriority;
+    private int mPriority;
 
     public AstronautRole(int id, String role, int priority) {
 

@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class DockingLocation {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     public DockingLocation(int id, String name) {
 

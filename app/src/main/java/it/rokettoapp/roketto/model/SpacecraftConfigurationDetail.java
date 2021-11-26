@@ -7,63 +7,63 @@ import com.google.gson.annotations.SerializedName;
 public class SpacecraftConfigurationDetail {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @Embedded(prefix = "type_")
     @SerializedName("type")
-    SpacecraftConfigType mSpacecraftConfigType;
+    private SpacecraftConfigType mSpacecraftConfigType;
 
     @Embedded(prefix = "agency_")
     @SerializedName("agency")
-    Agency mAgency;
+    private Agency mAgency;
 
     @SerializedName("in_use")
-    boolean mInUse;
+    private boolean mInUse;
 
     @SerializedName("capability")
-    String mCapability;
+    private String mCapability;
 
     @SerializedName("history")
-    String mHistory;
+    private String mHistory;
 
     @SerializedName("details")
-    String mDetails;
+    private String mDetails;
 
     @SerializedName("maiden_flight")
-    String mMaidenFlight;
+    private String mMaidenFlight;
 
     @SerializedName("height")
-    float mHeight;
+    private float mHeight;
 
     @SerializedName("diameter")
-    float mDiameter;
+    private float mDiameter;
 
     @SerializedName("human_rated")
-    boolean mHumanRated;
+    private boolean mHumanRated;
 
     @SerializedName("crew_capacity")
-    int mCrewCapacity;
+    private int mCrewCapacity;
 
     @SerializedName("payload_capacity")
-    int mPayloadCapacity;
+    private int mPayloadCapacity;
 
     @SerializedName("flight_life")
-    String mFlightLift;
+    private String mFlightLift;
 
     @SerializedName("image_url")
-    String mImageUrl;
+    private String mImageUrl;
 
     @SerializedName("nation_url")
-    String mNationUrl;
+    private String mNationUrl;
 
     @SerializedName("wiki_link")
-    String mWikipedia;
+    private String mWikipedia;
 
     @SerializedName("info_link")
-    String mInfoUrl;
+    private String mInfoUrl;
 
     public SpacecraftConfigurationDetail(int id, String name, Agency agency,
                                          SpacecraftConfigType spacecraftConfigType,

@@ -8,34 +8,34 @@ import java.util.List;
 public class Program {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @SerializedName("agencies")
-    List<Agency> mAgencies;
+    private List<Agency> mAgencies;
 
     @SerializedName("image_url")
-    String mImageUrl;
+    private String mImageUrl;
 
     @SerializedName("start_date")
-    Date mStartDate;
+    private Date mStartDate;
 
     @SerializedName("end_date")
-    Date mEndDate;
+    private Date mEndDate;
 
     @SerializedName("info_url")
-    String mInfoUrl;
+    private String mInfoUrl;
 
     @SerializedName("wiki_url")
-    String mWikipedia;
+    private String mWikipedia;
 
     @SerializedName("mission_patches")
-    List<MissionPatch> mMissionPatch;
+    private List<MissionPatch> mMissionPatch;
 
     public Program(int id, String name, String description, List<Agency> agencies, String imageUrl,
                    Date startDate, Date endDate, String infoUrl, String wikipedia,

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class AstronautType {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
     private String mName;

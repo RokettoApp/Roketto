@@ -7,25 +7,25 @@ import java.util.List;
 public class Location {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("country_code")
-    String mCountryCode;
+    private String mCountryCode;
 
     @SerializedName("map_image")
-    String mMapImage;
+    private String mMapImage;
 
     @SerializedName("total_launch_count")
-    String mTotalLaunchCount;
+    private String mTotalLaunchCount;
 
     @SerializedName("total_landing_count")
-    String mTotalLandingCount;
+    private String mTotalLandingCount;
 
     @SerializedName("pads")
-    List<Pad> mPads;
+    private List<Pad> mPads;
 
 
     public Location(int id, String name, String countryCode, String mapImage,
