@@ -20,4 +20,6 @@ public class Constants {
     public static final String PAD_ENDPOINT = "pad/{id}";
     public static final String PROGRAMS_ENDPOINT = "program/";
     public static final String PROGRAM_ENDPOINT = "program/{id}";
+    public static final String LAUNCHERS_ENDPOINT = "launcher/";
+    public static final String LAUNCHER_ENDPOINT = "launcher/{id}";
 }
