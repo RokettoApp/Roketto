@@ -1,21 +1,29 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
 
+@Entity(tableName = "favorite_astronaut")
 public class Astronaut {
-
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
     @SerializedName("name")
     private String mName;
 
+    @Embedded(prefix = "status_")
     @SerializedName("status")
     private AstronautStatus mStatus;
 
+    @Embedded(prefix = "type_")
     @SerializedName("type")
     private AstronautType mType;
 
@@ -40,6 +48,7 @@ public class Astronaut {
     @SerializedName("wiki")
     private String mWikipedia;
 
+    @Embedded(prefix = "agency_")
     @SerializedName("agency")
     private Agency mAgency;
 
@@ -49,7 +58,7 @@ public class Astronaut {
     // TODO:
     // @SerializedName("flights")
     // Launch mFlights
-
+    @Ignore
     @SerializedName("landings")
     List<SpacecraftFlight> mLandings;
 

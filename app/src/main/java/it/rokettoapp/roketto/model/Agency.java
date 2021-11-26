@@ -1,11 +1,17 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "favorite_agencie")
 public class Agency {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -90,7 +96,7 @@ public class Agency {
     // TODO:
     // @SerializedName("launcher_list")
     // private List<LauncherConfigDetail> mLauncherList
-
+    @Ignore
     @SerializedName("spacecraft_list")
     private List<SpacecraftConfigurationDetail> mSpacecraftList;
 

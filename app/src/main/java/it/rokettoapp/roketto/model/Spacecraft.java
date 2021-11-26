@@ -1,11 +1,18 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "favorite_spacecraft")
 public class Spacecraft {
 
+    @PrimaryKey
     @SerializedName("id")
     int mId;
 
@@ -15,15 +22,18 @@ public class Spacecraft {
     @SerializedName("serial_number")
     String mSerialNumber;
 
+    @Embedded(prefix = "status_")
     @SerializedName("status")
     SpacecraftStatus mStatus;
 
     @SerializedName("description")
     String mDescription;
 
+    @Embedded(prefix = "config_")
     @SerializedName("spacecraft_config")
     SpacecraftConfigurationDetail mSpacecraftConfigurationDetail;
 
+    @Ignore
     @SerializedName("flights")
     List<SpacecraftFlight> mSpacecraftFlight;
 
