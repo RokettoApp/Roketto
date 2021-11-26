@@ -31,34 +31,34 @@ public class Spacecraft {
 
     @Embedded(prefix = "config_")
     @SerializedName("spacecraft_config")
-    private SpacecraftConfigurationDetail mSpacecraftConfigurationDetail;
+    private SpacecraftConfiguration mSpacecraftConfiguration;
 
     @Ignore
     @SerializedName("flights")
     private List<SpacecraftFlight> mSpacecraftFlight;
 
     public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
-                      String description, SpacecraftConfigurationDetail spacecraftConfigurationDetail) {
+                      String description, SpacecraftConfiguration spacecraftConfiguration) {
 
         this.mId = id;
         this.mName = name;
         this.mSerialNumber = serialNumber;
         this.mStatus = status;
         this.mDescription = description;
-        this.mSpacecraftConfigurationDetail = spacecraftConfigurationDetail;
+        this.mSpacecraftConfiguration = spacecraftConfiguration;
     }
 
     public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
                       String description, List<SpacecraftFlight> spacecraftFlight,
-                      SpacecraftConfigurationDetail spacecraftConfigurationDetail) {
+                      SpacecraftConfiguration spacecraftConfiguration) {
 
         this.mId = id;
         this.mName = name;
         this.mSerialNumber = serialNumber;
         this.mStatus = status;
         this.mDescription = description;
+        this.mSpacecraftConfiguration = spacecraftConfiguration;
         this.mSpacecraftFlight = spacecraftFlight;
-        this.mSpacecraftConfigurationDetail = spacecraftConfigurationDetail;
     }
 
     public int getId() {
@@ -104,14 +104,14 @@ public class Spacecraft {
         this.mDescription = description;
     }
 
-    public SpacecraftConfigurationDetail getSpacecraftConfigurationDetail() {
+    public SpacecraftConfiguration getSpacecraftConfiguration() {
 
-        return mSpacecraftConfigurationDetail;
+        return mSpacecraftConfiguration;
     }
 
-    public void setSpacecraftConfigurationDetail(SpacecraftConfigurationDetail spacecraftConfDetail) {
+    public void setSpacecraftConfiguration(SpacecraftConfiguration spacecraftConfiguration) {
 
-        this.mSpacecraftConfigurationDetail = spacecraftConfDetail;
+        this.mSpacecraftConfiguration = spacecraftConfiguration;
     }
 
     public List<SpacecraftFlight> getSpacecraftFlight() {

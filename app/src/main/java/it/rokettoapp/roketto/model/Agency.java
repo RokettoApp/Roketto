@@ -93,13 +93,13 @@ public class Agency {
     @SerializedName("nation_url")
     private String mNationUrl;
 
-    // TODO:
-    // @SerializedName("launcher_list")
-    // private List<LauncherConfigDetail> mLauncherList
-
-    @SerializedName("spacecraft_list")
     @Ignore
-    private List<SpacecraftConfigurationDetail> mSpacecraftList;
+    @SerializedName("launcher_list")
+    private List<LauncherConfig> mLauncherList;
+
+    @Ignore
+    @SerializedName("spacecraft_list")
+    private List<SpacecraftConfiguration> mSpacecraftList;
 
     public Agency(int id, String name, boolean featured, String type, String countryCode,
                   String abbreviation, String description, String administrator,
@@ -147,7 +147,8 @@ public class Agency {
                   int successfulLandings, int failedLandings, int attemptedLandings,
                   int consecutiveSuccessfulLandings, String infoUrl, String wikipedia,
                   String logoUrl, String imageUrl, String nationUrl,
-                  List<SpacecraftConfigurationDetail> spacecraftList) {
+                  List<LauncherConfig> launcherList,
+                  List<SpacecraftConfiguration> spacecraftList) {
 
         this.mId = id;
         this.mName = name;
@@ -176,6 +177,7 @@ public class Agency {
         this.mLogoUrl = logoUrl;
         this.mImageUrl = imageUrl;
         this.mNationUrl = nationUrl;
+        this.mLauncherList = launcherList;
         this.mSpacecraftList = spacecraftList;
     }
 
@@ -449,12 +451,22 @@ public class Agency {
         this.mNationUrl = nationUrl;
     }
 
-    public List<SpacecraftConfigurationDetail> getSpacecraftList() {
+    public List<LauncherConfig> getLauncherList() {
+
+        return mLauncherList;
+    }
+
+    public void setLauncherList(List<LauncherConfig> launcherList) {
+
+        this.mLauncherList = launcherList;
+    }
+
+    public List<SpacecraftConfiguration> getSpacecraftList() {
 
         return mSpacecraftList;
     }
 
-    public void setSpacecraftList(List<SpacecraftConfigurationDetail> spacecraftList) {
+    public void setSpacecraftList(List<SpacecraftConfiguration> spacecraftList) {
 
         this.mSpacecraftList = spacecraftList;
     }

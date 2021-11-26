@@ -28,18 +28,16 @@ public class SpacecraftFlight {
     @SerializedName("spacecraft")
     private Spacecraft mSpacecraft;
 
-    // TODO:
-    // @SerializedName("launch")
-    // private Launch mLaunch
+    @SerializedName("launch")
+    private Launch mLaunch;
 
-    // TODO:
     @SerializedName("docking_events")
     private List<DockingEvent> mDockingEvent;
 
     public SpacecraftFlight(int id, Date missionEnd, String destination,
                             List<AstronautFlight> launchCrew, List<AstronautFlight> onboardCrew,
                             List<AstronautFlight> landingCrew, Spacecraft spacecraft,
-                            List<DockingEvent> dockingEvent) {
+                            Launch launch, List<DockingEvent> dockingEvent) {
 
         this.mId = id;
         this.mDestination = destination;
@@ -48,6 +46,7 @@ public class SpacecraftFlight {
         this.mOnboardCrew = onboardCrew;
         this.mLandingCrew = landingCrew;
         this.mSpacecraft = spacecraft;
+        this.mLaunch = launch;
         this.mDockingEvent = dockingEvent;
     }
 
@@ -119,6 +118,16 @@ public class SpacecraftFlight {
     public void setSpacecraft(Spacecraft spacecraft) {
 
         this.mSpacecraft = spacecraft;
+    }
+
+    public Launch getLaunch() {
+
+        return mLaunch;
+    }
+
+    public void setLaunch(Launch launch) {
+
+        this.mLaunch = launch;
     }
 
     public List<DockingEvent> getDockingEvent() {

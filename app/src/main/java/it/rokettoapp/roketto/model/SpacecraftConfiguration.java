@@ -4,7 +4,7 @@ import androidx.room.Embedded;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SpacecraftConfigurationDetail {
+public class SpacecraftConfiguration {
 
     @SerializedName("id")
     private int mId;
@@ -65,13 +65,13 @@ public class SpacecraftConfigurationDetail {
     @SerializedName("info_link")
     private String mInfoUrl;
 
-    public SpacecraftConfigurationDetail(int id, String name, Agency agency,
-                                         SpacecraftConfigType spacecraftConfigType,
-                                         boolean inUse, String capability, String history,
-                                         String details, String maidenFlight, float height,
-                                         float diameter, boolean humanRated, int crewCapacity,
-                                         int payloadCapacity, String flightLift, String imageUrl,
-                                         String nationUrl, String wikipedia, String infoUrl) {
+    public SpacecraftConfiguration(int id, String name, Agency agency,
+                                   SpacecraftConfigType spacecraftConfigType,
+                                   boolean inUse, String capability, String history,
+                                   String details, String maidenFlight, float height,
+                                   float diameter, boolean humanRated, int crewCapacity,
+                                   int payloadCapacity, String flightLift, String imageUrl,
+                                   String nationUrl, String wikipedia, String infoUrl) {
 
         this.mId = id;
         this.mName = name;

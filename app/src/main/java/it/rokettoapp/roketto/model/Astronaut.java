@@ -56,9 +56,9 @@ public class Astronaut {
     @SerializedName("profile_image")
     private String mProfileImage;
 
-    // TODO:
-    // @SerializedName("flights")
-    // private Launch mFlights
+    @Ignore
+    @SerializedName("flights")
+    private List<Launch> mFlightList;
 
     @Ignore
     @SerializedName("landings")
@@ -92,8 +92,8 @@ public class Astronaut {
 
     public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
                      String nationality, String biography, String twitter, String instagram, String wikipedia,
-                     Agency agency, String profileImage, List<SpacecraftFlight> landings,
-                     Date lastFlight, Date firstFlight) {
+                     Agency agency, String profileImage, List<Launch> flightList,
+                     List<SpacecraftFlight> landings, Date lastFlight, Date firstFlight) {
 
         this.mName = name;
         this.mStatus = status;
@@ -107,6 +107,7 @@ public class Astronaut {
         this.mWikipedia = wikipedia;
         this.mAgency = agency;
         this.mProfileImage = profileImage;
+        this.mFlightList = flightList;
         this.mLandings = landings;
         this.mLastFlight = lastFlight;
         this.mFirstFlight = firstFlight;
@@ -240,6 +241,16 @@ public class Astronaut {
     public void setProfileImage(String profileImage) {
 
         this.mProfileImage = profileImage;
+    }
+
+    public List<Launch> getFlightList() {
+
+        return mFlightList;
+    }
+
+    public void setFlightList(List<Launch> flightList) {
+
+        this.mFlightList = flightList;
     }
 
     public List<SpacecraftFlight> getLandings() {
