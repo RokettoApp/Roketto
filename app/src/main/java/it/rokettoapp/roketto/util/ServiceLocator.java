@@ -11,6 +11,7 @@ import it.rokettoapp.roketto.service.LauncherApiService;
 import it.rokettoapp.roketto.service.LocationApiService;
 import it.rokettoapp.roketto.service.PadApiService;
 import it.rokettoapp.roketto.service.ProgramApiService;
+import it.rokettoapp.roketto.service.SFNInfoApiService;
 import it.rokettoapp.roketto.service.SpaceStationApiService;
 import it.rokettoapp.roketto.service.SpacecraftApiService;
 import it.rokettoapp.roketto.service.UpdateApiService;
@@ -129,5 +130,12 @@ public class ServiceLocator {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.SFN_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(ArticleApiService.class);
+    }
+
+    public SFNInfoApiService getSFNInfoApiService() {
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.SFN_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        return retrofit.create(SFNInfoApiService.class);
     }
 }

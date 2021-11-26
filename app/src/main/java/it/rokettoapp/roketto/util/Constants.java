@@ -46,4 +46,5 @@ public class Constants {
     public static final String ARTICLE_ENDPOINT = "articles/{id}";
     public static final String ARTICLE_LAUNCH_ENDPOINT = "articles/launch/{id}";
     public static final String ARTICLE_EVENT_ENDPOINT = "articles/event/{id}";
+    public static final String INFO_ENDPOINT = "info";
 }
