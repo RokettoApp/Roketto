@@ -38,4 +38,6 @@ public class Constants {
     public static final String EVENT_PREVIOUS_ENDPOINT = "event/previous/{id}";
     public static final String EVENTS_UPCOMING_ENDPOINT = "event/upcoming";
     public static final String EVENT_UPCOMING_ENDPOINT = "event/upcoming/{id}";
+    public static final String UPDATES_ENDPOINT = "updates";
+    public static final String UPDATE_ENDPOINT = "updates/{id}";
 }
