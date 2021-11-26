@@ -26,8 +26,8 @@ public class AgencyRepository {
 
     public void fetchAgencies() {
 
-        Call<ResponseList<Agency>> astronautResponseCall = agencyApiService.getAgencies(5);
-        astronautResponseCall.enqueue(new Callback<ResponseList<Agency>>() {
+        Call<ResponseList<Agency>> agencyResponseCall = agencyApiService.getAgencies(5);
+        agencyResponseCall.enqueue(new Callback<ResponseList<Agency>>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseList<Agency>> call,
@@ -55,8 +55,8 @@ public class AgencyRepository {
 
     public void fetchAgencyById(int id) {
 
-        Call<Agency> astronautResponseCall = agencyApiService.getAgency(id);
-        astronautResponseCall.enqueue(new Callback<Agency>() {
+        Call<Agency> agencyResponseCall = agencyApiService.getAgency(id);
+        agencyResponseCall.enqueue(new Callback<Agency>() {
 
             @Override
             public void onResponse(@NonNull Call<Agency> call,

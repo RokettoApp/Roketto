@@ -27,8 +27,8 @@ public class SpacecraftRepository {
 
     public void fetchSpacecrafts() {
 
-        Call<ResponseList<Spacecraft>> astronautResponseCall = spacecraftApiService.getSpacecrafts(5);
-        astronautResponseCall.enqueue(new Callback<ResponseList<Spacecraft>>() {
+        Call<ResponseList<Spacecraft>> spacecraftResponseCall = spacecraftApiService.getSpacecrafts(5);
+        spacecraftResponseCall.enqueue(new Callback<ResponseList<Spacecraft>>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseList<Spacecraft>> call,
@@ -56,8 +56,8 @@ public class SpacecraftRepository {
 
     public void fetchSpacecraftById(int id) {
 
-        Call<Spacecraft> astronautResponseCall = spacecraftApiService.getSpacecraft(id);
-        astronautResponseCall.enqueue(new Callback<Spacecraft>() {
+        Call<Spacecraft> spacecraftResponseCall = spacecraftApiService.getSpacecraft(id);
+        spacecraftResponseCall.enqueue(new Callback<Spacecraft>() {
 
             @Override
             public void onResponse(@NonNull Call<Spacecraft> call,
@@ -80,8 +80,8 @@ public class SpacecraftRepository {
     }
     public void fetchSpacecraftFlights() {
 
-        Call<ResponseList<SpacecraftFlight>> astronautResponseCall = spacecraftApiService.getSpacecraftFlights(5);
-        astronautResponseCall.enqueue(new Callback<ResponseList<SpacecraftFlight>>() {
+        Call<ResponseList<SpacecraftFlight>> spacecraftResponseCall = spacecraftApiService.getSpacecraftFlights(5);
+        spacecraftResponseCall.enqueue(new Callback<ResponseList<SpacecraftFlight>>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseList<SpacecraftFlight>> call,
@@ -109,8 +109,8 @@ public class SpacecraftRepository {
 
     public void fetchSpacecraftFlightById(int id) {
 
-        Call<SpacecraftFlight> astronautResponseCall = spacecraftApiService.getSpacecraftFlight(id);
-        astronautResponseCall.enqueue(new Callback<SpacecraftFlight>() {
+        Call<SpacecraftFlight> spacecraftResponseCall = spacecraftApiService.getSpacecraftFlight(id);
+        spacecraftResponseCall.enqueue(new Callback<SpacecraftFlight>() {
 
             @Override
             public void onResponse(@NonNull Call<SpacecraftFlight> call,
