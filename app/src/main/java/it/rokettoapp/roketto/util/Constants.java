@@ -40,4 +40,10 @@ public class Constants {
     public static final String EVENT_UPCOMING_ENDPOINT = "event/upcoming/{id}";
     public static final String UPDATES_ENDPOINT = "updates";
     public static final String UPDATE_ENDPOINT = "updates/{id}";
+
+    public static final String SFN_API_BASE_URL = "https://api.spaceflightnewsapi.net/v3/";
+    public static final String ARTICLES_ENDPOINT = "articles";
+    public static final String ARTICLE_ENDPOINT = "articles/{id}";
+    public static final String ARTICLE_LAUNCH_ENDPOINT = "articles/launch/{id}";
+    public static final String ARTICLE_EVENT_ENDPOINT = "articles/event/{id}";
 }
