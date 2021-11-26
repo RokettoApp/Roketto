@@ -2,8 +2,8 @@ package it.rokettoapp.roketto.util;
 
 public class Constants {
 
-//    public static final String API_BASE_URL = "https://ll.thespacedevs.com/2.2.0/";
-    public static final String API_BASE_URL = "https://lldev.thespacedevs.com/2.2.0/";
+//    public static final String SD_API_BASE_URL = "https://ll.thespacedevs.com/2.2.0/";
+    public static final String SD_API_BASE_URL = "https://lldev.thespacedevs.com/2.2.0/";
     public static final String ASTRONAUTS_ENDPOINT = "astronaut";
     public static final String ASTRONAUT_ENDPOINT = "astronaut/{id}";
     public static final String AGENCIES_ENDPOINT = "agencies";
@@ -32,4 +32,10 @@ public class Constants {
     public static final String EXPEDITION_ENDPOINT = "expedition/{id}";
     public static final String SPACESTATIONS_ENDPOINT = "spacestation";
     public static final String SPACESTATION_ENDPOINT = "spacestation/{id}";
+    public static final String EVENTS_ENDPOINT = "event";
+    public static final String EVENT_ENDPOINT = "event/{id}";
+    public static final String EVENTS_PREVIOUS_ENDPOINT = "event/previous";
+    public static final String EVENT_PREVIOUS_ENDPOINT = "event/previous/{id}";
+    public static final String EVENTS_UPCOMING_ENDPOINT = "event/upcoming";
+    public static final String EVENT_UPCOMING_ENDPOINT = "event/upcoming/{id}";
 }
