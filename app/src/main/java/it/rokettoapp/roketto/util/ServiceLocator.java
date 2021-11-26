@@ -3,6 +3,7 @@ package it.rokettoapp.roketto.util;
 import it.rokettoapp.roketto.service.AgencyApiService;
 import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.service.DockingEventApiService;
+import it.rokettoapp.roketto.service.LaunchApiService;
 import it.rokettoapp.roketto.service.LauncherApiService;
 import it.rokettoapp.roketto.service.LocationApiService;
 import it.rokettoapp.roketto.service.PadApiService;
@@ -81,5 +82,12 @@ public class ServiceLocator {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit.create(LauncherApiService.class);
+    }
+
+    public LaunchApiService getLaunchApiService() {
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        return retrofit.create(LaunchApiService.class);
     }
 }

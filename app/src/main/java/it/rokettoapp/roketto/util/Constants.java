@@ -22,4 +22,10 @@ public class Constants {
     public static final String PROGRAM_ENDPOINT = "program/{id}";
     public static final String LAUNCHERS_ENDPOINT = "launcher/";
     public static final String LAUNCHER_ENDPOINT = "launcher/{id}";
+    public static final String LAUNCHES_ENDPOINT = "launch";
+    public static final String LAUNCH_ENDPOINT = "launch/{id}";
+    public static final String LAUNCHES_PREVIOUS_ENDPOINT = "launch/previous";
+    public static final String LAUNCH_PREVIOUS_ENDPOINT = "launch/previous/{id}";
+    public static final String LAUNCHES_UPCOMING_ENDPOINT = "launch/upcoming";
+    public static final String LAUNCH_UPCOMING_ENDPOINT = "launch/upcoming/{id}";
 }
