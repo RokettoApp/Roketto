@@ -1,12 +1,18 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
 
+@Entity(tableName = "favorite_program")
 public class Program {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -16,6 +22,7 @@ public class Program {
     @SerializedName("description")
     private String mDescription;
 
+    @Ignore
     @SerializedName("agencies")
     private List<Agency> mAgencies;
 
@@ -34,8 +41,22 @@ public class Program {
     @SerializedName("wiki_url")
     private String mWikipedia;
 
+    @Ignore
     @SerializedName("mission_patches")
     private List<MissionPatch> mMissionPatch;
+
+    public Program(int id, String name, String description, String imageUrl,
+                   Date startDate, Date endDate, String infoUrl, String wikipedia) {
+
+        this.mId = id;
+        this.mName = name;
+        this.mDescription = description;
+        this.mImageUrl = imageUrl;
+        this.mStartDate = startDate;
+        this.mEndDate = endDate;
+        this.mInfoUrl = infoUrl;
+        this.mWikipedia = wikipedia;
+    }
 
     public Program(int id, String name, String description, List<Agency> agencies, String imageUrl,
                    Date startDate, Date endDate, String infoUrl, String wikipedia,

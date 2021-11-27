@@ -1,12 +1,19 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
 
+@Entity(tableName = "favorite_event")
 public class Event {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -16,9 +23,11 @@ public class Event {
     @SerializedName("name")
     private String mName;
 
+    @Ignore
     @SerializedName("updates")
     private List<Update> mUpdates;
 
+    @Embedded(prefix = "type_")
     @SerializedName("type")
     private EventType mEventType;
 
@@ -40,17 +49,37 @@ public class Event {
     @SerializedName("date")
     private Date mDate;
 
+    @Ignore
     @SerializedName("launches")
     private List<Launch> mLaunchList;
 
+    @Ignore
     @SerializedName("expeditions")
     private List<Expedition> mExpeditionList;
 
+    @Ignore
     @SerializedName("spacestations")
     private List<SpaceStation> mSpaceStationList;
 
+    @Ignore
     @SerializedName("program")
     private List<Program> mProgramList;
+
+    public Event(int id, String slug, String name, EventType eventType,
+                 String description, String location, String newsUrl, String videoUrl,
+                 String featureImage, Date date) {
+
+        this.mId = id;
+        this.mSlug = slug;
+        this.mName = name;
+        this.mEventType = eventType;
+        this.mDescription = description;
+        this.mLocation = location;
+        this.mNewsUrl = newsUrl;
+        this.mVideoUrl = videoUrl;
+        this.mFeatureImage = featureImage;
+        this.mDate = date;
+    }
 
     public Event(int id, String slug, String name, List<Update> updates, EventType eventType,
                  String description, String location, String newsUrl, String videoUrl,

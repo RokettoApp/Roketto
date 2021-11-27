@@ -1,12 +1,18 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
 
+@Entity(tableName = "favorite_article")
 public class Article {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -19,6 +25,7 @@ public class Article {
     @SerializedName("imageUrl")
     private String mImageUrl;
 
+    @Ignore
     @SerializedName("newsSite")
     private String mSource;
 
@@ -34,11 +41,26 @@ public class Article {
     @SerializedName("featured")
     private boolean mFeatured;
 
+    @Ignore
     @SerializedName("launches")
     private List<ArticleLaunch> mLaunchList;
 
+    @Ignore
     @SerializedName("events")
     private List<ArticleEvent> mEventList;
+
+    public Article(int id, String title, String url, String imageUrl,
+                   String summary, Date publishedAt, Date updatedAt, boolean featured) {
+
+        this.mId = id;
+        this.mTitle = title;
+        this.mUrl = url;
+        this.mImageUrl = imageUrl;
+        this.mSummary = summary;
+        this.mPublishedAt = publishedAt;
+        this.mUpdatedAt = updatedAt;
+        this.mFeatured = featured;
+    }
 
     public Article(int id, String title, String url, String imageUrl, String newsSite,
                    String summary, Date publishedAt, Date updatedAt, boolean featured,

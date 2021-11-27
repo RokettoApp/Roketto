@@ -1,9 +1,15 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "favorite_mission")
 public class Mission {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -19,6 +25,7 @@ public class Mission {
     @SerializedName("type")
     private String mType;
 
+    @Embedded(prefix = "orbit_")
     @SerializedName("orbit")
     private Orbit mOrbit;
 
