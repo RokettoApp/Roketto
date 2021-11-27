@@ -8,37 +8,37 @@ import java.util.List;
 public class Article {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("title")
-    String mTitle;
+    private String mTitle;
 
     @SerializedName("url")
-    String mUrl;
+    private String mUrl;
 
     @SerializedName("imageUrl")
-    String mImageUrl;
+    private String mImageUrl;
 
     @SerializedName("newsSite")
-    String mSource;
+    private String mSource;
 
     @SerializedName("summary")
-    String mSummary;
+    private String mSummary;
 
     @SerializedName("publishedAt")
-    Date mPublishedAt;
+    private Date mPublishedAt;
 
     @SerializedName("updatedAt")
-    Date mUpdatedAt;
+    private Date mUpdatedAt;
 
     @SerializedName("featured")
-    boolean mFeatured;
+    private boolean mFeatured;
 
     @SerializedName("launches")
-    List<ArticleLaunch> mLaunchList;
+    private List<ArticleLaunch> mLaunchList;
 
     @SerializedName("events")
-    List<ArticleEvent> mEventList;
+    private List<ArticleEvent> mEventList;
 
     public Article(int id, String title, String url, String imageUrl, String newsSite,
                    String summary, Date publishedAt, Date updatedAt, boolean featured,
@@ -124,7 +124,7 @@ public class Article {
 
     public void setPublishedAt(Date publishedAt) {
 
-        this.mPublishedAt = mPublishedAt;
+        this.mPublishedAt = publishedAt;
     }
 
     public Date getUpdatedAt() {

@@ -8,55 +8,55 @@ import java.util.List;
 public class SpaceStation {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("status")
-    SpaceStationStatus mSpaceStationStatus;
+    private SpaceStationStatus mSpaceStationStatus;
 
     @SerializedName("type")
-    SpaceStationType mSpaceStationType;
+    private SpaceStationType mSpaceStationType;
 
     @SerializedName("founded")
-    Date mFounded;
+    private Date mFounded;
 
     @SerializedName("deorbited")
-    Date mDeorbited;
+    private Date mDeorbited;
 
     @SerializedName("height")
-    float mHeight;
+    private float mHeight;
 
     @SerializedName("width")
-    float mWidth;
+    private float mWidth;
 
     @SerializedName("mass")
-    float mMass;
+    private float mMass;
 
     @SerializedName("volume")
-    int mVolume;
+    private int mVolume;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @SerializedName("orbit")
-    String mOrbit;
+    private String mOrbit;
 
     @SerializedName("onboard_crew")
-    String mOnboardCrew;
+    private String mOnboardCrew;
 
     @SerializedName("owners")
-    List<Agency> mOwners;
+    private List<Agency> mOwners;
 
     @SerializedName("active_expeditions")
-    List<Expedition> mActiveExpeditionList;
+    private List<Expedition> mActiveExpeditionList;
 
     @SerializedName("docking_location")
-    List<DockingLocation> mDockingLocationList;
+    private List<DockingLocation> mDockingLocationList;
 
     @SerializedName("image_url")
-    String mImageUrl;
+    private String mImageUrl;
 
     public SpaceStation(int id, String name, SpaceStationStatus spaceStationStatus,
                         SpaceStationType spaceStationType, Date founded, Date deorbited,

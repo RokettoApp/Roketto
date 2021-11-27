@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 public class Mission {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @SerializedName("launch_designator")
-    String mLaunchDesignator;
+    private String mLaunchDesignator;
 
     @SerializedName("type")
-    String mType;
+    private String mType;
 
     @SerializedName("orbit")
-    Orbit mOrbit;
+    private Orbit mOrbit;
 
     public Mission(int id, String name, String description, String launchDesignator, String type,
                    Orbit orbit) {

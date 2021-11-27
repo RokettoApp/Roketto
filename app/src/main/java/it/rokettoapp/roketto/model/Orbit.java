@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class Orbit {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("abbrev")
-    String mAbbreviation;
+    private String mAbbreviation;
 
     public Orbit(int id, String name, String abbreviation) {
 

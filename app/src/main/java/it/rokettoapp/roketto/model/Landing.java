@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 public class Landing {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("attempt")
-    boolean mAttempt;
+    private boolean mAttempt;
 
     @SerializedName("success")
-    boolean mSuccess;
+    private boolean mSuccess;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @SerializedName("location")
-    LandingLocation mLocation;
+    private LandingLocation mLocation;
 
     @SerializedName("type")
-    LandingType mType;
+    private LandingType mType;
 
     public Landing(int id, boolean attempt, boolean success, String description,
                    LandingLocation location, LandingType type) {

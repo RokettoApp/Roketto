@@ -7,16 +7,16 @@ import java.util.List;
 public class Rocket {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("configuration")
-    LauncherConfig mConfiguration;
+    private LauncherConfig mConfiguration;
 
     @SerializedName("launcher_stage")
-    List<FirstStage> mLauncherStage;
+    private List<FirstStage> mLauncherStage;
 
     @SerializedName("spacecraft_stage")
-    SpacecraftFlight mSpacecraftStage;
+    private SpacecraftFlight mSpacecraftStage;
 
     public Rocket(int id, LauncherConfig configuration, List<FirstStage> launcherStage,
                   SpacecraftFlight spacecraftStage) {

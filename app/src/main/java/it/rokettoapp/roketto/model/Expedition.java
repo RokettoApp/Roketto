@@ -8,25 +8,25 @@ import java.util.List;
 public class Expedition {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("start")
-    Date mStart;
+    private Date mStart;
 
     @SerializedName("end")
-    Date mEnd;
+    private Date mEnd;
 
     @SerializedName("spacestation")
-    SpaceStation mSpaceStation;
+    private SpaceStation mSpaceStation;
 
     @SerializedName("crew")
-    List<Astronaut> mCrew;
+    private List<Astronaut> mCrew;
 
     @SerializedName("mission_patches")
-    List<MissionPatch> mMissionPatches;
+    private List<MissionPatch> mMissionPatches;
 
     public Expedition(int id, String name, Date start, Date end, SpaceStation spaceStation,
                       List<Astronaut> crew, List<MissionPatch> missionPatches) {

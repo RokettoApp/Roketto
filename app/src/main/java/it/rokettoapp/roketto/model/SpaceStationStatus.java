@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class SpaceStationStatus {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     public SpaceStationStatus(int id, String name) {
 

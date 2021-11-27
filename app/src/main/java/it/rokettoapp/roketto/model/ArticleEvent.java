@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class ArticleEvent {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("provider")
-    String mProvider;
+    private String mProvider;
 
     public ArticleEvent(int id, String provider) {
 

@@ -5,31 +5,31 @@ import com.google.gson.annotations.SerializedName;
 public class FirstStage {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("type")
-    String mType;
+    private String mType;
 
     @SerializedName("reused")
-    boolean mReused;
+    private boolean mReused;
 
     @SerializedName("launcher_flight_number")
-    String mLauncherFlightNumber;
+    private String mLauncherFlightNumber;
 
     @SerializedName("launcher")
-    Launcher mLauncher;
+    private Launcher mLauncher;
 
     @SerializedName("landing")
-    Landing mLanding;
+    private Landing mLanding;
 
     @SerializedName("previous_flight_date")
-    String mPreviousFlightDate;
+    private String mPreviousFlightDate;
 
     @SerializedName("turn_around_time_days")
-    String mTurnAroundTimeDays;
+    private String mTurnAroundTimeDays;
 
     @SerializedName("previous_flight")
-    Launch mPreviousFlight;
+    private Launch mPreviousFlight;
 
     public FirstStage(int id, String type, boolean reused, String launcherFlightNumber,
                       Launcher launcher, Landing landing, String previousFlightDate,

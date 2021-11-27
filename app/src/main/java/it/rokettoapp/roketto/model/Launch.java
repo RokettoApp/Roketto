@@ -8,103 +8,103 @@ import java.util.List;
 public class Launch {
 
     @SerializedName("id")
-    String mId;
+    private String mId;
 
     @SerializedName("slug")
-    String mSlug;
+    private String mSlug;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("status")
-    LaunchStatus mLaunchStatus;
+    private LaunchStatus mLaunchStatus;
 
     @SerializedName("last_updated")
-    Date mLastUpdated;
+    private Date mLastUpdated;
 
     @SerializedName("updates")
-    List<Update> mUpdateList;
+    private List<Update> mUpdateList;
 
     @SerializedName("net")
-    Date mNet;
+    private Date mNet;
 
     @SerializedName("window_end")
-    Date mWindowEnd;
+    private Date mWindowEnd;
 
     @SerializedName("window_start")
-    Date mWindowStart;
+    private Date mWindowStart;
 
     @SerializedName("probability")
-    int mProbability;
+    private int mProbability;
 
     @SerializedName("holdreason")
-    String mHoldReason;
+    private String mHoldReason;
 
     @SerializedName("failreason")
-    String mFailReason;
+    private String mFailReason;
 
     @SerializedName("hashtag")
-    String mHashtag;
+    private String mHashtag;
 
     @SerializedName("launch_service_provider")
-    Agency mLaunchServiceProvider;
+    private Agency mLaunchServiceProvider;
 
     @SerializedName("rocket")
-    Rocket mRocket;
+    private Rocket mRocket;
 
     @SerializedName("mission")
-    Mission mMission;
+    private Mission mMission;
 
     @SerializedName("pad")
-    Pad mPad;
+    private Pad mPad;
 
     @SerializedName("infoURLs")
-    List<InfoUrl> mInfoUrl;
+    private List<InfoUrl> mInfoUrl;
 
     @SerializedName("vidURLs")
-    List<VidUrl> mVideoUrl;
+    private List<VidUrl> mVideoUrl;
 
     @SerializedName("webcast_live")
-    boolean mWebcastLive;
+    private boolean mWebcastLive;
 
     @SerializedName("image")
-    String mImage;
+    private String mImage;
 
     @SerializedName("infographic")
-    String mInfographic;
+    private String mInfographic;
 
     @SerializedName("program")
-    List<Program> mProgramList;
+    private List<Program> mProgramList;
 
     @SerializedName("orbital_launch_attempt_count")
-    int mOrbitalLaunchAttemptCount;
+    private int mOrbitalLaunchAttemptCount;
 
     @SerializedName("location_launch_attempt_count")
-    int mLocationLaunchAttemptCount;
+    private int mLocationLaunchAttemptCount;
 
     @SerializedName("pad_launch_attempt_count")
-    int mPadLaunchAttemptCount;
+    private int mPadLaunchAttemptCount;
 
     @SerializedName("agency_launch_attempt_count")
-    int mAgencyLaunchAttemptCount;
+    private int mAgencyLaunchAttemptCount;
 
     @SerializedName("orbital_launch_attempt_count_year")
-    int mOrbitalLaunchAttemptCountYear;
+    private int mOrbitalLaunchAttemptCountYear;
 
     @SerializedName("location_launch_attempt_count_year")
-    int mLocationLaunchAttemptCountYear;
+    private int mLocationLaunchAttemptCountYear;
 
     @SerializedName("pad_launch_attempt_count_year")
-    int mPadLaunchAttemptCountYear;
+    private int mPadLaunchAttemptCountYear;
 
     @SerializedName("agency_launch_attempt_count_year")
-    int mAgencyLaunchAttemptCountYear;
+    private int mAgencyLaunchAttemptCountYear;
 
     @SerializedName("mission_patches")
-    List<MissionPatch> mMissionPathList;
+    private List<MissionPatch> mMissionPathList;
 
     @SerializedName("notifications_enabled")
-    boolean mNotificationEnabled;
+    private boolean mNotificationEnabled;
 
     public Launch(String id, String slug, String name, LaunchStatus launchStatus,
                   Date lastUpdated, List<Update> updateList, Date net, Date windowEnd,

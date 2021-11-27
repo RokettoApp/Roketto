@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName;
 public class LaunchStatus {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("abbrev")
-    String mAbbreviation;
+    private String mAbbreviation;
 
     @SerializedName("description")
-    String mDescrption;
+    private String mDescrption;
 
     public LaunchStatus(int id, String name, String abbreviation, String descrption) {
 

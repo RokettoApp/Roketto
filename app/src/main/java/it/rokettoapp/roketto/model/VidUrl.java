@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName;
 public class VidUrl {
 
     @SerializedName("priority")
-    int mPriority;
+    private int mPriority;
 
     @SerializedName("title")
-    String mTitle;
+    private String mTitle;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @SerializedName("feature_image")
-    String mFeatureImage;
+    private String mFeatureImage;
 
     @SerializedName("url")
-    String mUrl;
+    private String mUrl;
 
     public VidUrl(int priority, String title, String description, String featureImage, String url) {
 

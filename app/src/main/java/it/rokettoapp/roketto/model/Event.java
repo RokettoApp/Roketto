@@ -8,49 +8,49 @@ import java.util.List;
 public class Event {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("slug")
-    String mSlug;
+    private String mSlug;
 
     @SerializedName("name")
-    String mName;
+    private String mName;
 
     @SerializedName("updates")
-    List<Update> mUpdates;
+    private List<Update> mUpdates;
 
     @SerializedName("type")
-    EventType mEventType;
+    private EventType mEventType;
 
     @SerializedName("description")
-    String mDescription;
+    private String mDescription;
 
     @SerializedName("location")
-    String mLocation;
+    private String mLocation;
 
     @SerializedName("news_url")
-    String mNewsUrl;
+    private String mNewsUrl;
 
     @SerializedName("video_url")
-    String mVideoUrl;
+    private String mVideoUrl;
 
     @SerializedName("feature_image")
-    String mFeatureImage;
+    private String mFeatureImage;
 
     @SerializedName("date")
-    Date mDate;
+    private Date mDate;
 
     @SerializedName("launches")
-    List<Launch> mLaunchList;
+    private List<Launch> mLaunchList;
 
     @SerializedName("expeditions")
-    List<Expedition> mExpeditionList;
+    private List<Expedition> mExpeditionList;
 
     @SerializedName("spacestations")
-    List<SpaceStation> mSpaceStationList;
+    private List<SpaceStation> mSpaceStationList;
 
     @SerializedName("program")
-    List<Program> mProgramList;
+    private List<Program> mProgramList;
 
     public Event(int id, String slug, String name, List<Update> updates, EventType eventType,
                  String description, String location, String newsUrl, String videoUrl,

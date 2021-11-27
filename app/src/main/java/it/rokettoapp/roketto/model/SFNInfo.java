@@ -7,10 +7,10 @@ import java.util.List;
 public class SFNInfo {
 
     @SerializedName("version")
-    String mApiVersion;
+    private String mApiVersion;
 
     @SerializedName("newsSites")
-    List<String> mSources;
+    private List<String> mSources;
 
     public SFNInfo(String apiVersion, List<String> sources) {
 

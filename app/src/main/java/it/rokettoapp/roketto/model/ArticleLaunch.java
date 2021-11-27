@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class ArticleLaunch {
 
     @SerializedName("id")
-    String mId;
+    private String mId;
 
     @SerializedName("provider")
-    String mProvider;
+    private String mProvider;
 
     public ArticleLaunch(String id, String provider) {
 

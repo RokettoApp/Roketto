@@ -2,8 +2,6 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class DockingLocation {
 
     @SerializedName("id")
@@ -13,7 +11,7 @@ public class DockingLocation {
     private String mName;
 
     @SerializedName("docked")
-    DockingEvent mDockingLocation;
+    private DockingEvent mDockingLocation;
 
     public DockingLocation(int id, String name, DockingEvent dockingLocation) {
 

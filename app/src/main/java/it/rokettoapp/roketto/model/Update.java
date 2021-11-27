@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 public class Update {
 
     @SerializedName("id")
-    int mId;
+    private int mId;
 
     @SerializedName("profile_image")
-    String mProfileImage;
+    private String mProfileImage;
 
     @SerializedName("comment")
-    String mComment;
+    private String mComment;
 
     @SerializedName("info_url")
-    String mInfoUrl;
+    private String mInfoUrl;
 
     @SerializedName("created_by")
-    String mCreatedBy;
+    private String mCreatedBy;
 
     @SerializedName("created_on")
-    String mCreatedOn;
+    private String mCreatedOn;
 
     public Update(int id, String profileImage, String comment, String infoUrl, String createdBy,
                   String createdOn) {
