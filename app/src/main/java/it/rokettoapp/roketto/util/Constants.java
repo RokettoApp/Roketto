@@ -42,9 +42,15 @@ public class Constants {
     public static final String UPDATE_ENDPOINT = "updates/{id}";
 
     public static final String SFN_API_BASE_URL = "https://api.spaceflightnewsapi.net/v3/";
+    public static final String INFO_ENDPOINT = "info";
     public static final String ARTICLES_ENDPOINT = "articles";
     public static final String ARTICLE_ENDPOINT = "articles/{id}";
-    public static final String ARTICLE_LAUNCH_ENDPOINT = "articles/launch/{id}";
-    public static final String ARTICLE_EVENT_ENDPOINT = "articles/event/{id}";
-    public static final String INFO_ENDPOINT = "info";
+    public static final String ARTICLES_LAUNCH_ENDPOINT = "articles/launch/{id}";
+    public static final String ARTICLES_EVENT_ENDPOINT = "articles/event/{id}";
+    public static final String BLOGS_ENDPOINT = "blogs";
+    public static final String BLOG_ENDPOINT = "blogs/{id}";
+    public static final String BLOGS_LAUNCH_ENDPOINT = "blogs/launch/{id}";
+    public static final String BLOGS_EVENT_ENDPOINT = "blogs/event/{id}";
+    public static final String REPORTS_ENDPOINT = "reports";
+    public static final String REPORT_ENDPOINT = "reports/{id}";
 }

@@ -134,4 +134,170 @@ public class ArticleRepository {
             }
         });
     }
+
+    public void fetchReports() {
+
+        Call<List<Article>> articleResponseCall = articleApiService.getReports();
+        articleResponseCall.enqueue(new Callback<List<Article>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Article>> call,
+                                   @NonNull Response<List<Article>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Article> articleList = response.body();
+                    StringBuilder debugString = new StringBuilder();
+                    for (Article article : articleList) {
+                        debugString.append(article.getTitle()).append(" --- ");
+                    }
+                    Log.d(TAG, debugString.toString());
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void fetchReportById(int id) {
+
+        Call<Article> agencyResponseCall = articleApiService.getReport(id);
+        agencyResponseCall.enqueue(new Callback<Article>() {
+
+            @Override
+            public void onResponse(@NonNull Call<Article> call,
+                                   @NonNull Response<Article> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    Article article = response.body();
+                    Log.d(TAG, article.getTitle());
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Article> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void fetchBlogPosts() {
+
+        Call<List<Article>> articleResponseCall = articleApiService.getBlogPosts();
+        articleResponseCall.enqueue(new Callback<List<Article>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Article>> call,
+                                   @NonNull Response<List<Article>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Article> articleList = response.body();
+                    StringBuilder debugString = new StringBuilder();
+                    for (Article article : articleList) {
+                        debugString.append(article.getTitle()).append(" --- ");
+                    }
+                    Log.d(TAG, debugString.toString());
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void fetchBlogPostById(int id) {
+
+        Call<Article> articleResponseCall = articleApiService.getBlogPost(id);
+        articleResponseCall.enqueue(new Callback<Article>() {
+
+            @Override
+            public void onResponse(@NonNull Call<Article> call,
+                                   @NonNull Response<Article> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    Article article = response.body();
+                    Log.d(TAG, article.getTitle());
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Article> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void fetchBlogPostByLaunchId(String id) {
+
+        Call<List<Article>> articleResponseCall = articleApiService.getLaunchBlogPost(id);
+        articleResponseCall.enqueue(new Callback<List<Article>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Article>> call,
+                                   @NonNull Response<List<Article>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Article> articleList = response.body();
+                    StringBuilder debugString = new StringBuilder();
+                    for (Article article : articleList) {
+                        debugString.append(article.getTitle()).append(" --- ");
+                    }
+                    Log.d(TAG, debugString.toString());
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void fetchBlogPostByEventId(int id) {
+
+        Call<List<Article>> articleResponseCall = articleApiService.getEventBlogPosts(id);
+        articleResponseCall.enqueue(new Callback<List<Article>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Article>> call,
+                                   @NonNull Response<List<Article>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Article> articleList = response.body();
+                    StringBuilder debugString = new StringBuilder();
+                    for (Article article : articleList) {
+                        debugString.append(article.getTitle()).append(" --- ");
+                    }
+                    Log.d(TAG, debugString.toString());
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
 }

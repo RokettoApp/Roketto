@@ -20,7 +20,7 @@ public class Article {
     String mImageUrl;
 
     @SerializedName("newsSite")
-    String mNewsSite;
+    String mSource;
 
     @SerializedName("summary")
     String mSummary;
@@ -48,7 +48,7 @@ public class Article {
         this.mTitle = title;
         this.mUrl = url;
         this.mImageUrl = imageUrl;
-        this.mNewsSite = newsSite;
+        this.mSource = newsSite;
         this.mSummary = summary;
         this.mPublishedAt = publishedAt;
         this.mUpdatedAt = updatedAt;
@@ -99,12 +99,12 @@ public class Article {
 
     public String getNewsSite() {
 
-        return mNewsSite;
+        return mSource;
     }
 
     public void setNewsSite(String newsSite) {
 
-        this.mNewsSite = newsSite;
+        this.mSource = newsSite;
     }
 
     public String getSummary() {
