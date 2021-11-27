@@ -1,4 +1,4 @@
-package it.rokettoapp.roketto;
+package it.rokettoapp.roketto.ui;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
 import it.rokettoapp.roketto.spaceEvents.SpaceEvents;
 

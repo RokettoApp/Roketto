@@ -1,4 +1,4 @@
-package it.rokettoapp.roketto;
+package it.rokettoapp.roketto.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import it.rokettoapp.roketto.R;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;

@@ -1,4 +1,4 @@
-package it.rokettoapp.roketto;
+package it.rokettoapp.roketto.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class FragmentNews extends Fragment {
+import it.rokettoapp.roketto.R;
+
+public class FragmentSettings extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_news,container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_settings,container, false);
         return rootView;
     }
 }
