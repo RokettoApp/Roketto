@@ -15,10 +15,10 @@ public interface MissionDao {
     List<Mission> getAll();
 
     @Insert
-    void insertAgencyList(List<Mission> missionList);
+    void insertMissionList(List<Mission> missionList);
 
     @Insert
-    void insertAgency(Mission mission);
+    void insertMission(Mission mission);
 
     @Delete
     void delete(Mission mission);

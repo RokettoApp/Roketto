@@ -11,7 +11,7 @@ import it.rokettoapp.roketto.model.Agency;
 
 @Dao
 public interface AgencyDao {
-    @Query("SELECT * FROM favorite_agencie")
+    @Query("SELECT * FROM favorite_agency")
     List<Agency> getAll();
 
     @Insert
@@ -23,6 +23,6 @@ public interface AgencyDao {
     @Delete
     void delete(Agency agency);
 
-    @Query("DELETE FROM favorite_agencie")
+    @Query("DELETE FROM favorite_agency")
     void deleteAll();
 }

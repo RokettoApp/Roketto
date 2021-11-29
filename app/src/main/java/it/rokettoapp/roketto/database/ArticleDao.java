@@ -15,10 +15,10 @@ public interface ArticleDao {
     List<Article> getAll();
 
     @Insert
-    void insertAgencyList(List<Article> articleList);
+    void insertArticleList(List<Article> articleList);
 
     @Insert
-    void insertAgency(Article article);
+    void insertArticle(Article article);
 
     @Delete
     void delete(Article article);

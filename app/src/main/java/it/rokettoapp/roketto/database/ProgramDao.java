@@ -15,10 +15,10 @@ public interface ProgramDao {
     List<Program> getAll();
 
     @Insert
-    void insertAgencyList(List<Program> programList);
+    void insertProgramList(List<Program> programList);
 
     @Insert
-    void insertAgency(Program program);
+    void insertProgram(Program program);
 
     @Delete
     void delete(Program program);

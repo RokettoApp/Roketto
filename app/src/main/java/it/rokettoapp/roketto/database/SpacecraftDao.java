@@ -15,10 +15,10 @@ public interface SpacecraftDao {
     List<Spacecraft> getAll();
 
     @Insert
-    void insertAgencyList(List<Spacecraft> spacecraftList);
+    void insertSpacecraftList(List<Spacecraft> spacecraftList);
 
     @Insert
-    void insertAgency(Spacecraft spacecraft);
+    void insertSpacecraft(Spacecraft spacecraft);
 
     @Delete
     void delete(Spacecraft spacecraft);

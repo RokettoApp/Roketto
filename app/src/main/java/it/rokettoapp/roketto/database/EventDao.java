@@ -15,10 +15,10 @@ public interface EventDao {
     List<Event> getAll();
 
     @Insert
-    void insertAgencyList(List<Event> eventList);
+    void insertEventList(List<Event> eventList);
 
     @Insert
-    void insertAgency(Event event);
+    void insertEvent(Event event);
 
     @Delete
     void delete(Event event);

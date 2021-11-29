@@ -15,10 +15,10 @@ public interface AstronautDao {
     List<Astronaut> getAll();
 
     @Insert
-    void insertAgencyList(List<Astronaut> astronautList);
+    void insertAstronautList(List<Astronaut> astronautList);
 
     @Insert
-    void insertAgency(Astronaut astronaut);
+    void insertAstronaut(Astronaut astronaut);
 
     @Delete
     void delete(Astronaut astronaut);
