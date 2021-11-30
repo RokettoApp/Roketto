@@ -21,7 +21,7 @@ public class PadRepository {
 
     public PadRepository() {
 
-        this.padApiService = ServiceLocator.getsInstance().getPadApiService();
+        this.padApiService = ServiceLocator.getInstance().getPadApiService();
     }
 
     public void fetchPads() {

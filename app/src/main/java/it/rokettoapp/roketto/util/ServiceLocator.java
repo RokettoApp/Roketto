@@ -24,7 +24,7 @@ public class ServiceLocator {
 
     private ServiceLocator() { }
 
-    public static ServiceLocator getsInstance() {
+    public static ServiceLocator getInstance() {
 
         if (sInstance == null) {
             synchronized (ServiceLocator.class) {

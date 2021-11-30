@@ -18,7 +18,7 @@ public class SFNInfoRepository {
 
     public SFNInfoRepository() {
 
-        this.sfnInfoApiService = ServiceLocator.getsInstance().getSFNInfoApiService();
+        this.sfnInfoApiService = ServiceLocator.getInstance().getSFNInfoApiService();
     }
 
     public void fetchInfo() {

@@ -21,7 +21,7 @@ public class ExpeditionRepository {
 
     public ExpeditionRepository() {
 
-        this.expeditionApiService = ServiceLocator.getsInstance().getExpeditionApiService();
+        this.expeditionApiService = ServiceLocator.getInstance().getExpeditionApiService();
     }
 
     public void fetchExpeditions() {

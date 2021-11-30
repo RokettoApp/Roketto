@@ -21,7 +21,7 @@ public class UpdateRepository {
 
     public UpdateRepository() {
 
-        this.updateApiService = ServiceLocator.getsInstance().getUpdateApiService();
+        this.updateApiService = ServiceLocator.getInstance().getUpdateApiService();
     }
 
     public void fetchUpdates() {

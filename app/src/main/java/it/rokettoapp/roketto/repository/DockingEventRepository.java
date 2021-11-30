@@ -21,7 +21,7 @@ public class DockingEventRepository {
 
     public DockingEventRepository() {
 
-        this.dockingEventApiService = ServiceLocator.getsInstance().getDockingEventApiService();
+        this.dockingEventApiService = ServiceLocator.getInstance().getDockingEventApiService();
     }
 
     public void fetchDockingEvents() {

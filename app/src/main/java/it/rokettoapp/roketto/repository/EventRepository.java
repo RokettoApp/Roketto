@@ -21,7 +21,7 @@ public class EventRepository {
 
     public EventRepository() {
 
-        this.eventApiService = ServiceLocator.getsInstance().getEventApiService();
+        this.eventApiService = ServiceLocator.getInstance().getEventApiService();
     }
 
     public void fetchEvents() {

@@ -22,7 +22,7 @@ public class SpacecraftRepository {
 
     public SpacecraftRepository() {
 
-        this.spacecraftApiService = ServiceLocator.getsInstance().getSpacecraftApiService();
+        this.spacecraftApiService = ServiceLocator.getInstance().getSpacecraftApiService();
     }
 
     public void fetchSpacecrafts() {

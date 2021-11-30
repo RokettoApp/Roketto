@@ -21,7 +21,7 @@ public class SpaceStationRepository {
 
     public SpaceStationRepository() {
 
-        this.spaceStationApiService = ServiceLocator.getsInstance().getSpaceStationApiService();
+        this.spaceStationApiService = ServiceLocator.getInstance().getSpaceStationApiService();
     }
 
     public void fetchSpaceStations() {

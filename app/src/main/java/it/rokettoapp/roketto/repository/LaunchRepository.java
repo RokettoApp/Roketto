@@ -21,7 +21,7 @@ public class LaunchRepository {
 
     public LaunchRepository() {
 
-        this.launchApiService = ServiceLocator.getsInstance().getLaunchApiService();
+        this.launchApiService = ServiceLocator.getInstance().getLaunchApiService();
     }
 
     public void fetchLaunches() {

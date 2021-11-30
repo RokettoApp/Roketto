@@ -21,7 +21,7 @@ public class AstronautRepository {
 
     public AstronautRepository() {
 
-        this.astronautApiService = ServiceLocator.getsInstance().getAstronautApiService();
+        this.astronautApiService = ServiceLocator.getInstance().getAstronautApiService();
     }
 
     public void fetchAstronauts() {

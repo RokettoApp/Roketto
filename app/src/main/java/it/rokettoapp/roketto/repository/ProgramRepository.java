@@ -21,7 +21,7 @@ public class ProgramRepository {
 
     public ProgramRepository() {
 
-        this.programApiService = ServiceLocator.getsInstance().getProgramApiService();
+        this.programApiService = ServiceLocator.getInstance().getProgramApiService();
     }
 
     public void fetchPrograms() {

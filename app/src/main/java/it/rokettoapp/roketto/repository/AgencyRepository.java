@@ -21,7 +21,7 @@ public class AgencyRepository {
 
     public AgencyRepository() {
 
-        this.agencyApiService = ServiceLocator.getsInstance().getAgencyApiService();
+        this.agencyApiService = ServiceLocator.getInstance().getAgencyApiService();
     }
 
     public void fetchAgencies() {

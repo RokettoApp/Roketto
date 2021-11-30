@@ -21,7 +21,7 @@ public class LocationRepository {
 
     public LocationRepository() {
 
-        this.locationApiService = ServiceLocator.getsInstance().getLocationApiService();
+        this.locationApiService = ServiceLocator.getInstance().getLocationApiService();
     }
 
     public void fetchLocations() {

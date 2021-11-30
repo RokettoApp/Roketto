@@ -20,7 +20,7 @@ public class ArticleRepository {
 
     public ArticleRepository() {
 
-        this.articleApiService = ServiceLocator.getsInstance().getArticleApiService();
+        this.articleApiService = ServiceLocator.getInstance().getArticleApiService();
     }
 
     public void fetchArticles() {
