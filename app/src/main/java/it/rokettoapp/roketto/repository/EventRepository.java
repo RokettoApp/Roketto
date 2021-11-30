@@ -1,11 +1,15 @@
 package it.rokettoapp.roketto.repository;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import it.rokettoapp.roketto.database.EventDao;
+import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.EventApiService;
@@ -18,10 +22,12 @@ public class EventRepository {
 
     private static final String TAG = "EventRepository";
     private final EventApiService eventApiService;
+    private final EventDao eventDao;
 
-    public EventRepository() {
+    public EventRepository(Application application) {
 
         this.eventApiService = ServiceLocator.getInstance().getEventApiService();
+        eventDao = RokettoDatabase.getDatabase(application).eventDao();
     }
 
     public void fetchEvents() {
@@ -35,6 +41,7 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
+                    saveOnDatabase(eventList);
                     StringBuilder debugString = new StringBuilder();
                     for (Event event : eventList) {
                         debugString.append(event.getName()).append(" --- ");
@@ -183,5 +190,26 @@ public class EventRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
+    }
+
+    public void saveOnDatabase(List<Event> eventList) {
+
+        RokettoDatabase.databaseWriteExecutor.execute(() -> {
+            eventDao.deleteAll();
+            eventDao.insertEventList(eventList);
+        });
+    }
+
+    public List<Event> readFromDatabase() {
+
+        List<Event> eventList = new ArrayList<>();
+        Runnable runnable = () -> {
+
+            List<Event> results = eventDao.getAll().getValue();
+            if (results != null)
+                eventList.addAll(results);
+        };
+        new Thread(runnable).start();
+        return eventList;
     }
 }
