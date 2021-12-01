@@ -1,11 +1,16 @@
 package it.rokettoapp.roketto.repository;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import it.rokettoapp.roketto.database.AstronautDao;
+import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
@@ -18,15 +23,33 @@ public class AstronautRepository {
 
     private static final String TAG = "AstronautRepository";
     private final AstronautApiService astronautApiService;
+    private final AstronautDao mAstronautDao;
+    private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
+    int count;
 
-    public AstronautRepository() {
+    public AstronautRepository(Application application) {
 
         this.astronautApiService = ServiceLocator.getInstance().getAstronautApiService();
+        mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
+        mAstronautListLiveData = new MutableLiveData<>();
+        count = 0;
     }
 
-    public void fetchAstronauts() {
+    public MutableLiveData<List<Astronaut>> fetchAstronauts() {
 
-        Call<ResponseList<Astronaut>> astronautResponseCall = astronautApiService.getAstronauts(5);
+        fetchAstronautsFromApi();
+        return mAstronautListLiveData;
+    }
+
+    public void refreshAstronauts() {
+
+        fetchAstronautsFromApi();
+    }
+
+    private void fetchAstronautsFromApi() {
+
+        Call<ResponseList<Astronaut>> astronautResponseCall =
+                astronautApiService.getAstronauts(5, count);
         astronautResponseCall.enqueue(new Callback<ResponseList<Astronaut>>() {
 
             @Override
@@ -35,22 +58,22 @@ public class AstronautRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Astronaut> astronautList = response.body().getResults();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Astronaut astronaut : astronautList) {
-                        debugString.append(astronaut.getName()).append(" --- ");
-                    }
-                    Log.d(TAG, debugString.toString());
+                    saveOnDatabase(astronautList);
+                    mAstronautListLiveData.postValue(astronautList);
+                    Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseList<Astronaut>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<Astronaut>> call,
+                                  @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }
         });
+        count += 5;
     }
 
     public void fetchAstronautById(int id) {
@@ -76,5 +99,25 @@ public class AstronautRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
+    }
+
+    public void saveOnDatabase(List<Astronaut> astronautList) {
+
+        RokettoDatabase.databaseWriteExecutor.execute(() -> {
+
+            mAstronautDao.deleteAll();
+            mAstronautDao.insertAstronautList(astronautList);
+        });
+    }
+
+    public List<Astronaut> getAllFromDatabase() {
+
+        List<Astronaut> astronautList = new ArrayList<>();
+        new Thread(() -> {
+            List<Astronaut> results = mAstronautDao.getAll();
+            if (results != null)
+                astronautList.addAll(results);
+        }).start();
+        return astronautList;
     }
 }
