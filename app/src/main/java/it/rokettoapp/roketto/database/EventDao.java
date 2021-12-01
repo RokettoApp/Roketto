@@ -1,6 +1,5 @@
 package it.rokettoapp.roketto.database;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +12,7 @@ import it.rokettoapp.roketto.model.Event;
 @Dao
 public interface EventDao {
     @Query("SELECT * FROM favorite_event")
-    LiveData<List<Event>> getAll();
+    List<Event> getAll();
 
     @Insert
     void insertEventList(List<Event> eventList);

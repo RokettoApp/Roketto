@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +24,31 @@ public class EventRepository {
     private static final String TAG = "EventRepository";
     private final EventApiService eventApiService;
     private final EventDao eventDao;
+    private final MutableLiveData<List<Event>> eventListLiveData;
+    int count;
 
     public EventRepository(Application application) {
 
         this.eventApiService = ServiceLocator.getInstance().getEventApiService();
         eventDao = RokettoDatabase.getDatabase(application).eventDao();
+        eventListLiveData = new MutableLiveData<>();
+        count = 0;
     }
 
-    public void fetchEvents() {
+    public MutableLiveData<List<Event>> fetchEvents() {
 
-        Call<ResponseList<Event>> eventResponseCall = eventApiService.getEvents(5);
+        getEventsFromApi();
+        return eventListLiveData;
+    }
+
+    public void refreshEvents() {
+
+        getEventsFromApi();
+    }
+
+    private void getEventsFromApi() {
+
+        Call<ResponseList<Event>> eventResponseCall = eventApiService.getEvents(5, count);
         eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
 
             @Override
@@ -42,11 +58,8 @@ public class EventRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
                     saveOnDatabase(eventList);
-                    StringBuilder debugString = new StringBuilder();
-                    for (Event event : eventList) {
-                        debugString.append(event.getName()).append(" --- ");
-                    }
-                    Log.d(TAG, debugString.toString());
+                    Log.d(TAG, "Received " + response.body().getCount() + " items.");
+                    eventListLiveData.postValue(eventList);
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -58,6 +71,7 @@ public class EventRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
+        count += 5;
     }
 
     public void fetchEventById(int id) {
@@ -200,12 +214,12 @@ public class EventRepository {
         });
     }
 
-    public List<Event> readFromDatabase() {
+    public List<Event> getEventsFromDatabase() {
 
         List<Event> eventList = new ArrayList<>();
         Runnable runnable = () -> {
 
-            List<Event> results = eventDao.getAll().getValue();
+            List<Event> results = eventDao.getAll();
             if (results != null)
                 eventList.addAll(results);
         };

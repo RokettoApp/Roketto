@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface EventApiService {
 
     @GET(Constants.EVENTS_ENDPOINT)
-    Call<ResponseList<Event>> getEvents(@Query("limit") int limit);
+    Call<ResponseList<Event>> getEvents(@Query("limit") int limit, @Query("offset") int offset);
 
     @GET(Constants.EVENT_ENDPOINT)
     Call<Event> getEvent(@Path("id") int id);
