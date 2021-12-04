@@ -22,34 +22,34 @@ import retrofit2.Response;
 public class AstronautRepository {
 
     private static final String TAG = "AstronautRepository";
-    private final AstronautApiService astronautApiService;
+    private final AstronautApiService mAstronautApiService;
     private final AstronautDao mAstronautDao;
     private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
     int count;
 
     public AstronautRepository(Application application) {
 
-        this.astronautApiService = ServiceLocator.getInstance().getAstronautApiService();
+        this.mAstronautApiService = ServiceLocator.getInstance().getAstronautApiService();
         mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
         mAstronautListLiveData = new MutableLiveData<>();
         count = 0;
     }
 
-    public MutableLiveData<List<Astronaut>> fetchAstronauts() {
+    public MutableLiveData<List<Astronaut>> getAstronautList() {
 
-        fetchAstronautsFromApi();
+        getAstronautsFromApi();
         return mAstronautListLiveData;
     }
 
     public void refreshAstronauts() {
 
-        fetchAstronautsFromApi();
+        getAstronautsFromApi();
     }
 
-    private void fetchAstronautsFromApi() {
+    private void getAstronautsFromApi() {
 
         Call<ResponseList<Astronaut>> astronautResponseCall =
-                astronautApiService.getAstronauts(5, count);
+                mAstronautApiService.getAstronauts(5, count);
         astronautResponseCall.enqueue(new Callback<ResponseList<Astronaut>>() {
 
             @Override
@@ -78,7 +78,7 @@ public class AstronautRepository {
 
     public void fetchAstronautById(int id) {
 
-        Call<Astronaut> astronautResponseCall = astronautApiService.getAstronaut(id);
+        Call<Astronaut> astronautResponseCall = mAstronautApiService.getAstronaut(id);
         astronautResponseCall.enqueue(new Callback<Astronaut>() {
 
             @Override
@@ -110,7 +110,7 @@ public class AstronautRepository {
         });
     }
 
-    public List<Astronaut> getAllFromDatabase() {
+    public List<Astronaut> getAstronautsFromDatabase() {
 
         List<Astronaut> astronautList = new ArrayList<>();
         new Thread(() -> {

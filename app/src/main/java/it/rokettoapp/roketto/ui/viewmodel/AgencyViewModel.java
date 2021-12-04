@@ -30,7 +30,7 @@ public class AgencyViewModel extends AndroidViewModel {
 
     private void fetchAgencies() {
 
-        mAgencyListLivedata = mAgencyRepository.fetchAgencies();
+        mAgencyListLivedata = mAgencyRepository.getAgencyList();
     }
 
     public void refreshAgencies() {

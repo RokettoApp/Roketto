@@ -36,7 +36,7 @@ public class SpacecraftRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Spacecraft>> fetchSpacecrafts() {
+    public MutableLiveData<List<Spacecraft>> getSpacecraftList() {
 
         getSpacecraftsFromApi();
         return mSpacecraftListLiveData;
@@ -68,7 +68,8 @@ public class SpacecraftRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseList<Spacecraft>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<Spacecraft>> call,
+                                  @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }
@@ -102,7 +103,8 @@ public class SpacecraftRepository {
     }
     public void fetchSpacecraftFlights() {
 
-        Call<ResponseList<SpacecraftFlight>> spacecraftResponseCall = mSpacecraftApiService.getSpacecraftFlights(5);
+        Call<ResponseList<SpacecraftFlight>> spacecraftResponseCall =
+                mSpacecraftApiService.getSpacecraftFlights(5);
         spacecraftResponseCall.enqueue(new Callback<ResponseList<SpacecraftFlight>>() {
 
             @Override
@@ -122,7 +124,8 @@ public class SpacecraftRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseList<SpacecraftFlight>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<SpacecraftFlight>> call,
+                                  @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }

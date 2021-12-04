@@ -30,7 +30,7 @@ public class AstronautViewModel extends AndroidViewModel {
 
     private void fetchAstronauts() {
 
-        mAstronautListLivedata = mAstronautRepository.fetchAstronauts();
+        mAstronautListLivedata = mAstronautRepository.getAstronautList();
     }
 
     public void refreshAstronauts() {

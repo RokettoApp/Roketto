@@ -35,7 +35,7 @@ public class ProgramRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Program>> fetchPrograms() {
+    public MutableLiveData<List<Program>> getProgramList() {
 
         getProgramsFromApi();
         return mProgramListLiveData;

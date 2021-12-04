@@ -13,28 +13,28 @@ import it.rokettoapp.roketto.repository.EventRepository;
 
 public class EventViewModel extends AndroidViewModel {
 
-    private EventRepository eventRepository;
-    private MutableLiveData<List<Event>> eventMutableLiveData;
+    private final EventRepository mEventRepository;
+    private MutableLiveData<List<Event>> mEventMutableLiveData;
 
     public EventViewModel(@NonNull Application application) {
 
         super(application);
-        eventRepository = new EventRepository(application);
+        mEventRepository = new EventRepository(application);
     }
 
     public MutableLiveData<List<Event>> getEvents() {
 
-        if (eventMutableLiveData == null) fetchEvents();
-        return eventMutableLiveData;
+        if (mEventMutableLiveData == null) fetchEvents();
+        return mEventMutableLiveData;
     }
 
     private void fetchEvents() {
 
-        eventMutableLiveData = eventRepository.fetchEvents();
+        mEventMutableLiveData = mEventRepository.getEventList();
     }
 
     public void refreshEvents() {
 
-        eventRepository.refreshEvents();
+        mEventRepository.refreshEvents();
     }
 }

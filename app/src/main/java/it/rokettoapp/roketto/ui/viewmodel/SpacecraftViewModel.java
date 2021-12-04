@@ -30,7 +30,7 @@ public class SpacecraftViewModel extends AndroidViewModel {
 
     private void fetchSpacecrafts() {
 
-        mSpacecraftListLivedata = mSpacecraftRepository.fetchSpacecrafts();
+        mSpacecraftListLivedata = mSpacecraftRepository.getSpacecraftList();
     }
 
     public void refreshSpacecrafts() {

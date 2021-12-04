@@ -35,7 +35,7 @@ public class AgencyRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Agency>> fetchAgencies() {
+    public MutableLiveData<List<Agency>> getAgencyList() {
 
         getAgenciesFromApi();
         return mAgencyListLiveData;
@@ -59,7 +59,7 @@ public class AgencyRepository {
                     List<Agency> agencyList = response.body().getResults();
                     mAgencyListLiveData.postValue(agencyList);
                     saveOnDatabase(agencyList);
-                    Log.d(TAG, "Retrieved " + agencyList + " agencies.");
+                    Log.d(TAG, "Retrieved " + agencyList.size() + " agencies.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }

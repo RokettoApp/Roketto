@@ -44,9 +44,9 @@ public class ArticleViewModel extends AndroidViewModel {
 
     private void fetchArticles() {
 
-        mArticleListLiveData = mArticleRepository.fetchArticles();
-        mReportListLiveData = mArticleRepository.fetchReports();
-        mBlogPostListLiveData = mArticleRepository.fetchBlogPosts();
+        mArticleListLiveData = mArticleRepository.getArticleList();
+        mReportListLiveData = mArticleRepository.getReportList();
+        mBlogPostListLiveData = mArticleRepository.getBlogPostList();
     }
 
     public void refreshArticles() {

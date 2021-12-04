@@ -30,7 +30,7 @@ public class ProgramViewModel extends AndroidViewModel {
 
     private void fetchPrograms() {
 
-        mProgramListLivedata = mProgramRepository.fetchPrograms();
+        mProgramListLivedata = mProgramRepository.getProgramList();
     }
 
     public void refreshPrograms() {

@@ -39,21 +39,21 @@ public class ArticleRepository {
         RokettoDatabase.databaseWriteExecutor.execute(mArticleDao::deleteAll);
     }
 
-    public MutableLiveData<List<Article>> fetchArticles() {
+    public MutableLiveData<List<Article>> getArticleList() {
 
-        fetchArticlesFromApi();
+        getArticlesFromApi();
         return mArticleListLiveData;
     }
 
-    public MutableLiveData<List<Article>> fetchReports() {
+    public MutableLiveData<List<Article>> getReportList() {
 
-        fetchReportsFromApi();
+        getReportsFromApi();
         return mReportListLiveData;
     }
 
-    public MutableLiveData<List<Article>> fetchBlogPosts() {
+    public MutableLiveData<List<Article>> getBlogPostList() {
 
-        fetchBlogPostsFromApi();
+        getBlogPostsFromApi();
         return mBlogPostListLiveData;
     }
 
@@ -61,14 +61,14 @@ public class ArticleRepository {
 
         new Thread(() -> {
             mArticleDao.deleteAll();
-            fetchArticlesFromApi();
-            fetchReportsFromApi();
-            fetchBlogPostsFromApi();
+            getArticlesFromApi();
+            getReportsFromApi();
+            getBlogPostsFromApi();
         }).start();
         count += 6;
     }
 
-    private void fetchArticlesFromApi() {
+    private void getArticlesFromApi() {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getArticles(2, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -178,7 +178,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchReportsFromApi() {
+    public void getReportsFromApi() {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getReports(2, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -230,7 +230,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchBlogPostsFromApi() {
+    public void getBlogPostsFromApi() {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getBlogPosts(2, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
