@@ -51,8 +51,8 @@
             android:layout_alignEnd="@id/eventDate"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="46dp"
-            android:minLines="3"
             android:maxLines="3"
+            android:minLines="3"
             android:text="Descrizione"
 
             android:textSize="8dp" />
