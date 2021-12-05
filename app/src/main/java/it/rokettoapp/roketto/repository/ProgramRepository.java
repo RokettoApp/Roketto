@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.ProgramDao;
@@ -37,16 +36,18 @@ public class ProgramRepository {
 
     public MutableLiveData<List<Program>> getProgramList() {
 
-        getProgramsFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getProgramsFromDatabase();
+        fetchPrograms();
         return mProgramListLiveData;
     }
 
     public void refreshPrograms() {
 
-        getProgramsFromApi();
+        fetchPrograms();
     }
 
-    private void getProgramsFromApi() {
+    private void fetchPrograms() {
 
         Call<ResponseList<Program>> programResponseCall =
                 mProgramApiService.getPrograms(5, count);
@@ -75,7 +76,7 @@ public class ProgramRepository {
         count += 5;
     }
 
-    public void fetchProgramById(int id) {
+    private void fetchProgramById(int id) {
 
         Call<Program> programResponseCall = mProgramApiService.getProgram(id);
         programResponseCall.enqueue(new Callback<Program>() {
@@ -100,7 +101,7 @@ public class ProgramRepository {
         });
     }
 
-    public void saveOnDatabase(List<Program> programList) {
+    private void saveOnDatabase(List<Program> programList) {
 
         RokettoDatabase.databaseWriteExecutor.execute(() -> {
             mProgramDao.deleteAll();
@@ -108,16 +109,8 @@ public class ProgramRepository {
         });
     }
 
-    public List<Program> getProgramsFromDatabase() {
+    private void getProgramsFromDatabase() {
 
-        List<Program> programList = new ArrayList<>();
-        Runnable runnable = () -> {
-
-            List<Program> results = mProgramDao.getAll();
-            if (results != null)
-                programList.addAll(results);
-        };
-        new Thread(runnable).start();
-        return programList;
+        new Thread(() -> mProgramListLiveData.postValue(mProgramDao.getAll())).start();
     }
 }

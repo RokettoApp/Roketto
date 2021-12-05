@@ -32,20 +32,28 @@ public class ArticleViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<Article>> getReports() {
 
-        if (mReportListLiveData == null) fetchArticles();
+        if (mReportListLiveData == null) fetchReports();
         return mReportListLiveData;
     }
 
     public MutableLiveData<List<Article>> getBlogPosts() {
 
-        if (mBlogPostListLiveData == null) fetchArticles();
+        if (mBlogPostListLiveData == null) fetchBlogPosts();
         return mBlogPostListLiveData;
     }
 
     private void fetchArticles() {
 
         mArticleListLiveData = mArticleRepository.getArticleList();
+    }
+
+    private void fetchReports() {
+
         mReportListLiveData = mArticleRepository.getReportList();
+    }
+
+    private void fetchBlogPosts() {
+
         mBlogPostListLiveData = mArticleRepository.getBlogPostList();
     }
 

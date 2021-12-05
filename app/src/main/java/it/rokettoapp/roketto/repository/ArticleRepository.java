@@ -6,12 +6,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.ArticleDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Article;
+import it.rokettoapp.roketto.model.ArticleType;
 import it.rokettoapp.roketto.service.ArticleApiService;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
@@ -36,24 +36,29 @@ public class ArticleRepository {
         mReportListLiveData = new MutableLiveData<>();
         mBlogPostListLiveData = new MutableLiveData<>();
         count = 0;
-        RokettoDatabase.databaseWriteExecutor.execute(mArticleDao::deleteAll);
     }
 
     public MutableLiveData<List<Article>> getArticleList() {
 
-        getArticlesFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getArticlesFromDatabase();
+//        fetchArticles();
         return mArticleListLiveData;
     }
 
     public MutableLiveData<List<Article>> getReportList() {
 
-        getReportsFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getReportsFromDatabase();
+//        fetchReports();
         return mReportListLiveData;
     }
 
     public MutableLiveData<List<Article>> getBlogPostList() {
 
-        getBlogPostsFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getBlogPostsFromDatabase();
+//        fetchBlogPosts();
         return mBlogPostListLiveData;
     }
 
@@ -61,14 +66,14 @@ public class ArticleRepository {
 
         new Thread(() -> {
             mArticleDao.deleteAll();
-            getArticlesFromApi();
-            getReportsFromApi();
-            getBlogPostsFromApi();
+            fetchArticles();
+            fetchReports();
+            fetchBlogPosts();
         }).start();
         count += 6;
     }
 
-    private void getArticlesFromApi() {
+    private void fetchArticles() {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getArticles(2, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -79,8 +84,11 @@ public class ArticleRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Article> articleList = response.body();
-                    mArticleListLiveData.postValue(articleList);
+                    for (Article article : articleList) {
+                        article.setArticleType(ArticleType.ARTICLE);
+                    }
                     saveOnDatabase(articleList);
+                    mArticleListLiveData.postValue(articleList);
                     Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -95,7 +103,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchArticleById(int id) {
+    private void fetchArticleById(int id) {
 
         Call<Article> articleResponseCall = mArticleApiService.getArticle(id);
         articleResponseCall.enqueue(new Callback<Article>() {
@@ -120,7 +128,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchArticlesByLaunchId(String id) {
+    private void fetchArticlesByLaunchId(String id) {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getLaunchArticles(id);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -149,7 +157,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchArticlesByEventId(int id) {
+    private void fetchArticlesByEventId(int id) {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getEventArticles(id);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -178,7 +186,7 @@ public class ArticleRepository {
         });
     }
 
-    public void getReportsFromApi() {
+    private void fetchReports() {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getReports(2, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -189,8 +197,11 @@ public class ArticleRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Article> reportList = response.body();
-                    mReportListLiveData.postValue(reportList);
+                    for (Article report : reportList) {
+                        report.setArticleType(ArticleType.REPORT);
+                    }
                     saveOnDatabase(reportList);
+                    mReportListLiveData.postValue(reportList);
                     Log.d(TAG, "Retrieved " + reportList.size() + " reports.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -205,7 +216,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchReportById(int id) {
+    private void fetchReportById(int id) {
 
         Call<Article> agencyResponseCall = mArticleApiService.getReport(id);
         agencyResponseCall.enqueue(new Callback<Article>() {
@@ -230,7 +241,7 @@ public class ArticleRepository {
         });
     }
 
-    public void getBlogPostsFromApi() {
+    private void fetchBlogPosts() {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getBlogPosts(2, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -241,6 +252,9 @@ public class ArticleRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Article> blogPostList = response.body();
+                    for (Article blogPost : blogPostList) {
+                        blogPost.setArticleType(ArticleType.BLOG);
+                    }
                     saveOnDatabase(blogPostList);
                     mBlogPostListLiveData.postValue(blogPostList);
                     Log.d(TAG, "Retrieved " + blogPostList.size() + " blog posts.");
@@ -257,7 +271,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchBlogPostById(int id) {
+    private void fetchBlogPostById(int id) {
 
         Call<Article> articleResponseCall = mArticleApiService.getBlogPost(id);
         articleResponseCall.enqueue(new Callback<Article>() {
@@ -282,7 +296,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchBlogPostsByLaunchId(String id) {
+    private void fetchBlogPostsByLaunchId(String id) {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getLaunchBlogPost(id);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -311,7 +325,7 @@ public class ArticleRepository {
         });
     }
 
-    public void fetchBlogPostsByEventId(int id) {
+    private void fetchBlogPostsByEventId(int id) {
 
         Call<List<Article>> articleResponseCall = mArticleApiService.getEventBlogPosts(id);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
@@ -340,20 +354,24 @@ public class ArticleRepository {
         });
     }
 
-    public void saveOnDatabase(List<Article> articleList) {
+    private void saveOnDatabase(List<Article> articleList) {
 
         RokettoDatabase.databaseWriteExecutor.execute(() ->
-            mArticleDao.insertArticleList(articleList));
+                mArticleDao.insertArticleList(articleList));
     }
 
-    public List<Article> getAllFromDatabase() {
+    private void getArticlesFromDatabase() {
 
-        List<Article> articleList = new ArrayList<>();
-        new Thread(() -> {
-            List<Article> results = mArticleDao.getAll();
-            if (results != null)
-                articleList.addAll(results);
-        }).start();
-        return articleList;
+        new Thread(() -> mArticleListLiveData.postValue(mArticleDao.getArticles())).start();
+    }
+
+    private void getReportsFromDatabase() {
+
+        new Thread(() -> mReportListLiveData.postValue(mArticleDao.getReports())).start();
+    }
+
+    private void getBlogPostsFromDatabase() {
+
+        new Thread(() -> mBlogPostListLiveData.postValue(mArticleDao.getBlogPosts())).start();
     }
 }

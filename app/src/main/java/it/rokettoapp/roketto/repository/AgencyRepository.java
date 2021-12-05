@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.AgencyDao;
@@ -37,16 +36,18 @@ public class AgencyRepository {
 
     public MutableLiveData<List<Agency>> getAgencyList() {
 
-        getAgenciesFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getAgenciesFromDatabase();
+//        fetchAgencies();
         return mAgencyListLiveData;
     }
 
     public void refreshAgencies() {
 
-        getAgenciesFromApi();
+        fetchAgencies();
     }
 
-    private void getAgenciesFromApi() {
+    private void fetchAgencies() {
 
         Call<ResponseList<Agency>> agencyResponseCall = mAgencyApiService.getAgencies(5, count);
         agencyResponseCall.enqueue(new Callback<ResponseList<Agency>>() {
@@ -74,7 +75,7 @@ public class AgencyRepository {
         count += 5;
     }
 
-    public void fetchAgencyById(int id) {
+    private void fetchAgencyById(int id) {
 
         Call<Agency> agencyResponseCall = mAgencyApiService.getAgency(id);
         agencyResponseCall.enqueue(new Callback<Agency>() {
@@ -99,7 +100,7 @@ public class AgencyRepository {
         });
     }
 
-    public void saveOnDatabase(List<Agency> agencyList) {
+    private void saveOnDatabase(List<Agency> agencyList) {
 
         RokettoDatabase.databaseWriteExecutor.execute(() -> {
             mAgencyDao.deleteAll();
@@ -107,16 +108,8 @@ public class AgencyRepository {
         });
     }
 
-    public List<Agency> getAgenciesFromDatabase() {
+    private void getAgenciesFromDatabase() {
 
-        List<Agency> agencyList = new ArrayList<>();
-        Runnable runnable = () -> {
-
-            List<Agency> results = mAgencyDao.getAll();
-            if (results != null)
-                agencyList.addAll(results);
-        };
-        new Thread(runnable).start();
-        return agencyList;
+        new Thread(() -> mAgencyListLiveData.postValue(mAgencyDao.getAll())).start();
     }
 }

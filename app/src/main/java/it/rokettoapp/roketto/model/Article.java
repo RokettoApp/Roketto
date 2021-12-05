@@ -49,6 +49,8 @@ public class Article {
     @SerializedName("events")
     private List<ArticleEvent> mEventList;
 
+    private ArticleType mArticleType;
+
     public Article(int id, String title, String url, String imageUrl,
                    String summary, Date publishedAt, Date updatedAt, boolean featured) {
 
@@ -187,5 +189,15 @@ public class Article {
     public void setEventList(List<ArticleEvent> eventList) {
 
         this.mEventList = eventList;
+    }
+
+    public ArticleType getArticleType() {
+
+        return mArticleType;
+    }
+
+    public void setArticleType(ArticleType articleType) {
+
+        this.mArticleType = articleType;
     }
 }

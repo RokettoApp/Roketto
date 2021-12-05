@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.RokettoDatabase;
@@ -38,16 +37,18 @@ public class SpacecraftRepository {
 
     public MutableLiveData<List<Spacecraft>> getSpacecraftList() {
 
-        getSpacecraftsFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getSpacecraftsFromDatabase();
+        fetchSpacecrafts();
         return mSpacecraftListLiveData;
     }
 
     public void refreshSpacecrafts() {
 
-        getSpacecraftsFromApi();
+        fetchSpacecrafts();
     }
 
-    private void getSpacecraftsFromApi() {
+    private void fetchSpacecrafts() {
 
         Call<ResponseList<Spacecraft>> spacecraftResponseCall =
                 mSpacecraftApiService.getSpacecrafts(5, count);
@@ -77,7 +78,7 @@ public class SpacecraftRepository {
         count += 5;
     }
 
-    public void fetchSpacecraftById(int id) {
+    private void fetchSpacecraftById(int id) {
 
         Call<Spacecraft> spacecraftResponseCall = mSpacecraftApiService.getSpacecraft(id);
         spacecraftResponseCall.enqueue(new Callback<Spacecraft>() {
@@ -101,7 +102,8 @@ public class SpacecraftRepository {
             }
         });
     }
-    public void fetchSpacecraftFlights() {
+
+    private void fetchSpacecraftFlights() {
 
         Call<ResponseList<SpacecraftFlight>> spacecraftResponseCall =
                 mSpacecraftApiService.getSpacecraftFlights(5);
@@ -132,9 +134,10 @@ public class SpacecraftRepository {
         });
     }
 
-    public void fetchSpacecraftFlightById(int id) {
+    private void fetchSpacecraftFlightById(int id) {
 
-        Call<SpacecraftFlight> spacecraftResponseCall = mSpacecraftApiService.getSpacecraftFlight(id);
+        Call<SpacecraftFlight> spacecraftResponseCall =
+                mSpacecraftApiService.getSpacecraftFlight(id);
         spacecraftResponseCall.enqueue(new Callback<SpacecraftFlight>() {
 
             @Override
@@ -157,7 +160,7 @@ public class SpacecraftRepository {
         });
     }
 
-    public void saveOnDatabase(List<Spacecraft> spacecraftList) {
+    private void saveOnDatabase(List<Spacecraft> spacecraftList) {
 
         RokettoDatabase.databaseWriteExecutor.execute(() -> {
             mSpacecraftDao.deleteAll();
@@ -165,16 +168,8 @@ public class SpacecraftRepository {
         });
     }
 
-    public List<Spacecraft> getSpacecraftsFromDatabase() {
+    private void getSpacecraftsFromDatabase() {
 
-        List<Spacecraft> spacecraftList = new ArrayList<>();
-        Runnable runnable = () -> {
-
-            List<Spacecraft> results = mSpacecraftDao.getAll();
-            if (results != null)
-                spacecraftList.addAll(results);
-        };
-        new Thread(runnable).start();
-        return spacecraftList;
+        new Thread(() -> mSpacecraftListLiveData.postValue(mSpacecraftDao.getAll())).start();
     }
 }

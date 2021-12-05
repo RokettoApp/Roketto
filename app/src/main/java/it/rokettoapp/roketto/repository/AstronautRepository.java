@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.AstronautDao;
@@ -37,16 +36,18 @@ public class AstronautRepository {
 
     public MutableLiveData<List<Astronaut>> getAstronautList() {
 
-        getAstronautsFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getAstronautsFromDatabase();
+//        fetchAstronauts();
         return mAstronautListLiveData;
     }
 
     public void refreshAstronauts() {
 
-        getAstronautsFromApi();
+        fetchAstronauts();
     }
 
-    private void getAstronautsFromApi() {
+    private void fetchAstronauts() {
 
         Call<ResponseList<Astronaut>> astronautResponseCall =
                 mAstronautApiService.getAstronauts(5, count);
@@ -76,7 +77,7 @@ public class AstronautRepository {
         count += 5;
     }
 
-    public void fetchAstronautById(int id) {
+    private void fetchAstronautById(int id) {
 
         Call<Astronaut> astronautResponseCall = mAstronautApiService.getAstronaut(id);
         astronautResponseCall.enqueue(new Callback<Astronaut>() {
@@ -101,7 +102,7 @@ public class AstronautRepository {
         });
     }
 
-    public void saveOnDatabase(List<Astronaut> astronautList) {
+    private void saveOnDatabase(List<Astronaut> astronautList) {
 
         RokettoDatabase.databaseWriteExecutor.execute(() -> {
 
@@ -110,14 +111,8 @@ public class AstronautRepository {
         });
     }
 
-    public List<Astronaut> getAstronautsFromDatabase() {
+    private void getAstronautsFromDatabase() {
 
-        List<Astronaut> astronautList = new ArrayList<>();
-        new Thread(() -> {
-            List<Astronaut> results = mAstronautDao.getAll();
-            if (results != null)
-                astronautList.addAll(results);
-        }).start();
-        return astronautList;
+        new Thread(() -> mAstronautListLiveData.postValue(mAstronautDao.getAll())).start();
     }
 }

@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.EventDao;
@@ -37,16 +36,18 @@ public class EventRepository {
 
     public MutableLiveData<List<Event>> getEventList() {
 
-        getEventsFromApi();
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getEventsFromDatabase();
+//        fetchEvents();
         return mEventListLiveData;
     }
 
     public void refreshEvents() {
 
-        getEventsFromApi();
+        fetchEvents();
     }
 
-    private void getEventsFromApi() {
+    private void fetchEvents() {
 
         Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(5, count);
         eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
@@ -58,8 +59,8 @@ public class EventRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
                     saveOnDatabase(eventList);
-                    Log.d(TAG, "Retrieved " + response.body().getCount() + " events.");
                     mEventListLiveData.postValue(eventList);
+                    Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -74,7 +75,7 @@ public class EventRepository {
         count += 5;
     }
 
-    public void fetchEventById(int id) {
+    private void fetchEventById(int id) {
 
         Call<Event> eventResponseCall = mEventApiService.getEvent(id);
         eventResponseCall.enqueue(new Callback<Event>() {
@@ -99,7 +100,7 @@ public class EventRepository {
         });
     }
 
-    public void fetchPreviousEvents() {
+    private void fetchPreviousEvents() {
 
         Call<ResponseList<Event>> eventResponseCall = mEventApiService.getPreviousEvents(5);
         eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
@@ -128,7 +129,7 @@ public class EventRepository {
         });
     }
 
-    public void fetchPreviousEventById(int id) {
+    private void fetchPreviousEventById(int id) {
 
         Call<Event> eventResponseCall = mEventApiService.getPreviousEvent(id);
         eventResponseCall.enqueue(new Callback<Event>() {
@@ -152,7 +153,7 @@ public class EventRepository {
             }
         });
     }
-    public void fetchUpcomingEvents() {
+    private void fetchUpcomingEvents() {
 
         Call<ResponseList<Event>> eventResponseCall = mEventApiService.getUpcomingEvents(5);
         eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
@@ -181,7 +182,7 @@ public class EventRepository {
         });
     }
 
-    public void fetchUpcomingEventById(int id) {
+    private void fetchUpcomingEventById(int id) {
 
         Call<Event> eventResponseCall = mEventApiService.getUpcomingEvent(id);
         eventResponseCall.enqueue(new Callback<Event>() {
@@ -206,7 +207,7 @@ public class EventRepository {
         });
     }
 
-    public void saveOnDatabase(List<Event> eventList) {
+    private void saveOnDatabase(List<Event> eventList) {
 
         RokettoDatabase.databaseWriteExecutor.execute(() -> {
             mEventDao.deleteAll();
@@ -214,16 +215,8 @@ public class EventRepository {
         });
     }
 
-    public List<Event> getEventsFromDatabase() {
+    private void getEventsFromDatabase() {
 
-        List<Event> eventList = new ArrayList<>();
-        Runnable runnable = () -> {
-
-            List<Event> results = mEventDao.getAll();
-            if (results != null)
-                eventList.addAll(results);
-        };
-        new Thread(runnable).start();
-        return eventList;
+        new Thread(() -> mEventListLiveData.postValue(mEventDao.getAll())).start();
     }
 }
