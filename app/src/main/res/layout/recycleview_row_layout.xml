@@ -57,18 +57,17 @@
 
             android:textSize="8dp" />
 
-            <Button
-                android:id="@+id/idbutton"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:text="TAP TO READ"
-                android:textSize="8dp"
-                android:layout_marginVertical="16dp"
-                android:layout_below="@id/event_d"
-                app:cardCornerRadius="16dp"
-                android:backgroundTint="@color/accent_color"
-                android:fontFamily="sans-serif-medium"
-                 />
+        <Button
+            android:id="@+id/idbutton"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/event_d"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/accent_color"
+            android:fontFamily="sans-serif-medium"
+            android:text="TAP TO READ"
+            android:textSize="8dp"
+            app:cardCornerRadius="16dp" />
     </RelativeLayout>
     </androidx.cardview.widget.CardView>
