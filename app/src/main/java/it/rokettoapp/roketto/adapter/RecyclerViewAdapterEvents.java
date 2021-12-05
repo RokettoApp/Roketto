@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -51,6 +52,7 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
         public TextView event_title;
         public TextView event_d;
         public TextView eventDate;
+        public Button event_button;
         CardView cardView;
 
         public MyViewHolderEvents(View itemView) {
