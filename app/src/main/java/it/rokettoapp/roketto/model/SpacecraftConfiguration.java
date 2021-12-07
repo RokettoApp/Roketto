@@ -1,6 +1,7 @@
 package it.rokettoapp.roketto.model;
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -64,6 +65,11 @@ public class SpacecraftConfiguration {
 
     @SerializedName("info_link")
     private String mInfoUrl;
+
+    @Ignore
+    public SpacecraftConfiguration(int id) {
+        this.mId = id;
+    }
 
     public SpacecraftConfiguration(int id, String name, Agency agency,
                                    SpacecraftConfigType spacecraftConfigType,

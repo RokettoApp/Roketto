@@ -93,6 +93,10 @@ public class LauncherConfig {
     @SerializedName("pending_launches")
     private int mPendingLaunches;
 
+    public LauncherConfig(String id) {
+        this.mId = id;
+    }
+
     public LauncherConfig(String id, String name, String description, String family,
                           String fullName, Agency manufacturer, List<Program> programList,
                           String variant, String alias, int minStage, int maxStage,

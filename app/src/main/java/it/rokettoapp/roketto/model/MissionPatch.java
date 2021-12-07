@@ -19,6 +19,10 @@ public class MissionPatch {
     @SerializedName("agency")
     private Agency mAgency;
 
+    public MissionPatch(String id) {
+        this.mId = id;
+    }
+
     public MissionPatch(String id, String name, int priority, String imageUrl, Agency agency) {
 
         this.mId = id;

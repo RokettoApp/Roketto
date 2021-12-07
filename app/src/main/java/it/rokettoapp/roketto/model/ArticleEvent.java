@@ -10,6 +10,10 @@ public class ArticleEvent {
     @SerializedName("provider")
     private String mProvider;
 
+    public ArticleEvent(int id) {
+        this.mId = id;
+    }
+
     public ArticleEvent(int id, String provider) {
 
         this.mId = id;
