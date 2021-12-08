@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Entity(tableName = "favorite_event")
+@Entity(tableName = "event")
 public class Event implements Serializable {
 
     @PrimaryKey

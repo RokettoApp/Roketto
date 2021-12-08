@@ -11,7 +11,7 @@ import it.rokettoapp.roketto.model.Mission;
 
 @Dao
 public interface MissionDao {
-    @Query("SELECT * FROM favorite_mission")
+    @Query("SELECT * FROM mission")
     List<Mission> getAll();
 
     @Insert
@@ -23,6 +23,6 @@ public interface MissionDao {
     @Delete
     void delete(Mission mission);
 
-    @Query("DELETE FROM favorite_mission")
+    @Query("DELETE FROM mission")
     void deleteAll();
 }

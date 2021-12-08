@@ -11,7 +11,7 @@ import it.rokettoapp.roketto.model.Spacecraft;
 
 @Dao
 public interface SpacecraftDao {
-    @Query("SELECT * FROM favorite_spacecraft")
+    @Query("SELECT * FROM spacecraft")
     List<Spacecraft> getAll();
 
     @Insert
@@ -23,6 +23,6 @@ public interface SpacecraftDao {
     @Delete
     void delete(Spacecraft spacecraft);
 
-    @Query("DELETE FROM favorite_spacecraft")
+    @Query("DELETE FROM spacecraft")
     void deleteAll();
 }

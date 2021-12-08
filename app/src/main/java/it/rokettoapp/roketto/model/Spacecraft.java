@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-@Entity(tableName = "favorite_spacecraft")
+@Entity(tableName = "spacecraft")
 public class Spacecraft {
 
     @PrimaryKey

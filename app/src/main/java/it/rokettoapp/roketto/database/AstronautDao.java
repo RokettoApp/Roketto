@@ -12,7 +12,7 @@ import it.rokettoapp.roketto.model.Astronaut;
 @Dao
 public interface AstronautDao {
 
-    @Query("SELECT * FROM favorite_astronaut")
+    @Query("SELECT * FROM astronaut")
     List<Astronaut> getAll();
 
     @Insert
@@ -24,6 +24,6 @@ public interface AstronautDao {
     @Delete
     void delete(Astronaut astronaut);
 
-    @Query("DELETE FROM favorite_astronaut")
+    @Query("DELETE FROM astronaut")
     void deleteAll();
 }

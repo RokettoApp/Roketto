@@ -11,7 +11,7 @@ import it.rokettoapp.roketto.model.Program;
 
 @Dao
 public interface ProgramDao {
-    @Query("SELECT * FROM favorite_program")
+    @Query("SELECT * FROM program")
     List<Program> getAll();
 
     @Insert
@@ -23,6 +23,6 @@ public interface ProgramDao {
     @Delete
     void delete(Program program);
 
-    @Query("DELETE FROM favorite_program")
+    @Query("DELETE FROM program")
     void deleteAll();
 }
