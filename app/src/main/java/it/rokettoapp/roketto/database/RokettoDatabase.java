@@ -19,28 +19,30 @@ import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.Spacecraft;
 
 @Database(entities = {Agency.class, Astronaut.class, Spacecraft.class, Article.class, Event.class,
-          Mission.class, Program.class}, version =1)
+        Mission.class, Program.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class RokettoDatabase extends RoomDatabase {
+
     public abstract AgencyDao agencyDao();
     public abstract AstronautDao astronautDao();
     public abstract SpacecraftDao spacecraftDao();
-    public abstract ArticleDao articledao();
+    public abstract ArticleDao articleDao();
     public abstract EventDao eventDao();
     public abstract MissionDao missionDao();
     public abstract ProgramDao programDao();
 
     private static volatile RokettoDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
+    public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static RokettoDatabase getDatabase(final Context context) {
+    public static RokettoDatabase getDatabase(final Context context) {
+
         if (INSTANCE == null) {
             synchronized (RokettoDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            RokettoDatabase.class, "word_database")
+                            RokettoDatabase.class, "roketto_database")
                             .build();
                 }
             }

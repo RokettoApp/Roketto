@@ -11,7 +11,8 @@ import retrofit2.http.Query;
 public interface AstronautApiService {
 
     @GET(Constants.ASTRONAUTS_ENDPOINT)
-    Call<ResponseList<Astronaut>> getAstronauts(@Query("limit") int limit);
+    Call<ResponseList<Astronaut>> getAstronauts(@Query("limit") int limit,
+                                                @Query("offset") int offset);
 
     @GET(Constants.ASTRONAUT_ENDPOINT)
     Call<Astronaut> getAstronaut(@Path("id") int id);

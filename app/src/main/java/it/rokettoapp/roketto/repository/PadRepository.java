@@ -17,16 +17,16 @@ import retrofit2.Response;
 public class PadRepository {
 
     private static final String TAG = "PadRepository";
-    private final PadApiService padApiService;
+    private final PadApiService mPadApiService;
 
     public PadRepository() {
 
-        this.padApiService = ServiceLocator.getsInstance().getPadApiService();
+        this.mPadApiService = ServiceLocator.getInstance().getPadApiService();
     }
 
     public void fetchPads() {
 
-        Call<ResponseList<Pad>> padResponseCall = padApiService.getPads(5);
+        Call<ResponseList<Pad>> padResponseCall = mPadApiService.getPads(5);
         padResponseCall.enqueue(new Callback<ResponseList<Pad>>() {
 
             @Override
@@ -55,7 +55,7 @@ public class PadRepository {
 
     public void fetchPadById(int id) {
 
-        Call<Pad> padResponseCall = padApiService.getPad(id);
+        Call<Pad> padResponseCall = mPadApiService.getPad(id);
         padResponseCall.enqueue(new Callback<Pad>() {
 
             @Override

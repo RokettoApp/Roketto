@@ -17,16 +17,16 @@ import retrofit2.Response;
 public class UpdateRepository {
     
     private static final String TAG = "UpdateRepository";
-    private final UpdateApiService updateApiService;
+    private final UpdateApiService mUpdateApiService;
 
     public UpdateRepository() {
 
-        this.updateApiService = ServiceLocator.getsInstance().getUpdateApiService();
+        this.mUpdateApiService = ServiceLocator.getInstance().getUpdateApiService();
     }
 
     public void fetchUpdates() {
 
-        Call<ResponseList<Update>> updateResponseCall = updateApiService.getUpdates(5);
+        Call<ResponseList<Update>> updateResponseCall = mUpdateApiService.getUpdates(5);
         updateResponseCall.enqueue(new Callback<ResponseList<Update>>() {
 
             @Override
@@ -55,7 +55,7 @@ public class UpdateRepository {
 
     public void fetchUpdateById(int id) {
 
-        Call<Update> updateResponseCall = updateApiService.getUpdate(id);
+        Call<Update> updateResponseCall = mUpdateApiService.getUpdate(id);
         updateResponseCall.enqueue(new Callback<Update>() {
 
             @Override

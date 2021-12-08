@@ -12,7 +12,8 @@ import retrofit2.http.Query;
 public interface SpacecraftApiService {
 
     @GET(Constants.SPACECRAFTS_ENDPOINT)
-    Call<ResponseList<Spacecraft>> getSpacecrafts(@Query("limit") int limit);
+    Call<ResponseList<Spacecraft>> getSpacecrafts(@Query("limit") int limit,
+                                                  @Query("offset") int offset);
 
     @GET(Constants.SPACECRAFT_ENDPOINT)
     Call<Spacecraft> getSpacecraft(@Path("id") int id);
