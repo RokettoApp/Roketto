@@ -17,16 +17,17 @@ import retrofit2.Response;
 public class SpaceStationRepository {
 
     private static final String TAG = "SpaceStationRepository";
-    private final SpaceStationApiService spaceStationApiService;
+    private final SpaceStationApiService mSpaceStationApiService;
 
     public SpaceStationRepository() {
 
-        this.spaceStationApiService = ServiceLocator.getInstance().getSpaceStationApiService();
+        this.mSpaceStationApiService = ServiceLocator.getInstance().getSpaceStationApiService();
     }
 
     public void fetchSpaceStations() {
 
-        Call<ResponseList<SpaceStation>> spaceStationResponseCall = spaceStationApiService.getSpaceStations(5);
+        Call<ResponseList<SpaceStation>> spaceStationResponseCall =
+                mSpaceStationApiService.getSpaceStations(5);
         spaceStationResponseCall.enqueue(new Callback<ResponseList<SpaceStation>>() {
 
             @Override
@@ -46,7 +47,8 @@ public class SpaceStationRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseList<SpaceStation>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<SpaceStation>> call,
+                                  @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }
@@ -55,7 +57,7 @@ public class SpaceStationRepository {
 
     public void fetchSpaceStationById(int id) {
 
-        Call<SpaceStation> spaceStationResponseCall = spaceStationApiService.getSpaceStation(id);
+        Call<SpaceStation> spaceStationResponseCall = mSpaceStationApiService.getSpaceStation(id);
         spaceStationResponseCall.enqueue(new Callback<SpaceStation>() {
 
             @Override

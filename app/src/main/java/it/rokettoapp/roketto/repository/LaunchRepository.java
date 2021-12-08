@@ -17,16 +17,16 @@ import retrofit2.Response;
 public class LaunchRepository {
 
     private static final String TAG = "LaunchRepository";
-    private final LaunchApiService launchApiService;
+    private final LaunchApiService mLaunchApiService;
 
     public LaunchRepository() {
 
-        this.launchApiService = ServiceLocator.getInstance().getLaunchApiService();
+        this.mLaunchApiService = ServiceLocator.getInstance().getLaunchApiService();
     }
 
     public void fetchLaunches() {
 
-        Call<ResponseList<Launch>> launchResponseCall = launchApiService.getLaunches(5);
+        Call<ResponseList<Launch>> launchResponseCall = mLaunchApiService.getLaunches(5);
         launchResponseCall.enqueue(new Callback<ResponseList<Launch>>() {
 
             @Override
@@ -55,7 +55,7 @@ public class LaunchRepository {
 
     public void fetchLaunchById(String id) {
 
-        Call<Launch> launchResponseCall = launchApiService.getLaunch(id);
+        Call<Launch> launchResponseCall = mLaunchApiService.getLaunch(id);
         launchResponseCall.enqueue(new Callback<Launch>() {
 
             @Override
@@ -80,7 +80,7 @@ public class LaunchRepository {
 
     public void fetchPreviousLaunches() {
 
-        Call<ResponseList<Launch>> launchResponseCall = launchApiService.getPreviousLaunches(5);
+        Call<ResponseList<Launch>> launchResponseCall = mLaunchApiService.getPreviousLaunches(5);
         launchResponseCall.enqueue(new Callback<ResponseList<Launch>>() {
 
             @Override
@@ -109,7 +109,7 @@ public class LaunchRepository {
 
     public void fetchPreviousLaunchById(String id) {
 
-        Call<Launch> launchResponseCall = launchApiService.getPreviousLaunch(id);
+        Call<Launch> launchResponseCall = mLaunchApiService.getPreviousLaunch(id);
         launchResponseCall.enqueue(new Callback<Launch>() {
 
             @Override
@@ -133,7 +133,7 @@ public class LaunchRepository {
     }
     public void fetchUpcomingLaunches() {
 
-        Call<ResponseList<Launch>> launchResponseCall = launchApiService.getUpcomingLaunches(5);
+        Call<ResponseList<Launch>> launchResponseCall = mLaunchApiService.getUpcomingLaunches(5);
         launchResponseCall.enqueue(new Callback<ResponseList<Launch>>() {
 
             @Override
@@ -162,7 +162,7 @@ public class LaunchRepository {
 
     public void fetchUpcomingLaunchById(String id) {
 
-        Call<Launch> launchResponseCall = launchApiService.getUpcomingLaunch(id);
+        Call<Launch> launchResponseCall = mLaunchApiService.getUpcomingLaunch(id);
         launchResponseCall.enqueue(new Callback<Launch>() {
 
             @Override

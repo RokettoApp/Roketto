@@ -14,16 +14,16 @@ import retrofit2.Response;
 public class SFNInfoRepository {
 
     private static final String TAG = "SFNInfoRepository";
-    private final SFNInfoApiService sfnInfoApiService;
+    private final SFNInfoApiService mSfnInfoApiService;
 
     public SFNInfoRepository() {
 
-        this.sfnInfoApiService = ServiceLocator.getInstance().getSFNInfoApiService();
+        this.mSfnInfoApiService = ServiceLocator.getInstance().getSFNInfoApiService();
     }
 
     public void fetchInfo() {
 
-        Call<SFNInfo> agencyResponseCall = sfnInfoApiService.getInfo();
+        Call<SFNInfo> agencyResponseCall = mSfnInfoApiService.getInfo();
         agencyResponseCall.enqueue(new Callback<SFNInfo>() {
 
             @Override

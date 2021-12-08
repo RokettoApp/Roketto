@@ -39,7 +39,7 @@ public class SpacecraftRepository {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         getSpacecraftsFromDatabase();
-        fetchSpacecrafts();
+//        fetchSpacecrafts();
         return mSpacecraftListLiveData;
     }
 

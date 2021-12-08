@@ -38,7 +38,7 @@ public class ProgramRepository {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         getProgramsFromDatabase();
-        fetchPrograms();
+//        fetchPrograms();
         return mProgramListLiveData;
     }
 

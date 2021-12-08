@@ -17,16 +17,17 @@ import retrofit2.Response;
 public class ExpeditionRepository {
 
     private static final String TAG = "ExpeditionRepository";
-    private final ExpeditionApiService expeditionApiService;
+    private final ExpeditionApiService mExpeditionApiService;
 
     public ExpeditionRepository() {
 
-        this.expeditionApiService = ServiceLocator.getInstance().getExpeditionApiService();
+        this.mExpeditionApiService = ServiceLocator.getInstance().getExpeditionApiService();
     }
 
     public void fetchExpeditions() {
 
-        Call<ResponseList<Expedition>> agencyResponseCall = expeditionApiService.getExpeditions(5);
+        Call<ResponseList<Expedition>> agencyResponseCall =
+                mExpeditionApiService.getExpeditions(5);
         agencyResponseCall.enqueue(new Callback<ResponseList<Expedition>>() {
 
             @Override
@@ -46,7 +47,8 @@ public class ExpeditionRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseList<Expedition>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<Expedition>> call,
+                                  @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }
@@ -55,7 +57,7 @@ public class ExpeditionRepository {
 
     public void fetchExpeditionById(int id) {
 
-        Call<Expedition> expeditionResponseCall = expeditionApiService.getExpedition(id);
+        Call<Expedition> expeditionResponseCall = mExpeditionApiService.getExpedition(id);
         expeditionResponseCall.enqueue(new Callback<Expedition>() {
 
             @Override

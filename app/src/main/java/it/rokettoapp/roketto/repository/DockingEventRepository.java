@@ -17,16 +17,17 @@ import retrofit2.Response;
 public class DockingEventRepository {
 
     private static final String TAG = "DockingEventRepository";
-    private final DockingEventApiService dockingEventApiService;
+    private final DockingEventApiService mEockingEventApiService;
 
     public DockingEventRepository() {
 
-        this.dockingEventApiService = ServiceLocator.getInstance().getDockingEventApiService();
+        this.mEockingEventApiService = ServiceLocator.getInstance().getDockingEventApiService();
     }
 
     public void fetchDockingEvents() {
 
-        Call<ResponseList<DockingEvent>> astronautResponseCall = dockingEventApiService.getDockingEvents(5);
+        Call<ResponseList<DockingEvent>> astronautResponseCall =
+                mEockingEventApiService.getDockingEvents(5);
         astronautResponseCall.enqueue(new Callback<ResponseList<DockingEvent>>() {
 
             @Override
@@ -37,7 +38,8 @@ public class DockingEventRepository {
                     List<DockingEvent> dockingEventList = response.body().getResults();
                     StringBuilder debugString = new StringBuilder();
                     for (DockingEvent dockingEvent : dockingEventList) {
-                        debugString.append(dockingEvent.getDockingLocation().getName()).append(" --- ");
+                        debugString.append(dockingEvent.getDockingLocation().getName())
+                                .append(" --- ");
                     }
                     Log.d(TAG, debugString.toString());
                 } else {
@@ -46,7 +48,8 @@ public class DockingEventRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseList<DockingEvent>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseList<DockingEvent>> call,
+                                  @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }
@@ -55,7 +58,7 @@ public class DockingEventRepository {
 
     public void fetchDockingEventById(int id) {
 
-        Call<DockingEvent> astronautResponseCall = dockingEventApiService.getDockingEvent(id);
+        Call<DockingEvent> astronautResponseCall = mEockingEventApiService.getDockingEvent(id);
         astronautResponseCall.enqueue(new Callback<DockingEvent>() {
 
             @Override
