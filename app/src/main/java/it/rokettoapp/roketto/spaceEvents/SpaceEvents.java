@@ -1,10 +1,11 @@
 package it.rokettoapp.roketto.spaceEvents;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SpaceEvents {
+public class SpaceEvents implements Serializable {
     private String title;
     private String description;
     private Date departureDate;
