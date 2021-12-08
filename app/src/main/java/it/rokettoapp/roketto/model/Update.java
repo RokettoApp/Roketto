@@ -22,6 +22,10 @@ public class Update {
     @SerializedName("created_on")
     private String mCreatedOn;
 
+    public Update(int id) {
+        this.mId = id;
+    }
+
     public Update(int id, String profileImage, String comment, String infoUrl, String createdBy,
                   String createdOn) {
 

@@ -34,6 +34,10 @@ public class SpacecraftFlight {
     @SerializedName("docking_events")
     private List<DockingEvent> mDockingEvent;
 
+    public SpacecraftFlight(int id) {
+        this.mId = id;
+    }
+
     public SpacecraftFlight(int id, Date missionEnd, String destination,
                             List<AstronautFlight> launchCrew, List<AstronautFlight> onboardCrew,
                             List<AstronautFlight> landingCrew, Spacecraft spacecraft,

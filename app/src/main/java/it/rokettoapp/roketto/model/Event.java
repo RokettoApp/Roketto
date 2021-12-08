@@ -23,7 +23,6 @@ public class Event {
     @SerializedName("name")
     private String mName;
 
-    @Ignore
     @SerializedName("updates")
     private List<Update> mUpdates;
 

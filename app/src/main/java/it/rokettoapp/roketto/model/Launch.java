@@ -106,6 +106,10 @@ public class Launch {
     @SerializedName("notifications_enabled")
     private boolean mNotificationEnabled;
 
+    public Launch(String id) {
+        this.mId = id;
+    }
+
     public Launch(String id, String slug, String name, LaunchStatus launchStatus,
                   Date lastUpdated, List<Update> updateList, Date net, Date windowEnd,
                   Date windowStart, int probability, String holdReason, String failReason,

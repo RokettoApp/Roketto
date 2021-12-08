@@ -33,20 +33,8 @@ public class Spacecraft {
     @SerializedName("spacecraft_config")
     private SpacecraftConfiguration mSpacecraftConfiguration;
 
-    @Ignore
     @SerializedName("flights")
     private List<SpacecraftFlight> mSpacecraftFlight;
-
-    public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
-                      String description, SpacecraftConfiguration spacecraftConfiguration) {
-
-        this.mId = id;
-        this.mName = name;
-        this.mSerialNumber = serialNumber;
-        this.mStatus = status;
-        this.mDescription = description;
-        this.mSpacecraftConfiguration = spacecraftConfiguration;
-    }
 
     public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
                       String description, List<SpacecraftFlight> spacecraftFlight,

@@ -10,6 +10,10 @@ public class ArticleLaunch {
     @SerializedName("provider")
     private String mProvider;
 
+    public ArticleLaunch(String id) {
+        this.mId = id;
+    }
+
     public ArticleLaunch(String id, String provider) {
 
         this.mId = id;
