@@ -11,6 +11,7 @@ import it.rokettoapp.roketto.model.Astronaut;
 
 @Dao
 public interface AstronautDao {
+
     @Query("SELECT * FROM favorite_astronaut")
     List<Astronaut> getAll();
 

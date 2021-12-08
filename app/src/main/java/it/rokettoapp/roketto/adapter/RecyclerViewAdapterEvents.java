@@ -14,15 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
-import it.rokettoapp.roketto.spaceEvents.SpaceEvents;
 import it.rokettoapp.roketto.ui.EventDetailActivity;
+import it.rokettoapp.roketto.model.Event;
 
 public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerViewAdapterEvents.MyViewHolderEvents> {
 
-    private List<SpaceEvents> mEvents;
+    private List<Event> mEvents;
     private Context mContext;
 
-    public RecyclerViewAdapterEvents(Context mContext, List<SpaceEvents> mEvents) {
+    public RecyclerViewAdapterEvents(Context mContext, List<Event> mEvents) {
         this.mContext = mContext;
         this.mEvents = mEvents;
     }
@@ -38,7 +38,7 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(int p) {
                 Intent intent = new Intent(mContext, EventDetailActivity.class);
-                intent.putExtra("Event", mEvents.get(p));
+                intent.putExtra("Events", mEvents.get(p));
                 mContext.startActivity(intent);
             }
         });
@@ -49,9 +49,9 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(MyViewHolderEvents holder, final int position) {
 
-        holder.event_title.setText(mEvents.get(position).getTitle());
+        holder.event_title.setText(mEvents.get(position).getName());
         holder.event_d.setText(mEvents.get(position).getDescription());
-        holder.eventDate.setText(mEvents.get(position).getDepartureDate());
+        holder.eventDate.setText(mEvents.get(position).getDate().toString());
     }
 
     @Override

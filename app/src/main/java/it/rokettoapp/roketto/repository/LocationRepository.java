@@ -17,16 +17,16 @@ import retrofit2.Response;
 public class LocationRepository {
 
     private static final String TAG = "LocationRepository";
-    private final LocationApiService locationApiService;
+    private final LocationApiService mLocationApiService;
 
     public LocationRepository() {
 
-        this.locationApiService = ServiceLocator.getsInstance().getLocationApiService();
+        this.mLocationApiService = ServiceLocator.getInstance().getLocationApiService();
     }
 
     public void fetchLocations() {
 
-        Call<ResponseList<Location>> locationResponseCall = locationApiService.getLocations(5);
+        Call<ResponseList<Location>> locationResponseCall = mLocationApiService.getLocations(5);
         locationResponseCall.enqueue(new Callback<ResponseList<Location>>() {
 
             @Override
@@ -55,7 +55,7 @@ public class LocationRepository {
 
     public void fetchLocationById(int id) {
 
-        Call<Location> locationResponseCall = locationApiService.getLocation(id);
+        Call<Location> locationResponseCall = mLocationApiService.getLocation(id);
         locationResponseCall.enqueue(new Callback<Location>() {
 
             @Override

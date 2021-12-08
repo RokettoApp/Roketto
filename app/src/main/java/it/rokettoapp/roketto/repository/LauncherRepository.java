@@ -17,16 +17,16 @@ import retrofit2.Response;
 public class LauncherRepository {
 
     private static final String TAG = "LauncherRepository";
-    private final LauncherApiService launcherApiService;
+    private final LauncherApiService mLauncherApiService;
 
     public LauncherRepository() {
 
-        this.launcherApiService = ServiceLocator.getsInstance().getLauncherApiService();
+        this.mLauncherApiService = ServiceLocator.getInstance().getLauncherApiService();
     }
 
     public void fetchLaunchers() {
 
-        Call<ResponseList<Launcher>> launcherResponseCall = launcherApiService.getLaunchers(5);
+        Call<ResponseList<Launcher>> launcherResponseCall = mLauncherApiService.getLaunchers(5);
         launcherResponseCall.enqueue(new Callback<ResponseList<Launcher>>() {
 
             @Override
@@ -55,7 +55,7 @@ public class LauncherRepository {
 
     public void fetchLauncherById(int id) {
 
-        Call<Launcher> launcherResponseCall = launcherApiService.getLauncher(id);
+        Call<Launcher> launcherResponseCall = mLauncherApiService.getLauncher(id);
         launcherResponseCall.enqueue(new Callback<Launcher>() {
 
             @Override

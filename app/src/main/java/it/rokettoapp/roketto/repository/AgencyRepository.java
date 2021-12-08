@@ -1,11 +1,15 @@
 package it.rokettoapp.roketto.repository;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import it.rokettoapp.roketto.database.AgencyDao;
+import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AgencyApiService;
@@ -17,16 +21,35 @@ import retrofit2.Response;
 public class AgencyRepository {
 
     private static final String TAG = "AgencyRepository";
-    private final AgencyApiService agencyApiService;
+    private final AgencyApiService mAgencyApiService;
+    private final AgencyDao mAgencyDao;
+    private final MutableLiveData<List<Agency>> mAgencyListLiveData;
+    int count;
 
-    public AgencyRepository() {
+    public AgencyRepository(Application application) {
 
-        this.agencyApiService = ServiceLocator.getsInstance().getAgencyApiService();
+        this.mAgencyApiService = ServiceLocator.getInstance().getAgencyApiService();
+        mAgencyDao = RokettoDatabase.getDatabase(application).agencyDao();
+        mAgencyListLiveData = new MutableLiveData<>();
+        count = 0;
     }
 
-    public void fetchAgencies() {
+    public MutableLiveData<List<Agency>> getAgencyList() {
 
-        Call<ResponseList<Agency>> agencyResponseCall = agencyApiService.getAgencies(5);
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        getAgenciesFromDatabase();
+//        fetchAgencies();
+        return mAgencyListLiveData;
+    }
+
+    public void refreshAgencies() {
+
+        fetchAgencies();
+    }
+
+    private void fetchAgencies() {
+
+        Call<ResponseList<Agency>> agencyResponseCall = mAgencyApiService.getAgencies(5, count);
         agencyResponseCall.enqueue(new Callback<ResponseList<Agency>>() {
 
             @Override
@@ -35,11 +58,9 @@ public class AgencyRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Agency> agencyList = response.body().getResults();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Agency agency : agencyList) {
-                        debugString.append(agency.getName()).append(" --- ");
-                    }
-                    Log.d(TAG, debugString.toString());
+                    mAgencyListLiveData.postValue(agencyList);
+                    saveOnDatabase(agencyList);
+                    Log.d(TAG, "Retrieved " + agencyList.size() + " agencies.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -51,11 +72,12 @@ public class AgencyRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
+        count += 5;
     }
 
-    public void fetchAgencyById(int id) {
+    private void fetchAgencyById(int id) {
 
-        Call<Agency> agencyResponseCall = agencyApiService.getAgency(id);
+        Call<Agency> agencyResponseCall = mAgencyApiService.getAgency(id);
         agencyResponseCall.enqueue(new Callback<Agency>() {
 
             @Override
@@ -76,5 +98,18 @@ public class AgencyRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
+    }
+
+    private void saveOnDatabase(List<Agency> agencyList) {
+
+        RokettoDatabase.databaseWriteExecutor.execute(() -> {
+            mAgencyDao.deleteAll();
+            mAgencyDao.insertAgencyList(agencyList);
+        });
+    }
+
+    private void getAgenciesFromDatabase() {
+
+        new Thread(() -> mAgencyListLiveData.postValue(mAgencyDao.getAll())).start();
     }
 }

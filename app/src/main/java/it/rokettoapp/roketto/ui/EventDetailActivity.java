@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import it.rokettoapp.roketto.R;
-import it.rokettoapp.roketto.spaceEvents.SpaceEvents;
+import it.rokettoapp.roketto.model.Event;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -15,10 +15,10 @@ public class EventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
-        SpaceEvents mEvent = (SpaceEvents) getIntent().getSerializableExtra("Event");
+        Event mEvent = (Event) getIntent().getSerializableExtra("Event");
 
         TextView eventDetailName = findViewById(R.id.eventDetail_name);
-        eventDetailName.setText(mEvent.getTitle());
+        eventDetailName.setText(mEvent.getName());
 
     }
 }
