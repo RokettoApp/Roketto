@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-@Entity(tableName = "favorite_agency")
+@Entity(tableName = "agency")
 public class Agency {
 
     @PrimaryKey

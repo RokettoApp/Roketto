@@ -13,16 +13,16 @@ import it.rokettoapp.roketto.model.ArticleType;
 @Dao
 public interface ArticleDao {
 
-    @Query("SELECT * FROM favorite_article")
+    @Query("SELECT * FROM article")
     List<Article> getAll();
 
-    @Query("SELECT * FROM favorite_article WHERE mArticleType = 'ARTICLE'")
+    @Query("SELECT * FROM article WHERE mArticleType = 'ARTICLE'")
     List<Article> getArticles();
 
-    @Query("SELECT * FROM favorite_article WHERE mArticleType = 'REPORT'")
+    @Query("SELECT * FROM article WHERE mArticleType = 'REPORT'")
     List<Article> getReports();
 
-    @Query("SELECT * FROM favorite_article WHERE mArticleType = 'BLOG'")
+    @Query("SELECT * FROM article WHERE mArticleType = 'BLOG'")
     List<Article> getBlogPosts();
 
     @Insert
@@ -34,6 +34,6 @@ public interface ArticleDao {
     @Delete
     void delete(Article article);
 
-    @Query("DELETE FROM favorite_article")
+    @Query("DELETE FROM article")
     void deleteAll();
 }

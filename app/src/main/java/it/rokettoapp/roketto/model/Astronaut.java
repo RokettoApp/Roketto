@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Entity(tableName = "favorite_astronaut")
+@Entity(tableName = "astronaut")
 public class Astronaut implements Serializable {
 
     @PrimaryKey

@@ -11,7 +11,7 @@ import it.rokettoapp.roketto.model.Event;
 
 @Dao
 public interface EventDao {
-    @Query("SELECT * FROM favorite_event")
+    @Query("SELECT * FROM event")
     List<Event> getAll();
 
     @Insert
@@ -23,6 +23,6 @@ public interface EventDao {
     @Delete
     void delete(Event event);
 
-    @Query("DELETE FROM favorite_event")
+    @Query("DELETE FROM event")
     void deleteAll();
 }

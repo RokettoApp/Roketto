@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "favorite_mission")
+@Entity(tableName = "mission")
 public class Mission {
 
     @PrimaryKey
