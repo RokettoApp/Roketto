@@ -31,17 +31,28 @@
             android:layout_marginEnd="16dp"
 
             android:text="22/03/2021"
-            android:textSize="8dp" />
+            android:textSize="8sp" />
+
+        <include
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            layout="@layout/date_item_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginVertical="16dp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/id"
+
+            />
 
         <TextView
             android:id="@+id/event_title"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
             android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/montserrat"
             android:text="Apollo # 12"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/event_d"
@@ -55,7 +66,7 @@
             android:minLines="3"
             android:text="Descrizione"
 
-            android:textSize="8dp" />
+            android:textSize="8sp" />
 
         <Button
             android:id="@+id/idbutton"
@@ -67,7 +78,7 @@
             android:backgroundTint="@color/accent_color"
             android:fontFamily="sans-serif-medium"
             android:text="TAP TO READ"
-            android:textSize="8dp"
+            android:textSize="8sp"
             app:cardCornerRadius="16dp" />
     </RelativeLayout>
     </androidx.cardview.widget.CardView>
