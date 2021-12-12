@@ -11,7 +11,8 @@ import retrofit2.http.Query;
 public interface AgencyApiService {
 
     @GET(Constants.AGENCIES_ENDPOINT)
-    Call<ResponseList<Agency>> getAgencies(@Query("limit") int limit, @Query("offset") int offset);
+    Call<ResponseList<Agency>> getAgencies(@Query("limit") int limit, @Query("offset") int offset,
+                                           @Query("ordering") String ordering);
 
     @GET(Constants.AGENCY_ENDPOINT)
     Call<Agency> getAgency(@Path("id") int id);

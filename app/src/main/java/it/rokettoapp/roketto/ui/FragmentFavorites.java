@@ -23,6 +23,7 @@ public class FragmentFavorites extends Fragment {
 
     private AstronautViewModel mAstronautViewModel;
     private AgencyViewModel mAgencyViewModel;
+    int lastAgencyId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class FragmentFavorites extends Fragment {
         super.onCreate(savedInstanceState);
         mAstronautViewModel = new ViewModelProvider(requireActivity()).get(AstronautViewModel.class);
         mAgencyViewModel = new ViewModelProvider(requireActivity()).get(AgencyViewModel.class);
+        lastAgencyId = 0;
     }
 
     @Nullable
@@ -58,6 +60,7 @@ public class FragmentFavorites extends Fragment {
             StringBuilder stringBuilder = new StringBuilder();
             for (Agency agency : agencyList) {
                 stringBuilder.append(agency.getName()).append("\n");
+                lastAgencyId = agency.getId();
             }
             textView4.append(stringBuilder.toString());
             Log.d("AgencyObserver", "test");
@@ -69,7 +72,7 @@ public class FragmentFavorites extends Fragment {
             textView3.setText("");
             textView4.setText("");
             mAstronautViewModel.refreshAstronauts();
-            mAgencyViewModel.refreshAgencies();
+            mAgencyViewModel.getNextAgencies(lastAgencyId);
         });
 
         return rootView;

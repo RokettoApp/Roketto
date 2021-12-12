@@ -20,6 +20,7 @@ import java.util.List;
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterAstro;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
+import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
@@ -39,10 +40,10 @@ public class FragmentHome extends Fragment {
 
         mAstros = new ArrayList<>();
 
-        mAstros.add(new Astronaut("Khalil", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-        mAstros.add(new Astronaut("Deiv", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-        mAstros.add(new Astronaut("Samuele", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-        mAstros.add(new Astronaut("Lorenzo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        mAstros.add(new Astronaut("Khalil", null, null, null, null, null, null, null, null, null, new Agency(1), null, null, null, null, null));
+        mAstros.add(new Astronaut("Deiv", null, null, null, null, null, null, null, null, null, new Agency(2), null, null, null, null, null));
+        mAstros.add(new Astronaut("Samuele", null, null, null, null, null, null, null, null, null, new Agency(3), null, null, null, null, null));
+        mAstros.add(new Astronaut("Lorenzo", null, null, null, null, null, null, null, null, null, new Agency(4), null, null, null, null, null));
         super.onCreate(savedInstanceState);
         mEventViewModel = new ViewModelProvider(requireActivity()).get(EventViewModel.class);
         if (mEvents == null) mEvents = new ArrayList<>();
