@@ -58,8 +58,6 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
         holder.mDayText.setText(dateEvent[2]);
         holder.mMonthText.setText(dateEvent[1]);
         holder.mYearText.setText(dateEvent[5]);
-
-        holder.eventDate.setText(mEvents.get(position).getDate().toString());
     }
 
     @Override
@@ -71,7 +69,6 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
 
         public TextView event_title;
         public TextView event_d;
-        public TextView eventDate;
         public Button event_button;
         public TextView mDayText;
         public TextView mMonthText;
@@ -84,7 +81,6 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
             super(itemView);
             event_title = (TextView) itemView.findViewById(R.id.event_title);
             event_d = (TextView) itemView.findViewById(R.id.event_d);
-            eventDate = (TextView) itemView.findViewById(R.id.eventDate);
             cardView = (CardView) itemView.findViewById(R.id.event_card);
             event_button = (Button) itemView.findViewById(R.id.idbutton);
             mDayText = (TextView) itemView.findViewById(R.id.txtGiorno);
