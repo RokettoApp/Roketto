@@ -1,6 +1,8 @@
 package it.rokettoapp.roketto.model;
 
-public enum ArticleType {
+import java.io.Serializable;
+
+public enum ArticleType implements Serializable {
 
     ARTICLE,
     REPORT,

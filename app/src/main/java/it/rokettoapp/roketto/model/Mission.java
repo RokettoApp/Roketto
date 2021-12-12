@@ -6,8 +6,10 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity(tableName = "mission")
-public class Mission {
+public class Mission implements Serializable {
 
     @PrimaryKey
     @SerializedName("id")

@@ -37,8 +37,9 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
         MyViewHolderEvents mHolder = new MyViewHolderEvents(view, new MyClickListener() {
             @Override
             public void onClick(int p) {
+
                 Intent intent = new Intent(mContext, EventDetailActivity.class);
-                intent.putExtra("Events", mEvents.get(p));
+                intent.putExtra("Event", mEvents.get(p));
                 mContext.startActivity(intent);
             }
         });

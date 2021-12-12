@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "program")
-public class Program {
+public class Program implements Serializable {
 
     @PrimaryKey
     @SerializedName("id")

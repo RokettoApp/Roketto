@@ -2,7 +2,9 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LaunchStatus {
+import java.io.Serializable;
+
+public class LaunchStatus implements Serializable {
 
     @SerializedName("id")
     private int mId;

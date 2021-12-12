@@ -2,9 +2,10 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ResponseList<T> {
+public class ResponseList<T> implements Serializable {
 
     @SerializedName("count")
     private int mCount;
