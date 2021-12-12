@@ -213,7 +213,7 @@ public class Converters {
 
     //Agency
     @TypeConverter
-    public static String fromAgencyToJson(List<Agency> value) {
+    public static String fromAgencyListToJson(List<Agency> value) {
         if (value == null) {
             return (null);
         }
@@ -226,7 +226,7 @@ public class Converters {
         return json;
     }
     @TypeConverter
-    public static List<Agency> fromJsonToAgency(String value) {
+    public static List<Agency> fromJsonToAgencyList(String value) {
         if (value == null) {
             return (null);
         }
@@ -239,6 +239,20 @@ public class Converters {
             valueList.add(agencyId);
         }
         return valueList;
+    }
+
+    @TypeConverter
+    public static Integer fromAgencyToInteger(Agency agency) {
+
+        if (agency == null) return null;
+        return agency.getId();
+    }
+
+    @TypeConverter
+    public static Agency fromIntegerToAgency(Integer id) {
+
+        if (id == null) return null;
+        return new Agency(id);
     }
 
     //MissionPatch

@@ -2,7 +2,6 @@ package it.rokettoapp.roketto.model;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -50,7 +49,6 @@ public class Astronaut implements Serializable {
     @SerializedName("wiki")
     private String mWikipedia;
 
-    @Embedded(prefix = "agency_")
     @SerializedName("agency")
     private Agency mAgency;
 
