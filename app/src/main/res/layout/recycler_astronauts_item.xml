@@ -9,8 +9,8 @@
         android:layout_height="150dp"
         app:cardElevation="8dp"
     android:id= "@+id/astro_card"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:layout_marginBottom="16dp">
     <RelativeLayout
         android:layout_width="match_parent"
