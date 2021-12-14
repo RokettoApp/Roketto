@@ -9,8 +9,8 @@
         android:layout_height="150dp"
         app:cardElevation="8dp"
     android:id= "@+id/astro_card"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:layout_marginBottom="16dp">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,16 +32,19 @@
             android:layout_height="100dp">
 
         </ImageView>
+
         <TextView
             android:id="@+id/astronautsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@id/logoCompany"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
             android:fontFamily="sans-serif-medium"
             android:text="Gary Moore"
-            android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:layout_above="@id/logoCompany"
+            android:gravity="center"
+
 
             android:textSize="18dp" />
 

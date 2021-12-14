@@ -21,10 +21,12 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
 
     private List<Event> mEvents;
     private Context mContext;
+    private boolean mLimit;
 
-    public RecyclerViewAdapterEvents(Context mContext, List<Event> mEvents) {
+    public RecyclerViewAdapterEvents(Context mContext, List<Event> mEvents, boolean mLimit) {
         this.mContext = mContext;
         this.mEvents = mEvents;
+        this.mLimit = mLimit;
     }
 
     @Override
@@ -62,6 +64,9 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
+        if (mLimit)
+                if (mEvents.size() > 2)
+                    return 2;
         return mEvents.size();
     }
 

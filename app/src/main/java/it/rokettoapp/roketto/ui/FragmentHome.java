@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,11 +23,13 @@ import it.rokettoapp.roketto.adapter.RecyclerViewAdapterAstro;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.Event;
+import it.rokettoapp.roketto.ui.viewmodel.AstronautViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 
 public class FragmentHome extends Fragment {
 
     private EventViewModel mEventViewModel;
+    private AstronautViewModel mAstroViewModel;
     private List<Event> mEvents;
     private List<Astronaut> mAstros;
 //    private Button mBtnSeeMore;
@@ -37,15 +40,20 @@ public class FragmentHome extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
-        mAstros = new ArrayList<>();
+        /*mAstros = new ArrayList<>();
 
         mAstros.add(new Astronaut("Khalil", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         mAstros.add(new Astronaut("Deiv", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         mAstros.add(new Astronaut("Samuele", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-        mAstros.add(new Astronaut("Lorenzo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        mAstros.add(new Astronaut("Lorenzo", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));*/
         super.onCreate(savedInstanceState);
+
+
         mEventViewModel = new ViewModelProvider(requireActivity()).get(EventViewModel.class);
+        mAstroViewModel = new ViewModelProvider(requireActivity()).get(AstronautViewModel.class);
+
         if (mEvents == null) mEvents = new ArrayList<>();
+        if(mAstros == null) mAstros = new ArrayList<>();
     }
 
 
@@ -66,7 +74,7 @@ public class FragmentHome extends Fragment {
         LinearLayoutManager mLineaLayoutAstro = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerViewAstro.setLayoutManager(mLineaLayoutAstro);
 
-        RecyclerViewAdapterEvents mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents);
+        RecyclerViewAdapterEvents mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents, true);
         mRecyclerViewEvents.setAdapter(mAdapterEvents);
 
         RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros);
@@ -78,6 +86,12 @@ public class FragmentHome extends Fragment {
             mEvents.addAll(eventList);
             mAdapterEvents.notifyDataSetChanged();
             Log.d("FragmentHome", "test");
+        });
+
+        mAstroViewModel.getAstronauts().observe(getViewLifecycleOwner(), astronauts -> {
+            mAstros.clear();
+            mAstros.addAll(astronauts);
+            mAdapterAstro.notifyDataSetChanged();
         });
 
         /*
@@ -97,7 +111,10 @@ public class FragmentHome extends Fragment {
         });*/
 
         Button button = rootView.findViewById(R.id.button4);
-        button.setOnClickListener(view -> mEventViewModel.refreshEvents());
+        button.setOnClickListener(view -> {
+            mEventViewModel.refreshEvents();
+            mAstroViewModel.refreshAstronauts();
+        });
 
         return rootView;
     }
