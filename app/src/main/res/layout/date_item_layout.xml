@@ -32,13 +32,29 @@
 
                 </TextView>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:orientation="horizontal"
                     android:layout_centerVertical="true"
-                    android:background="#2E2E2E">
+                    android:background="#2E2E2E"
+                    >
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_height="1dp">
+                    </LinearLayout>
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"
+                        android:orientation="horizontal"></LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -57,27 +73,43 @@
                     android:id="@+id/txtMese"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
                     android:fontFamily="@font/montserratbold"
-                    android:text="Mar"
+                    android:text="Dec"
                     android:textColor="@color/white"
-                    android:textSize="11dp"
-                    android:layout_centerVertical="true">
+                    android:textSize="11dp">
 
                 </TextView>
 
-                <LinearLayout
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
-                    android:background="#2E2E2E">
+                    android:background="#2E2E2E"
+                    android:orientation="horizontal">
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"
+                        android:orientation="horizontal"></LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:id="@+id/cardAnno"
             app:cardCornerRadius="6dp"
             android:layout_height="25dp">
@@ -98,13 +130,29 @@
 
                 </TextView>
 
-                <LinearLayout
-                    android:layout_width="40dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:orientation="horizontal"
                     android:layout_centerVertical="true"
-                    android:background="#2E2E2E">
+                    android:background="#2E2E2E"
+                    >
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_height="1dp">
+                    </LinearLayout>
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"
+                        android:orientation="horizontal"></LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
