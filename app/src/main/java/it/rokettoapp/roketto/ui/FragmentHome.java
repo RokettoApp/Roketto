@@ -110,7 +110,7 @@ public class FragmentHome extends Fragment {
             }
         });*/
 
-        Button button = rootView.findViewById(R.id.button4);
+        Button button = rootView.findViewById(R.id.events_see_all);
         button.setOnClickListener(view -> {
             mEventViewModel.refreshEvents();
             mAstroViewModel.refreshAstronauts();

@@ -74,52 +74,19 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <Button
-            android:id="@+id/seeMoreButton"
-            android:layout_width="130dp"
-            android:layout_height="48dp"
-
-            android:layout_marginTop="4dp"
-            android:background="@drawable/shape_rounded_button"
-            android:elevation="16dp"
-            android:text="@string/seeMoreString"
-            android:textColor="@color/black"
-
-            android:textSize="8dp"
-            app:backgroundTint="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvEvents"></Button>
 
         <TextView
             android:id="@+id/astronauts_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
 
+            android:layout_marginTop="32dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/astroString"
             android:textColor="@color/black"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seeMoreButton" />
-
-        <Button
-            android:id="@+id/astronauts_see_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:background="@android:color/transparent"
-            android:drawableRight="@drawable/ic_baseline_chevron_right_24"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/eventsSeeAll"
-            android:textAllCaps="false"
-            android:textColor="@color/accent_color"
-            android:textSize="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.927"
-            app:layout_constraintStart_toEndOf="@+id/astronauts_title"
             app:layout_constraintTop_toBottomOf="@+id/rvEvents" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -134,20 +101,30 @@
             app:layout_constrainedHeight="true"
             app:layout_constraintEnd_toEndOf="parent"
 
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/astronauts_title">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/astronauts_see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:text="Button"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:drawableRight="@drawable/ic_baseline_chevron_right_24"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/eventsSeeAll"
+            android:textAllCaps="false"
+            android:textColor="@color/accent_color"
+            android:textSize="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.927"
+            app:layout_constraintStart_toEndOf="@+id/astronauts_title"
             app:layout_constraintTop_toBottomOf="@+id/rvEvents" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
