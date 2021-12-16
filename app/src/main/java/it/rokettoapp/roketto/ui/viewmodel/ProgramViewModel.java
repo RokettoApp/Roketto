@@ -24,13 +24,20 @@ public class ProgramViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<Program>> getPrograms() {
 
-        if (mProgramListLivedata == null) fetchPrograms();
+        if (mProgramListLivedata == null) {
+            mProgramListLivedata = mProgramRepository.getProgramList();
+        }
+
         return mProgramListLivedata;
     }
 
-    private void fetchPrograms() {
+    public MutableLiveData<List<Program>> getProgramById(int id) {
 
-        mProgramListLivedata = mProgramRepository.getProgramList();
+        if (mProgramListLivedata == null) {
+            mProgramListLivedata = mProgramRepository.getProgramById(id);
+        }
+
+        return mProgramListLivedata;
     }
 
     public void refreshPrograms() {

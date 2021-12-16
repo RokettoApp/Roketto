@@ -52,13 +52,9 @@ public class FragmentSettings extends Fragment {
             textView5.append(stringBuilder.toString());
         });
 
-        mProgramViewModel.getPrograms().observe(getViewLifecycleOwner(), programList -> {
+        mProgramViewModel.getProgramById(17).observe(getViewLifecycleOwner(), programList -> {
 
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Program program : programList) {
-                stringBuilder.append(program.getName()).append("\n");
-            }
-            textView6.append(stringBuilder.toString());
+            textView6.append(programList.get(0).getName());
         });
 
         Button button = rootView.findViewById(R.id.button3);

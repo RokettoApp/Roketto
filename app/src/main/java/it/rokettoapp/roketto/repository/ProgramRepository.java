@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.ProgramDao;
@@ -42,6 +43,21 @@ public class ProgramRepository {
         return mProgramListLiveData;
     }
 
+    public MutableLiveData<List<Program>> getProgramById(int id) {
+
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        new Thread(() -> {
+            Program program = mProgramDao.getById(id);
+            if (program != null) {
+                List<Program> programList = new ArrayList<>();
+                programList.add(program);
+                mProgramListLiveData.postValue(programList);
+            } else
+                fetchProgramById(id);
+        }).start();
+        return mProgramListLiveData;
+    }
+
     public void refreshPrograms() {
 
         fetchPrograms();
@@ -59,8 +75,8 @@ public class ProgramRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Program> programList = response.body().getResults();
+                    saveProgramsOnDatabase(programList);
                     mProgramListLiveData.postValue(programList);
-                    saveOnDatabase(programList);
                     Log.d(TAG, "Retrieved " + programList.size() + " programs.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -87,6 +103,10 @@ public class ProgramRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Program program = response.body();
+                    saveProgramOnDatabase(program);
+                    List<Program> programList = new ArrayList<>();
+                    programList.add(program);
+                    mProgramListLiveData.postValue(programList);
                     Log.d(TAG, program.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -101,12 +121,15 @@ public class ProgramRepository {
         });
     }
 
-    private void saveOnDatabase(List<Program> programList) {
+    private void saveProgramsOnDatabase(List<Program> programList) {
 
-        RokettoDatabase.databaseWriteExecutor.execute(() -> {
-            mProgramDao.deleteAll();
-            mProgramDao.insertProgramList(programList);
-        });
+        RokettoDatabase.databaseWriteExecutor.execute(() ->
+                mProgramDao.insertProgramList(programList));
+    }
+
+    private void saveProgramOnDatabase(Program program) {
+
+        RokettoDatabase.databaseWriteExecutor.execute(() -> mProgramDao.insertProgram(program));
     }
 
     private void getProgramsFromDatabase() {

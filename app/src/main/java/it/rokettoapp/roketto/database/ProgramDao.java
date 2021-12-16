@@ -14,6 +14,11 @@ public interface ProgramDao {
     @Query("SELECT * FROM program")
     List<Program> getAll();
 
+    @Query("SELECT * " +
+            "FROM program " +
+            "WHERE mId = :id")
+    Program getById(int id);
+
     @Insert
     void insertProgramList(List<Program> programList);
 
