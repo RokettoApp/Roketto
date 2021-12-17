@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
@@ -23,6 +27,7 @@ import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
+import it.rokettoapp.roketto.util.Constants;
 
 public class FragmentHome extends Fragment {
 
@@ -38,6 +43,9 @@ public class FragmentHome extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         mAstros = new ArrayList<>();
+
+        if(readTime()==0 || readTime()-Calendar.getInstance().getTime().getTime() <Constants.HOUR)
+            satTime();
 
         mAstros.add(new Astronaut("Khalil", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         mAstros.add(new Astronaut("Deiv", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
@@ -100,5 +108,23 @@ public class FragmentHome extends Fragment {
         button.setOnClickListener(view -> mEventViewModel.refreshEvents());
 
         return rootView;
+    }
+
+
+    private void satTime() {
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Date currentTime = Calendar.getInstance().getTime();
+        editor.putLong(Constants.SHARED_PREFERENCES_LAST_UPDATE, currentTime.getTime());
+        editor.apply();
+    }
+
+    private Long readTime(){
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+
+        return sharedPreferences.getLong(Constants.SHARED_PREFERENCES_FILE_NAME, 0L);
     }
 }

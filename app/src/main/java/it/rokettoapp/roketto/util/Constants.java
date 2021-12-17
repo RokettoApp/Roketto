@@ -40,6 +40,8 @@ public class Constants {
     public static final String EVENT_UPCOMING_ENDPOINT = "event/upcoming/{id}";
     public static final String UPDATES_ENDPOINT = "updates";
     public static final String UPDATE_ENDPOINT = "updates/{id}";
+    public static final Long HOUR = 3600000L;
+
 
     public static final String SFN_API_BASE_URL = "https://api.spaceflightnewsapi.net/v3/";
     public static final String INFO_ENDPOINT = "info";
@@ -53,4 +55,7 @@ public class Constants {
     public static final String BLOGS_EVENT_ENDPOINT = "blogs/event/{id}";
     public static final String REPORTS_ENDPOINT = "reports";
     public static final String REPORT_ENDPOINT = "reports/{id}";
+
+    public static final String SHARED_PREFERENCES_FILE_NAME = "roketto.shared.preferences";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE = "LAST_UPDATE";
 }
