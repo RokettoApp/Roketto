@@ -11,13 +11,13 @@ public class DockingLocation {
     private String mName;
 
     @SerializedName("docked")
-    private DockingEvent mDockingLocation;
+    private DockingEvent mDockingEvent;
 
-    public DockingLocation(int id, String name, DockingEvent dockingLocation) {
+    public DockingLocation(int id, String name, DockingEvent dockingEvent) {
 
         this.mId = id;
         this.mName = name;
-        this.mDockingLocation = dockingLocation;
+        this.mDockingEvent = dockingEvent;
     }
 
     public int getId() {
@@ -40,13 +40,13 @@ public class DockingLocation {
         this.mName = name;
     }
 
-    public DockingEvent getDockingLocation() {
+    public DockingEvent getDockingEvent() {
 
-        return mDockingLocation;
+        return mDockingEvent;
     }
 
-    public void setDockingLocationList(DockingEvent dockingLocation) {
+    public void setDockingEvent(DockingEvent dockingEvent) {
 
-        this.mDockingLocation = dockingLocation;
+        this.mDockingEvent = dockingEvent;
     }
 }

@@ -6,13 +6,16 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.EventDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.model.ResponseList;
+import it.rokettoapp.roketto.model.SpaceStation;
 import it.rokettoapp.roketto.service.EventApiService;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +26,7 @@ public class EventRepository {
     private static final String TAG = "EventRepository";
     private final EventApiService mEventApiService;
     private final EventDao mEventDao;
+    private final DatabaseOperations<Integer, Event> databaseOperations;
     private final MutableLiveData<List<Event>> mEventListLiveData;
     int count;
 
@@ -30,6 +34,7 @@ public class EventRepository {
 
         this.mEventApiService = ServiceLocator.getInstance().getEventApiService();
         mEventDao = RokettoDatabase.getDatabase(application).eventDao();
+        databaseOperations = new DatabaseOperations<>(mEventDao);
         mEventListLiveData = new MutableLiveData<>();
         count = 0;
     }
@@ -37,7 +42,7 @@ public class EventRepository {
     public MutableLiveData<List<Event>> getEventList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getEventsFromDatabase();
+        databaseOperations.getListFromDatabase(mEventListLiveData);
 //        fetchEvents();
         return mEventListLiveData;
     }
@@ -58,7 +63,7 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
-                    saveOnDatabase(eventList);
+                    databaseOperations.saveList(eventList);
                     mEventListLiveData.postValue(eventList);
                     Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
@@ -86,6 +91,10 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Event event = response.body();
+                    databaseOperations.saveValue(event);
+                    List<Event> eventList = new ArrayList<>();
+                    eventList.add(event);
+                    mEventListLiveData.postValue(eventList);
                     Log.d(TAG, event.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -111,11 +120,9 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Event event : eventList) {
-                        debugString.append(event.getName()).append(" --- ");
-                    }
-                    Log.d(TAG, debugString.toString());
+                    databaseOperations.saveList(eventList);
+                    mEventListLiveData.postValue(eventList);
+                    Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -140,6 +147,10 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Event event = response.body();
+                    databaseOperations.saveValue(event);
+                    List<Event> eventList = new ArrayList<>();
+                    eventList.add(event);
+                    mEventListLiveData.postValue(eventList);
                     Log.d(TAG, event.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -164,11 +175,9 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Event event : eventList) {
-                        debugString.append(event.getName()).append(" --- ");
-                    }
-                    Log.d(TAG, debugString.toString());
+                    databaseOperations.saveList(eventList);
+                    mEventListLiveData.postValue(eventList);
+                    Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -193,6 +202,10 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Event event = response.body();
+                    databaseOperations.saveValue(event);
+                    List<Event> eventList = new ArrayList<>();
+                    eventList.add(event);
+                    mEventListLiveData.postValue(eventList);
                     Log.d(TAG, event.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -205,18 +218,5 @@ public class EventRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-    }
-
-    private void saveOnDatabase(List<Event> eventList) {
-
-        RokettoDatabase.databaseWriteExecutor.execute(() -> {
-            mEventDao.deleteAll();
-            mEventDao.insertEventList(eventList);
-        });
-    }
-
-    private void getEventsFromDatabase() {
-
-        new Thread(() -> mEventListLiveData.postValue(mEventDao.getAll())).start();
     }
 }

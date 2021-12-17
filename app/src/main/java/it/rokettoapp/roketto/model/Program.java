@@ -43,6 +43,12 @@ public class Program {
     @SerializedName("mission_patches")
     private List<MissionPatch> mMissionPatch;
 
+    @Ignore
+    public Program(int id) {
+
+        this.mId = id;
+    }
+
     public Program(int id, String name, String description, List<Agency> agencies, String imageUrl,
                    Date startDate, Date endDate, String infoUrl, String wikipedia,
                    List<MissionPatch> missionPatch) {

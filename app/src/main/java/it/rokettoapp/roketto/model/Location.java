@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -27,6 +29,11 @@ public class Location {
     @SerializedName("pads")
     private List<Pad> mPads;
 
+    @Ignore
+    public Location(int id) {
+
+        this.mId = id;
+    }
 
     public Location(int id, String name, String countryCode, String mapImage,
                     String totalLaunchCount, String totalLandingCount, List<Pad> pads) {

@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Pad {
@@ -36,6 +38,12 @@ public class Pad {
 
     @SerializedName("total_launch_count")
     private int mTotalLaunchCounter;
+
+    @Ignore
+    public Pad(int id) {
+
+        this.mId = id;
+    }
 
     public Pad(int id, int agencyId, String name, String infoUrl, String wikipedia,
                String mapUrl, String latitude, String longitude, Location location,

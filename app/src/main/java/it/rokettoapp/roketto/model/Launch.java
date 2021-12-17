@@ -1,12 +1,22 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Launch {
+@Entity(tableName = "launch")
+public class Launch implements Serializable {
 
+    @PrimaryKey
+    @NonNull
     @SerializedName("id")
     private String mId;
 
@@ -16,6 +26,7 @@ public class Launch {
     @SerializedName("name")
     private String mName;
 
+    @Embedded(prefix = "status_")
     @SerializedName("status")
     private LaunchStatus mLaunchStatus;
 
@@ -49,9 +60,11 @@ public class Launch {
     @SerializedName("launch_service_provider")
     private Agency mLaunchServiceProvider;
 
+    @Embedded(prefix = "rocket_")
     @SerializedName("rocket")
     private Rocket mRocket;
 
+    @Embedded(prefix = "mission_")
     @SerializedName("mission")
     private Mission mMission;
 
@@ -59,10 +72,10 @@ public class Launch {
     private Pad mPad;
 
     @SerializedName("infoURLs")
-    private List<InfoUrl> mInfoUrl;
+    private List<Url> mInfoUrl;
 
     @SerializedName("vidURLs")
-    private List<VidUrl> mVideoUrl;
+    private List<Url> mVideoUrl;
 
     @SerializedName("webcast_live")
     private boolean mWebcastLive;
@@ -106,6 +119,7 @@ public class Launch {
     @SerializedName("notifications_enabled")
     private boolean mNotificationEnabled;
 
+    @Ignore
     public Launch(String id) {
         this.mId = id;
     }
@@ -114,7 +128,7 @@ public class Launch {
                   Date lastUpdated, List<Update> updateList, Date net, Date windowEnd,
                   Date windowStart, int probability, String holdReason, String failReason,
                   String hashtag, Agency launchServiceProvider, Rocket rocket, Mission mission,
-                  Pad pad, List<InfoUrl> infoUrl, List<VidUrl> videoUrl, boolean webcastLive,
+                  Pad pad, List<Url> infoUrl, List<Url> videoUrl, boolean webcastLive,
                   String image, String infographic, List<Program> programList,
                   int orbitalLaunchAttemptCount, int locationLaunchAttemptCount,
                   int padLaunchAttemptCount, int agencyLaunchAttemptCount,
@@ -327,22 +341,22 @@ public class Launch {
         this.mPad = pad;
     }
 
-    public List<InfoUrl> getInfoUrl() {
+    public List<Url> getInfoUrl() {
 
         return mInfoUrl;
     }
 
-    public void setInfoUrl(List<InfoUrl> infoUrl) {
+    public void setInfoUrl(List<Url> infoUrl) {
 
         this.mInfoUrl = infoUrl;
     }
 
-    public List<VidUrl> getVideoUrl() {
+    public List<Url> getVideoUrl() {
 
         return mVideoUrl;
     }
 
-    public void setVideoUrl(List<VidUrl> videoUrl) {
+    public void setVideoUrl(List<Url> videoUrl) {
 
         this.mVideoUrl = videoUrl;
     }

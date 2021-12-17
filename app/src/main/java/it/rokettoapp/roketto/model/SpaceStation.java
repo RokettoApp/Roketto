@@ -1,21 +1,31 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SpaceStation {
+@Entity(tableName = "spacestation")
+public class SpaceStation implements Serializable {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
     @SerializedName("name")
     private String mName;
 
+    @Embedded(prefix = "status_")
     @SerializedName("status")
     private SpaceStationStatus mSpaceStationStatus;
 
+    @Embedded(prefix = "type_")
     @SerializedName("type")
     private SpaceStationType mSpaceStationType;
 
@@ -57,6 +67,12 @@ public class SpaceStation {
 
     @SerializedName("image_url")
     private String mImageUrl;
+
+    @Ignore
+    public SpaceStation(int id) {
+
+        this.mId = id;
+    }
 
     public SpaceStation(int id, String name, SpaceStationStatus spaceStationStatus,
                         SpaceStationType spaceStationType, Date founded, Date deorbited,

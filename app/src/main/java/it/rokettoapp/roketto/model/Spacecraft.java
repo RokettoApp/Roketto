@@ -36,6 +36,12 @@ public class Spacecraft {
     @SerializedName("flights")
     private List<SpacecraftFlight> mSpacecraftFlight;
 
+    @Ignore
+    public Spacecraft(int id) {
+
+        this.mId = id;
+    }
+
     public Spacecraft(int id, String name, String serialNumber, SpacecraftStatus status,
                       String description, List<SpacecraftFlight> spacecraftFlight,
                       SpacecraftConfiguration spacecraftConfiguration) {

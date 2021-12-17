@@ -2,7 +2,9 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LaunchStatus {
+import java.io.Serializable;
+
+public class LaunchStatus implements Serializable {
 
     @SerializedName("id")
     private int mId;
@@ -14,14 +16,14 @@ public class LaunchStatus {
     private String mAbbreviation;
 
     @SerializedName("description")
-    private String mDescrption;
+    private String mDescription;
 
-    public LaunchStatus(int id, String name, String abbreviation, String descrption) {
+    public LaunchStatus(int id, String name, String abbreviation, String description) {
 
         this.mId = id;
         this.mName = name;
         this.mAbbreviation = abbreviation;
-        this.mDescrption = descrption;
+        this.mDescription = description;
     }
 
     public int getId() {
@@ -54,13 +56,13 @@ public class LaunchStatus {
         this.mAbbreviation = abbreviation;
     }
 
-    public String getDescrption() {
+    public String getDescription() {
 
-        return mDescrption;
+        return mDescription;
     }
 
-    public void setDescrption(String descrption) {
+    public void setDescription(String description) {
 
-        this.mDescrption = descrption;
+        this.mDescription = description;
     }
 }

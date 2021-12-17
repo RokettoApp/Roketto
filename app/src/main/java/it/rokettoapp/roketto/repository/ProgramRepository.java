@@ -35,15 +35,19 @@ public class ProgramRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Program>> getProgramList() {
+    public MutableLiveData<List<Program>> getLiveData() {
+
+        return mProgramListLiveData;
+    }
+
+    public void getProgramList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         getProgramsFromDatabase();
 //        fetchPrograms();
-        return mProgramListLiveData;
     }
 
-    public MutableLiveData<List<Program>> getProgramById(int id) {
+    public void getProgramById(int id) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         new Thread(() -> {
@@ -55,7 +59,6 @@ public class ProgramRepository {
             } else
                 fetchProgramById(id);
         }).start();
-        return mProgramListLiveData;
     }
 
     public void refreshPrograms() {

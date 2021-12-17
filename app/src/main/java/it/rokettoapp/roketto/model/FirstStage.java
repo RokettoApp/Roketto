@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 public class FirstStage {
@@ -30,6 +32,12 @@ public class FirstStage {
 
     @SerializedName("previous_flight")
     private Launch mPreviousFlight;
+
+    @Ignore
+    public FirstStage(int id) {
+
+        this.mId = id;
+    }
 
     public FirstStage(int id, String type, boolean reused, String launcherFlightNumber,
                       Launcher launcher, Landing landing, String previousFlightDate,

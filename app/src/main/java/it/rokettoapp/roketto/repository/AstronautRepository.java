@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.AstronautDao;
@@ -13,6 +14,7 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +25,7 @@ public class AstronautRepository {
     private static final String TAG = "AstronautRepository";
     private final AstronautApiService mAstronautApiService;
     private final AstronautDao mAstronautDao;
+    private final DatabaseOperations<Integer, Astronaut> databaseOperations;
     private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
     int count;
 
@@ -30,16 +33,35 @@ public class AstronautRepository {
 
         this.mAstronautApiService = ServiceLocator.getInstance().getAstronautApiService();
         mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
+        databaseOperations = new DatabaseOperations<>(mAstronautDao);
         mAstronautListLiveData = new MutableLiveData<>();
         count = 0;
     }
 
-    public MutableLiveData<List<Astronaut>> getAstronautList() {
+    public MutableLiveData<List<Astronaut>> getLiveData() {
+
+        return mAstronautListLiveData;
+    }
+
+    public void getAstronautList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getAstronautsFromDatabase();
+        databaseOperations.getListFromDatabase(mAstronautListLiveData);
 //        fetchAstronauts();
-        return mAstronautListLiveData;
+    }
+
+    public void getAstronautById(int id) {
+
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        new Thread(() -> {
+            Astronaut astronaut = mAstronautDao.getById(id);
+            if (astronaut != null) {
+                List<Astronaut> astronautList = new ArrayList<>();
+                astronautList.add(astronaut);
+                mAstronautListLiveData.postValue(astronautList);
+            } else
+                fetchAstronautById(id);
+        }).start();
     }
 
     public void refreshAstronauts() {
@@ -59,7 +81,7 @@ public class AstronautRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Astronaut> astronautList = response.body().getResults();
-                    saveOnDatabase(astronautList);
+                    databaseOperations.saveList(astronautList);
                     mAstronautListLiveData.postValue(astronautList);
                     Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {
@@ -88,6 +110,10 @@ public class AstronautRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Astronaut astronaut = response.body();
+                    databaseOperations.saveValue(astronaut);
+                    List<Astronaut> astronautList = new ArrayList<>();
+                    astronautList.add(astronaut);
+                    mAstronautListLiveData.postValue(astronautList);
                     Log.d(TAG, astronaut.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -100,19 +126,5 @@ public class AstronautRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-    }
-
-    private void saveOnDatabase(List<Astronaut> astronautList) {
-
-        RokettoDatabase.databaseWriteExecutor.execute(() -> {
-
-            mAstronautDao.deleteAll();
-            mAstronautDao.insertAstronautList(astronautList);
-        });
-    }
-
-    private void getAstronautsFromDatabase() {
-
-        new Thread(() -> mAstronautListLiveData.postValue(mAstronautDao.getAll())).start();
     }
 }

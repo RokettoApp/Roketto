@@ -2,6 +2,7 @@ package it.rokettoapp.roketto.model;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -66,6 +67,12 @@ public class Astronaut implements Serializable {
 
     @SerializedName("first_flight")
     private Date mFirstFlight;
+
+    @Ignore
+    public Astronaut(int id) {
+
+        this.mId = id;
+    }
 
     public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
                      String nationality, String biography, String twitter, String instagram, String wikipedia,
