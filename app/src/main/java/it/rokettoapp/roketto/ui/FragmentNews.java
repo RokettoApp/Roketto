@@ -12,20 +12,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import it.rokettoapp.roketto.R;
+import it.rokettoapp.roketto.adapter.RecyclerViewAdapterNews;
 import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.ui.viewmodel.ArticleViewModel;
 
 public class FragmentNews extends Fragment {
 
     private ArticleViewModel mArticleViewModel;
+    private List<Article> mArticle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         mArticleViewModel = new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
+        mArticle = new ArrayList<>();
+
+        mArticle.add(new Article(0,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
+        mArticle.add(new Article(1,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
+        mArticle.add(new Article(2,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
+
     }
 
     @Nullable
@@ -34,6 +48,15 @@ public class FragmentNews extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_news,container, false);
+
+        RecyclerView mRecyclerNews = (RecyclerView) rootView.findViewById(R.id.rvNews);
+        RecyclerViewAdapterNews mRecyclerViewAdapterNews = new RecyclerViewAdapterNews(mArticle,getContext());
+
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerNews.setLayoutManager(llm);
+        mRecyclerNews.setAdapter( mRecyclerViewAdapterNews );
+
 
         TextView textView = rootView.findViewById(R.id.textView2);
 

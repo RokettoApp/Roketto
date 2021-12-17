@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/event_card"
+    android:id="@+id/news_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
@@ -33,14 +33,14 @@
 
         <TextView
             android:id="@+id/news_title"
-            android:textColor="@color/black"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/montserrat"
+            android:fontFamily="sans-serif-medium"
             android:text="Apollo # 12"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -71,7 +71,7 @@
 
 
         <TextView
-            android:id="@+id/event_d"
+            android:id="@+id/news_d"
             android:layout_width="328dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/datetime_news"
@@ -90,7 +90,7 @@
             android:id="@+id/readButton"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_below="@id/event_d"
+            android:layout_below="@id/news_d"
             android:layout_marginVertical="16dp"
             android:layout_marginStart="16dp"
             android:backgroundTint="@color/accent_color"
