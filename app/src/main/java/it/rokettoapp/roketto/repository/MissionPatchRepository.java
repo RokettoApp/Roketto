@@ -9,33 +9,34 @@ import java.util.List;
 import it.rokettoapp.roketto.database.MissionPatchDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.MissionPatch;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 
 public class MissionPatchRepository {
 
     private static final String TAG = "ExpeditionRepository";
     private final MissionPatchDao mMissionPatchDao;
+    private final DatabaseOperations<Integer, MissionPatch> databaseOperations;
     private final MutableLiveData<List<MissionPatch>> mMissionPatchLiveData;
 
     public MissionPatchRepository(Application application) {
 
         this.mMissionPatchDao = RokettoDatabase.getDatabase(application).missionPatchDao();
+        this.databaseOperations = new DatabaseOperations<>(mMissionPatchDao);
         this.mMissionPatchLiveData = new MutableLiveData<>();
     }
 
     private void saveMissionPatchListOnDatabase(List<MissionPatch> missionPatchList) {
 
-        RokettoDatabase.databaseWriteExecutor.execute(() ->
-                mMissionPatchDao.insertMissionPathList(missionPatchList));
+        databaseOperations.saveList(missionPatchList);
     }
 
     private void saveMissionPatchOnDatabase(MissionPatch missionPatch) {
 
-        RokettoDatabase.databaseWriteExecutor.execute(() ->
-                mMissionPatchDao.insertMissionPatch(missionPatch));
+        databaseOperations.saveValue(missionPatch);
     }
 
     private void getExpeditionsFromDatabase() {
 
-        new Thread(() -> mMissionPatchLiveData.postValue(mMissionPatchDao.getAll())).start();
+        databaseOperations.getListFromDatabase(mMissionPatchLiveData);
     }
 }

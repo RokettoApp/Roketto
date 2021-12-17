@@ -8,11 +8,11 @@ import androidx.room.Query;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Article;
-import it.rokettoapp.roketto.model.ArticleType;
 
 @Dao
-public interface ArticleDao {
+public interface ArticleDao extends GenericDao<Integer, Article> {
 
+    @Override
     @Query("SELECT * FROM article")
     List<Article> getAll();
 
@@ -25,15 +25,25 @@ public interface ArticleDao {
     @Query("SELECT * FROM article WHERE mArticleType = 'BLOG'")
     List<Article> getBlogPosts();
 
-    @Insert
-    void insertArticleList(List<Article> articleList);
+    @Override
+    @Query("SELECT * " +
+           "FROM article " +
+           "WHERE mId = :id")
+    Article getById(Integer id);
 
+    @Override
     @Insert
-    void insertArticle(Article article);
+    void insertList(List<Article> articleList);
 
+    @Override
+    @Insert
+    void insert(Article article);
+
+    @Override
     @Delete
     void delete(Article article);
 
+    @Override
     @Query("DELETE FROM article")
     void deleteAll();
 }

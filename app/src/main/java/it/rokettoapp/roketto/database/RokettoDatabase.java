@@ -13,26 +13,34 @@ import java.util.concurrent.Executors;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.Astronaut;
+import it.rokettoapp.roketto.model.DockingEvent;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.model.Expedition;
-import it.rokettoapp.roketto.model.Mission;
+import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.MissionPatch;
 import it.rokettoapp.roketto.model.Program;
+import it.rokettoapp.roketto.model.SpaceStation;
 import it.rokettoapp.roketto.model.Spacecraft;
+import it.rokettoapp.roketto.model.SpacecraftFlight;
 
 @Database(entities = {Agency.class, Astronaut.class, Spacecraft.class, Article.class, Event.class,
-        Mission.class, Program.class, MissionPatch.class, Expedition.class}, version = 1)
+        Program.class, MissionPatch.class, Expedition.class, Launch.class, SpaceStation.class,
+        DockingEvent.class, SpacecraftFlight.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class RokettoDatabase extends RoomDatabase {
 
     public abstract AgencyDao agencyDao();
-    public abstract AstronautDao astronautDao();
-    public abstract SpacecraftDao spacecraftDao();
     public abstract ArticleDao articleDao();
+    public abstract AstronautDao astronautDao();
+    public abstract DockingEventDao dockingEventDao();
     public abstract EventDao eventDao();
-    public abstract MissionDao missionDao();
-    public abstract ProgramDao programDao();
     public abstract ExpeditionDao expeditionDao();
+    public abstract LaunchDao launchDao();
+    public abstract MissionPatchDao missionPatchDao();
+    public abstract ProgramDao programDao();
+    public abstract SpacecraftDao spacecraftDao();
+    public abstract SpacecraftFlightDao spacecraftFlightDao();
+    public abstract SpaceStationDao spaceStationDao();
 
     private static volatile RokettoDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

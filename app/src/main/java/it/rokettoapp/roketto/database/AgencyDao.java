@@ -11,8 +11,9 @@ import java.util.List;
 import it.rokettoapp.roketto.model.Agency;
 
 @Dao
-public interface AgencyDao {
+public interface AgencyDao extends GenericDao<Integer, Agency> {
 
+    @Override
     @Query("SELECT * FROM agency")
     List<Agency> getAll();
 
@@ -22,20 +23,25 @@ public interface AgencyDao {
            "AND mId < :lastId")
     List<Agency> getAllInRange(int id, int lastId);
 
+    @Override
     @Query("SELECT * " +
            "FROM agency " +
            "WHERE mId = :id")
-    Agency getById(int id);
+    Agency getById(Integer id);
 
+    @Override
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertAgencyList(List<Agency> agencyList);
+    void insertList(List<Agency> agencyList);
 
+    @Override
     @Insert
-    void insertAgency(Agency agency);
+    void insert(Agency agency);
 
+    @Override
     @Delete
     void delete(Agency agency);
 
+    @Override
     @Query("DELETE FROM agency")
     void deleteAll();
 }

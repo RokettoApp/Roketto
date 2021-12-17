@@ -13,6 +13,7 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.ArticleType;
 import it.rokettoapp.roketto.service.ArticleApiService;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +24,7 @@ public class ArticleRepository {
     private static final String TAG = "ArticleRepository";
     private final ArticleApiService mArticleApiService;
     private final ArticleDao mArticleDao;
+    private final DatabaseOperations<Integer, Article> databaseOperations;
     private final MutableLiveData<List<Article>> mArticleListLiveData;
     private final MutableLiveData<List<Article>> mReportListLiveData;
     private final MutableLiveData<List<Article>> mBlogPostListLiveData;
@@ -32,6 +34,7 @@ public class ArticleRepository {
 
         this.mArticleApiService = ServiceLocator.getInstance().getArticleApiService();
         mArticleDao = RokettoDatabase.getDatabase(application).articleDao();
+        databaseOperations = new DatabaseOperations<>(mArticleDao);
         mArticleListLiveData = new MutableLiveData<>();
         mReportListLiveData = new MutableLiveData<>();
         mBlogPostListLiveData = new MutableLiveData<>();
@@ -87,7 +90,7 @@ public class ArticleRepository {
                     for (Article article : articleList) {
                         article.setArticleType(ArticleType.ARTICLE);
                     }
-                    saveOnDatabase(articleList);
+                    databaseOperations.saveList(articleList);
                     mArticleListLiveData.postValue(articleList);
                     Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
                 } else {
@@ -114,6 +117,8 @@ public class ArticleRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Article article = response.body();
+                    article.setArticleType(ArticleType.ARTICLE);
+                    databaseOperations.saveValue(article);
                     Log.d(TAG, article.getTitle());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -139,11 +144,12 @@ public class ArticleRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Article> articleList = response.body();
-                    StringBuilder debugString = new StringBuilder();
                     for (Article article : articleList) {
-                        debugString.append(article.getTitle()).append(" --- ");
+                        article.setArticleType(ArticleType.ARTICLE);
                     }
-                    Log.d(TAG, debugString.toString());
+                    databaseOperations.saveList(articleList);
+                    mArticleListLiveData.postValue(articleList);
+                    Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -168,11 +174,12 @@ public class ArticleRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Article> articleList = response.body();
-                    StringBuilder debugString = new StringBuilder();
                     for (Article article : articleList) {
-                        debugString.append(article.getTitle()).append(" --- ");
+                        article.setArticleType(ArticleType.ARTICLE);
                     }
-                    Log.d(TAG, debugString.toString());
+                    databaseOperations.saveList(articleList);
+                    mArticleListLiveData.postValue(articleList);
+                    Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -200,7 +207,7 @@ public class ArticleRepository {
                     for (Article report : reportList) {
                         report.setArticleType(ArticleType.REPORT);
                     }
-                    saveOnDatabase(reportList);
+                    databaseOperations.saveList(reportList);
                     mReportListLiveData.postValue(reportList);
                     Log.d(TAG, "Retrieved " + reportList.size() + " reports.");
                 } else {
@@ -226,8 +233,10 @@ public class ArticleRepository {
                                    @NonNull Response<Article> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    Article article = response.body();
-                    Log.d(TAG, article.getTitle());
+                    Article report = response.body();
+                    report.setArticleType(ArticleType.REPORT);
+                    databaseOperations.saveValue(report);
+                    Log.d(TAG, report.getTitle());
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -255,7 +264,7 @@ public class ArticleRepository {
                     for (Article blogPost : blogPostList) {
                         blogPost.setArticleType(ArticleType.BLOG);
                     }
-                    saveOnDatabase(blogPostList);
+                    databaseOperations.saveList(blogPostList);
                     mBlogPostListLiveData.postValue(blogPostList);
                     Log.d(TAG, "Retrieved " + blogPostList.size() + " blog posts.");
                 } else {
@@ -281,8 +290,10 @@ public class ArticleRepository {
                                    @NonNull Response<Article> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    Article article = response.body();
-                    Log.d(TAG, article.getTitle());
+                    Article blogPost = response.body();
+                    blogPost.setArticleType(ArticleType.BLOG);
+                    databaseOperations.saveValue(blogPost);
+                    Log.d(TAG, blogPost.getTitle());
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -306,12 +317,13 @@ public class ArticleRepository {
                                    @NonNull Response<List<Article>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    List<Article> articleList = response.body();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Article article : articleList) {
-                        debugString.append(article.getTitle()).append(" --- ");
+                    List<Article> blogPostList = response.body();
+                    for (Article blogPost : blogPostList) {
+                        blogPost.setArticleType(ArticleType.BLOG);
                     }
-                    Log.d(TAG, debugString.toString());
+                    databaseOperations.saveList(blogPostList);
+                    mBlogPostListLiveData.postValue(blogPostList);
+                    Log.d(TAG, "Retrieved " + blogPostList.size() + " blog posts.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -335,12 +347,13 @@ public class ArticleRepository {
                                    @NonNull Response<List<Article>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    List<Article> articleList = response.body();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Article article : articleList) {
-                        debugString.append(article.getTitle()).append(" --- ");
+                    List<Article> blogPostList = response.body();
+                    for (Article blogPost : blogPostList) {
+                        blogPost.setArticleType(ArticleType.BLOG);
                     }
-                    Log.d(TAG, debugString.toString());
+                    databaseOperations.saveList(blogPostList);
+                    mBlogPostListLiveData.postValue(blogPostList);
+                    Log.d(TAG, "Retrieved " + blogPostList.size() + " blog posts.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
@@ -352,12 +365,6 @@ public class ArticleRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-    }
-
-    private void saveOnDatabase(List<Article> articleList) {
-
-        RokettoDatabase.databaseWriteExecutor.execute(() ->
-                mArticleDao.insertArticleList(articleList));
     }
 
     private void getArticlesFromDatabase() {

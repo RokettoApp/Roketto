@@ -10,24 +10,31 @@ import java.util.List;
 import it.rokettoapp.roketto.model.Program;
 
 @Dao
-public interface ProgramDao {
+public interface ProgramDao extends GenericDao<Integer, Program> {
+
+    @Override
     @Query("SELECT * FROM program")
     List<Program> getAll();
 
+    @Override
     @Query("SELECT * " +
-            "FROM program " +
-            "WHERE mId = :id")
-    Program getById(int id);
+           "FROM program " +
+           "WHERE mId = :id")
+    Program getById(Integer id);
 
+    @Override
     @Insert
-    void insertProgramList(List<Program> programList);
+    void insertList(List<Program> programList);
 
+    @Override
     @Insert
-    void insertProgram(Program program);
+    void insert(Program program);
 
+    @Override
     @Delete
     void delete(Program program);
 
+    @Override
     @Query("DELETE FROM program")
     void deleteAll();
 }
