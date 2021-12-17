@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/event_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="16dp"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="12dp">
+
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        >
+
+
+
+
+        <!-- Chips can be declared here, or added dynamically. -->
+
+
+        <TextView
+            android:id="@+id/news_title"
+            android:textColor="@color/black"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Apollo # 12"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/datetime_news"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/news_title"
+            android:text="15/12/2021"
+            android:layout_marginLeft="16dp"
+            android:visibility="visible"
+            android:textSize="6sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/publisher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/news_title"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_toEndOf="@+id/datetime_news"
+            android:text="Sky TG"
+            android:textSize="6sp"
+            android:visibility="visible">
+
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/event_d"
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/datetime_news"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_toStartOf="@+id/cardImg"
+            android:maxLines="3"
+            android:minLines="3"
+            android:paddingRight="20dp"
+            android:text="Descrizione"
+
+            android:textSize="8sp" />
+
+
+        <Button
+            android:id="@+id/readButton"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/event_d"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/accent_color"
+            android:drawableRight="@drawable/ic_external_link"
+            android:fontFamily="sans-serif-medium"
+            android:text="TAP TO READ"
+            android:textSize="8sp"
+            app:cardCornerRadius="16dp" />
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            android:id="@+id/cardImg"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageNews"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/imgtest">
+
+            </ImageView>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
