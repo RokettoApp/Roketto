@@ -37,9 +37,11 @@
             android:id="@+id/astronautsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/logoCompany"
+            android:layout_above="@id/nationalFlag"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
+            android:maxLines="1"
+            android:maxLength="10"
             android:fontFamily="sans-serif-medium"
             android:text="Gary Moore"
             android:textColor="@color/white"
@@ -50,11 +52,11 @@
 
 
         <ImageView
+            android:id="@+id/nationalFlag"
             android:layout_width="60dp"
-            android:id="@+id/logoCompany"
             android:layout_height="12dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_nasavect">
 
