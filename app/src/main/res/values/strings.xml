@@ -9,5 +9,8 @@
     <string name="seeMoreString">See more</string>
     <string name="astroString">Trending Astronauts</string>
     <string name="description">Description</string>
+    <string name="launch">Launch</string>
+    <string name="station">Station</string>
     <string name="human_exp">HUMAN EXPLORATION</string>
+
 </resources>

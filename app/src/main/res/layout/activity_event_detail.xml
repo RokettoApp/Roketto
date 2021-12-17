@@ -1,75 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.EventDetailActivity">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardImageEvent"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.EventDetailActivity">
 
-        <FrameLayout
-            android:id="@+id/frameImageEvent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImageEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false">
+            app:cardCornerRadius="16dp"
+            android:layout_marginTop="-16dp"
+            android:layout_alignParentTop="true"
+           >
 
-            <ImageView
-                android:id="@+id/imageEvent"
+            <FrameLayout
+                android:id="@+id/frameImageEvent"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                />
-
-            <ImageButton
-                android:id="@+id/backButtonEvent"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:srcCompat="@drawable/ic_baseline_home_24" />
+                android:focusable="false">
 
-        </FrameLayout>
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/imageEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/testsfondo"
+                    android:scaleType="fitXY"
+                    />
 
-    <TextView
-        android:id="@+id/eventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
+                <ImageButton
+                    android:id="@+id/backButtonEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:srcCompat="@drawable/ic_baseline_home_24" />
 
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardImageEvent"
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        android:textColor="@color/black"
-        android:fontFamily="@font/montserrat"
-        android:textSize="16sp"
-        />
 
-    <TextView
-        android:id="@+id/eventDetailDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
 
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventDescription"
+        <TextView
+            android:id="@+id/eventDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/cardImageEvent"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            />
 
-        android:fontFamily="@font/montserrat"
-        android:textSize="14dp"
-        />
+        <TextView
+            android:id="@+id/eventDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@+id/eventDescription"
+            android:textSize="14dp"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/launchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/launch"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/eventDetailDescription"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            />
+
+        <include
+            android:id="@+id/cardLaunch"
+            android:layout_below="@+id/launchTitle"
+            layout="@layout/recycleview_row_layout"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            >
+
+        </include>
+
+        <TextView
+            android:id="@+id/stationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/station"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/cardLaunch"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            />
+
+        <include
+            android:id="@+id/cardStation"
+            android:layout_below="@+id/stationTitle"
+            layout="@layout/recycleview_row_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            >
+
+        </include>
+
+
+
+    </RelativeLayout>
+</ScrollView>
