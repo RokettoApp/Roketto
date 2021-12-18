@@ -26,25 +26,25 @@ public class LaunchRepository {
     private final LaunchApiService mLaunchApiService;
     private final LaunchDao mLaunchDao;
     private final DatabaseOperations<String, Launch> databaseOperations;
-    private final MutableLiveData<List<Launch>> mLaunchlistLiveData;
+    private final MutableLiveData<List<Launch>> mLaunchListLiveData;
 
     public LaunchRepository(Application application) {
 
         this.mLaunchApiService = ServiceLocator.getInstance().getLaunchApiService();
         mLaunchDao = RokettoDatabase.getDatabase(application).launchDao();
         databaseOperations = new DatabaseOperations<>(mLaunchDao);
-        mLaunchlistLiveData = new MutableLiveData<>();
+        mLaunchListLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<List<Launch>> getLiveData() {
 
-        return mLaunchlistLiveData;
+        return mLaunchListLiveData;
     }
 
     public void getLaunchList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        databaseOperations.getListFromDatabase(mLaunchlistLiveData);
+        databaseOperations.getListFromDatabase(mLaunchListLiveData);
 //        fetchLaunches();
     }
 
@@ -56,7 +56,7 @@ public class LaunchRepository {
             if (launch != null) {
                 List<Launch> launchList = new ArrayList<>();
                 launchList.add(launch);
-                mLaunchlistLiveData.postValue(launchList);
+                mLaunchListLiveData.postValue(launchList);
             } else
                 fetchLaunchById(id);
         }).start();
@@ -74,7 +74,7 @@ public class LaunchRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Launch> launchList = response.body().getResults();
                     databaseOperations.saveList(launchList);
-                    mLaunchlistLiveData.postValue(launchList);
+                    mLaunchListLiveData.postValue(launchList);
                     Log.d(TAG, "Retrieved " + launchList.size() + " launches.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -103,7 +103,7 @@ public class LaunchRepository {
                     databaseOperations.saveValue(launch);
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
-                    mLaunchlistLiveData.postValue(launchList);
+                    mLaunchListLiveData.postValue(launchList);
                     Log.d(TAG, launch.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -130,7 +130,7 @@ public class LaunchRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Launch> launchList = response.body().getResults();
                     databaseOperations.saveList(launchList);
-                    mLaunchlistLiveData.postValue(launchList);
+                    mLaunchListLiveData.postValue(launchList);
                     Log.d(TAG, "Retrieved " + launchList.size() + " launches.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -159,7 +159,7 @@ public class LaunchRepository {
                     databaseOperations.saveValue(launch);
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
-                    mLaunchlistLiveData.postValue(launchList);
+                    mLaunchListLiveData.postValue(launchList);
                     Log.d(TAG, launch.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -185,7 +185,7 @@ public class LaunchRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Launch> launchList = response.body().getResults();
                     databaseOperations.saveList(launchList);
-                    mLaunchlistLiveData.postValue(launchList);
+                    mLaunchListLiveData.postValue(launchList);
                     Log.d(TAG, "Retrieved " + launchList.size() + " launches.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -214,7 +214,7 @@ public class LaunchRepository {
                     databaseOperations.saveValue(launch);
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
-                    mLaunchlistLiveData.postValue(launchList);
+                    mLaunchListLiveData.postValue(launchList);
                     Log.d(TAG, launch.getName());
                 } else {
                     Log.e(TAG, "Request failed.");

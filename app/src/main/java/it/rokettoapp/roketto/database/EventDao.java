@@ -9,7 +9,6 @@ import androidx.room.Query;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Event;
-import it.rokettoapp.roketto.model.SpaceStation;
 
 @Dao
 public interface EventDao extends GenericDao<Integer, Event> {
@@ -20,8 +19,8 @@ public interface EventDao extends GenericDao<Integer, Event> {
 
     @Override
     @Query("SELECT * " +
-            "FROM event " +
-            "WHERE mId = :id")
+           "FROM event " +
+           "WHERE mId = :id")
     Event getById(Integer id);
 
     @Override

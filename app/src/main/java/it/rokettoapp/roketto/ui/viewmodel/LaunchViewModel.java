@@ -28,15 +28,13 @@ public class LaunchViewModel extends AndroidViewModel {
         return mLaunchListLivedata;
     }
 
-    public MutableLiveData<List<Launch>> getLaunches() {
+    public void getLaunches() {
 
         mLaunchRepository.getLaunchList();
-        return mLaunchListLivedata;
     }
 
-    public MutableLiveData<List<Launch>> getLaunchById(String id) {
+    public void getLaunchById(String id) {
 
         mLaunchRepository.getLaunchById(id);
-        return mLaunchListLivedata;
     }
 }

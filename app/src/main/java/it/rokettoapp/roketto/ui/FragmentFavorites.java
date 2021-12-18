@@ -38,9 +38,7 @@ public class FragmentFavorites extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_favorites, container, false);
 
-        TextView textView3 = rootView.findViewById(R.id.textView3);
         TextView textView4 = rootView.findViewById(R.id.textView4);
-
         mAgencyViewModel.getLiveData().observe(getViewLifecycleOwner(), agencyList -> {
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -56,7 +54,6 @@ public class FragmentFavorites extends Fragment {
         Button button = rootView.findViewById(R.id.button2);
         button.setOnClickListener(view -> {
 
-            textView3.setText("");
             textView4.setText("");
             mAgencyViewModel.getNextAgencies(lastAgencyId);
         });

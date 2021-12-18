@@ -76,7 +76,7 @@ public class SpaceStationRepository {
                     List<SpaceStation> spaceStationList = response.body().getResults();
                     databaseOperations.saveList(spaceStationList);
                     mSpaceStationListLiveData.postValue(spaceStationList);
-                    Log.d(TAG, "Retrieved " + spaceStationList.size() + " spacestations.");
+                    Log.d(TAG, "Retrieved " + spaceStationList.size() + " space stations.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
