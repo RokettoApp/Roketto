@@ -1,9 +1,14 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "launcher")
 public class Launcher {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 

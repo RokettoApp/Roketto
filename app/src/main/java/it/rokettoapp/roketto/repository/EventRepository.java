@@ -50,6 +50,20 @@ public class EventRepository {
 //        fetchEvents();
     }
 
+    public void getEventById(int id) {
+
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        new Thread(() -> {
+            Event event = mEventDao.getById(id);
+            if (event != null) {
+                List<Event> eventList = new ArrayList<>();
+                eventList.add(event);
+                mEventListLiveData.postValue(eventList);
+            } else
+                fetchEventById(id);
+        }).start();
+    }
+
     public void refreshEvents() {
 
         fetchEvents();

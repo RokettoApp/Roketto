@@ -13,7 +13,6 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.database.SpacecraftDao;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.Spacecraft;
-import it.rokettoapp.roketto.model.SpacecraftFlight;
 import it.rokettoapp.roketto.service.SpacecraftApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
@@ -49,6 +48,20 @@ public class SpacecraftRepository {
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mSpacecraftListLiveData);
 //        fetchSpacecrafts();
+    }
+
+    public void getSpacecraftById(int id) {
+
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        new Thread(() -> {
+            Spacecraft spacecraft = mSpacecraftDao.getById(id);
+            if (spacecraft != null) {
+                List<Spacecraft> spacecraftList = new ArrayList<>();
+                spacecraftList.add(spacecraft);
+                mSpacecraftListLiveData.postValue(spacecraftList);
+            } else
+                fetchSpacecraftById(id);
+        }).start();
     }
 
     public void refreshSpacecrafts() {
@@ -109,60 +122,6 @@ public class SpacecraftRepository {
 
             @Override
             public void onFailure(@NonNull Call<Spacecraft> call, @NonNull Throwable t) {
-
-                Log.e(TAG, t.getMessage());
-            }
-        });
-    }
-
-    private void fetchSpacecraftFlights() {
-
-        Call<ResponseList<SpacecraftFlight>> spacecraftResponseCall =
-                mSpacecraftApiService.getSpacecraftFlights(5);
-        spacecraftResponseCall.enqueue(new Callback<ResponseList<SpacecraftFlight>>() {
-
-            @Override
-            public void onResponse(@NonNull Call<ResponseList<SpacecraftFlight>> call,
-                                   @NonNull Response<ResponseList<SpacecraftFlight>> response) {
-
-                if (response.body() != null && response.isSuccessful()) {
-                    List<SpacecraftFlight> spacecraftFlightList = response.body().getResults();
-                    Log.d(TAG, "Retrieved " + spacecraftFlightList.size()
-                            + " spacecraft flights.");
-                } else {
-                    Log.e(TAG, "Request failed.");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseList<SpacecraftFlight>> call,
-                                  @NonNull Throwable t) {
-
-                Log.e(TAG, t.getMessage());
-            }
-        });
-    }
-
-    private void fetchSpacecraftFlightById(int id) {
-
-        Call<SpacecraftFlight> spacecraftResponseCall =
-                mSpacecraftApiService.getSpacecraftFlight(id);
-        spacecraftResponseCall.enqueue(new Callback<SpacecraftFlight>() {
-
-            @Override
-            public void onResponse(@NonNull Call<SpacecraftFlight> call,
-                                   @NonNull Response<SpacecraftFlight> response) {
-
-                if (response.body() != null && response.isSuccessful()) {
-                    SpacecraftFlight spacecraftFlight = response.body();
-                    Log.d(TAG, spacecraftFlight.getDestination());
-                } else {
-                    Log.e(TAG, "Request failed.");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<SpacecraftFlight> call, @NonNull Throwable t) {
 
                 Log.e(TAG, t.getMessage());
             }

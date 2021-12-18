@@ -33,6 +33,11 @@ public class EventViewModel extends AndroidViewModel {
         mEventRepository.getEventList();
     }
 
+    public void getEventById(int id) {
+
+        mEventRepository.getEventById(id);
+    }
+
     public void refreshEvents() {
 
         mEventRepository.refreshEvents();

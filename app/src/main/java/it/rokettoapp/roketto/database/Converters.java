@@ -474,11 +474,8 @@ public class Converters {
         if (firstStageList == null) return null;
 
         Gson gson = new Gson();
-        List<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < firstStageList.size(); i++) {
-            ids.add(firstStageList.get(i).getId());
-        }
-        return gson.toJson(ids);
+        Type type = new TypeToken<List<AstronautFlight>>() {}.getType();
+        return gson.toJson(firstStageList, type);
     }
 
     @TypeConverter
@@ -487,14 +484,8 @@ public class Converters {
         if (json == null) return null;
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> idList = gson.fromJson(json, type);
-        List<FirstStage> firstStageList = new ArrayList<>();
-        for (int i = 0; i < idList.size(); i++) {
-            FirstStage firstStage = new FirstStage(idList.get(i));
-            firstStageList.add(firstStage);
-        }
-        return firstStageList;
+        Type type = new TypeToken<List<AstronautFlight>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     // Spacecraft
@@ -515,6 +506,35 @@ public class Converters {
     }
 
     // Pad
+    @TypeConverter
+    public static String fromPadListToJson(List<Pad> padList) {
+
+        if (padList == null) return null;
+
+        Gson gson = new Gson();
+        List<Integer> ids = new ArrayList<>();
+        for (int i = 0; i < padList.size(); i++) {
+            ids.add(padList.get(i).getId());
+        }
+        return gson.toJson(ids);
+    }
+
+    @TypeConverter
+    public static List<Pad> fromJsonToPadList(String json) {
+
+        if (json == null) return null;
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Integer>>() {}.getType();
+        List<Integer> idList = gson.fromJson(json, type);
+        List<Pad> padList = new ArrayList<>();
+        for (int i = 0; i < idList.size(); i++) {
+            Pad pad = new Pad(idList.get(i));
+            padList.add(pad);
+        }
+        return padList;
+    }
+
     @TypeConverter
     public static Integer fromPadToInteger(Pad pad) {
 
@@ -568,7 +588,7 @@ public class Converters {
         if (astronautFlightList == null) return null;
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Url>>() {}.getType();
+        Type type = new TypeToken<List<AstronautFlight>>() {}.getType();
         return gson.toJson(astronautFlightList, type);
     }
 

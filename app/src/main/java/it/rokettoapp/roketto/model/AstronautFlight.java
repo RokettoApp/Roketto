@@ -20,32 +20,32 @@ public class AstronautFlight {
         this.mAstronaut = astronaut;
     }
 
-    public int getmId() {
+    public int getId() {
 
         return mId;
     }
 
-    public void setmId(int id) {
+    public void setId(int id) {
 
         this.mId = id;
     }
 
-    public AstronautRole getmRole() {
+    public AstronautRole getRole() {
 
         return mRole;
     }
 
-    public void setmRole(AstronautRole role) {
+    public void setRole(AstronautRole role) {
 
         this.mRole = role;
     }
 
-    public Astronaut getmAstronaut() {
+    public Astronaut getAstronaut() {
 
         return mAstronaut;
     }
 
-    public void setmAstronaut(Astronaut astronaut) {
+    public void setAstronaut(Astronaut astronaut) {
 
         this.mAstronaut = astronaut;
     }

@@ -33,6 +33,11 @@ public class SpacecraftViewModel extends AndroidViewModel {
         mSpacecraftRepository.getSpacecraftList();
     }
 
+    public void getSpacecraftById(int id) {
+
+        mSpacecraftRepository.getSpacecraftById(id);
+    }
+
     public void refreshSpacecrafts() {
 
         mSpacecraftRepository.refreshSpacecrafts();
