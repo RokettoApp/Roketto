@@ -26,10 +26,11 @@ public class AstroDetailActivity extends AppCompatActivity {
         AgencyViewModel mAgencyViewModel = new ViewModelProvider(this)
                 .get(AgencyViewModel.class);
         TextView textView7 = findViewById(R.id.textView7);
-        mAgencyViewModel.getAgencyById(mAstro.getAgency().getId()).observe(this, agencyList -> {
+        mAgencyViewModel.getLiveData().observe(this, agencyList -> {
 
             textView7.setText(agencyList.get(0).getName());
             Log.d("AgencyObserver", "test");
         });
+        mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
     }
 }

@@ -38,16 +38,20 @@ public class AgencyRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Agency>> getAgencyList() {
+    public MutableLiveData<List<Agency>> getLiveData() {
+
+        return mAgencyListLiveData;
+    }
+
+    public void getAgencyList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
 //        getAgenciesFromDatabase();
         getNextAgencies(0);
 //        fetchAgencies();
-        return mAgencyListLiveData;
     }
 
-    public MutableLiveData<List<Agency>> getAgencyById(int id) {
+    public void getAgencyById(int id) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         new Thread(() -> {
@@ -59,7 +63,6 @@ public class AgencyRepository {
             } else
                 fetchAgencyById(id);
         }).start();
-        return mAgencyListLiveData;
     }
 
     public void getNextAgencies(int lastId) {

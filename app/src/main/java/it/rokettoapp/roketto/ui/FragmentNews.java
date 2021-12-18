@@ -37,7 +37,7 @@ public class FragmentNews extends Fragment {
 
         TextView textView = rootView.findViewById(R.id.textView2);
 
-        mArticleViewModel.getArticles().observe(getViewLifecycleOwner(), articleList -> {
+        mArticleViewModel.getArticleLiveData().observe(getViewLifecycleOwner(), articleList -> {
 
             StringBuilder stringBuilder = new StringBuilder();
             for (Article article : articleList) {
@@ -47,7 +47,7 @@ public class FragmentNews extends Fragment {
             Log.d("ArticleObserver", "test");
         });
 
-        mArticleViewModel.getReports().observe(getViewLifecycleOwner(), reportList -> {
+        mArticleViewModel.getReportLiveData().observe(getViewLifecycleOwner(), reportList -> {
 
             StringBuilder stringBuilder = new StringBuilder();
             for (Article report : reportList) {
@@ -57,7 +57,7 @@ public class FragmentNews extends Fragment {
             Log.d("ReportObserver", "test");
         });
 
-        mArticleViewModel.getBlogPosts().observe(getViewLifecycleOwner(), blogPostList -> {
+        mArticleViewModel.getBlogPostLiveData().observe(getViewLifecycleOwner(), blogPostList -> {
 
             StringBuilder stringBuilder = new StringBuilder();
             for (Article blogPost : blogPostList) {
@@ -66,6 +66,10 @@ public class FragmentNews extends Fragment {
             textView.append(stringBuilder.toString());
             Log.d("BlogPostObserver", "test");
         });
+
+        mArticleViewModel.getArticles();
+        mArticleViewModel.getReports();
+        mArticleViewModel.getBlogPosts();
 
         Button button = rootView.findViewById(R.id.button);
         button.setOnClickListener(view -> {

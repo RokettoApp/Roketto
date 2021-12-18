@@ -20,17 +20,17 @@ public class SpacecraftViewModel extends AndroidViewModel {
 
         super(application);
         mSpacecraftRepository = new SpacecraftRepository(application);
+        mSpacecraftListLivedata = mSpacecraftRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Spacecraft>> getSpacecrafts() {
+    public MutableLiveData<List<Spacecraft>> getLiveData() {
 
-        if (mSpacecraftListLivedata == null) fetchSpacecrafts();
         return mSpacecraftListLivedata;
     }
 
-    private void fetchSpacecrafts() {
+    public void getSpacecrafts() {
 
-        mSpacecraftListLivedata = mSpacecraftRepository.getSpacecraftList();
+        mSpacecraftRepository.getSpacecraftList();
     }
 
     public void refreshSpacecrafts() {

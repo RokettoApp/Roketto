@@ -41,28 +41,40 @@ public class ArticleRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Article>> getArticleList() {
+    public MutableLiveData<List<Article>> getArticleLiveData() {
+
+        return mArticleListLiveData;
+    }
+
+    public MutableLiveData<List<Article>> getReportLiveData() {
+
+        return mReportListLiveData;
+    }
+
+    public MutableLiveData<List<Article>> getBlogPostLiveData() {
+
+        return mBlogPostListLiveData;
+    }
+
+    public void getArticleList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         getArticlesFromDatabase();
 //        fetchArticles();
-        return mArticleListLiveData;
     }
 
-    public MutableLiveData<List<Article>> getReportList() {
+    public void getReportList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         getReportsFromDatabase();
 //        fetchReports();
-        return mReportListLiveData;
     }
 
-    public MutableLiveData<List<Article>> getBlogPostList() {
+    public void getBlogPostList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         getBlogPostsFromDatabase();
 //        fetchBlogPosts();
-        return mBlogPostListLiveData;
     }
 
     public void refreshAll() {

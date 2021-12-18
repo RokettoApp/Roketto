@@ -39,12 +39,16 @@ public class SpacecraftRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Spacecraft>> getSpacecraftList() {
+    public MutableLiveData<List<Spacecraft>> getLiveData() {
+
+        return mSpacecraftListLiveData;
+    }
+
+    public void getSpacecraftList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mSpacecraftListLiveData);
 //        fetchSpacecrafts();
-        return mSpacecraftListLiveData;
     }
 
     public void refreshSpacecrafts() {

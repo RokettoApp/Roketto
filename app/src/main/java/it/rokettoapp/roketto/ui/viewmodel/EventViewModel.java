@@ -20,17 +20,17 @@ public class EventViewModel extends AndroidViewModel {
 
         super(application);
         mEventRepository = new EventRepository(application);
+        mEventMutableLiveData = mEventRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Event>> getEvents() {
+    public MutableLiveData<List<Event>> getLiveData() {
 
-        if (mEventMutableLiveData == null) fetchEvents();
         return mEventMutableLiveData;
     }
 
-    private void fetchEvents() {
+    public void getEvents() {
 
-        mEventMutableLiveData = mEventRepository.getEventList();
+        mEventRepository.getEventList();
     }
 
     public void refreshEvents() {

@@ -22,39 +22,54 @@ public class ArticleViewModel extends AndroidViewModel {
 
         super(application);
         mArticleRepository = new ArticleRepository(application);
+        mArticleListLiveData = mArticleRepository.getArticleLiveData();
+        mReportListLiveData = mArticleRepository.getReportLiveData();
+        mBlogPostListLiveData = mArticleRepository.getBlogPostLiveData();
     }
 
-    public MutableLiveData<List<Article>> getArticles() {
+    public MutableLiveData<List<Article>> getArticleLiveData() {
 
-        if (mArticleListLiveData == null) fetchArticles();
         return mArticleListLiveData;
     }
 
-    public MutableLiveData<List<Article>> getReports() {
+    public MutableLiveData<List<Article>> getReportLiveData() {
 
-        if (mReportListLiveData == null) fetchReports();
         return mReportListLiveData;
     }
 
-    public MutableLiveData<List<Article>> getBlogPosts() {
+    public MutableLiveData<List<Article>> getBlogPostLiveData() {
 
-        if (mBlogPostListLiveData == null) fetchBlogPosts();
         return mBlogPostListLiveData;
+    }
+
+    public void getArticles() {
+
+        fetchArticles();
+    }
+
+    public void getReports() {
+
+        fetchReports();
+    }
+
+    public void getBlogPosts() {
+
+        fetchBlogPosts();
     }
 
     private void fetchArticles() {
 
-        mArticleListLiveData = mArticleRepository.getArticleList();
+        mArticleRepository.getArticleList();
     }
 
     private void fetchReports() {
 
-        mReportListLiveData = mArticleRepository.getReportList();
+        mArticleRepository.getReportList();
     }
 
     private void fetchBlogPosts() {
 
-        mBlogPostListLiveData = mArticleRepository.getBlogPostList();
+        mArticleRepository.getBlogPostList();
     }
 
     public void refreshArticles() {

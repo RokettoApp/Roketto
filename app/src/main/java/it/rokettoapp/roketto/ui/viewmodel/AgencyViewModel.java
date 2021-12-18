@@ -20,20 +20,22 @@ public class AgencyViewModel extends AndroidViewModel {
 
         super(application);
         mAgencyRepository = new AgencyRepository(application);
+        mAgencyListLivedata = mAgencyRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Agency>> getAgencies() {
-
-        if (mAgencyListLivedata == null) mAgencyListLivedata = mAgencyRepository.getAgencyList();
+    public MutableLiveData<List<Agency>> getLiveData() {
 
         return mAgencyListLivedata;
     }
 
-    public MutableLiveData<List<Agency>> getAgencyById(int id) {
+    public void getAgencies() {
 
-        if (mAgencyListLivedata == null) mAgencyListLivedata = mAgencyRepository.getAgencyById(id);
+        mAgencyRepository.getAgencyList();
+    }
 
-        return mAgencyListLivedata;
+    public void getAgencyById(int id) {
+
+        mAgencyRepository.getAgencyById(id);
     }
 
     public void getNextAgencies(int lastId) {

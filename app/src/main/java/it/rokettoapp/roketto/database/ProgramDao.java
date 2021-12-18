@@ -3,6 +3,7 @@ package it.rokettoapp.roketto.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ProgramDao extends GenericDao<Integer, Program> {
     Program getById(Integer id);
 
     @Override
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertList(List<Program> programList);
 
     @Override

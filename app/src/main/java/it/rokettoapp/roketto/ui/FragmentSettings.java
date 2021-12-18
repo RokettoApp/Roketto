@@ -43,7 +43,7 @@ public class FragmentSettings extends Fragment {
         TextView textView5 = rootView.findViewById(R.id.textView5);
         TextView textView6 = rootView.findViewById(R.id.textView6);
 
-        mSpacecraftViewModel.getSpacecrafts().observe(getViewLifecycleOwner(), spacecraftList -> {
+        mSpacecraftViewModel.getLiveData().observe(getViewLifecycleOwner(), spacecraftList -> {
 
             StringBuilder stringBuilder = new StringBuilder();
             for (Spacecraft spacecraft : spacecraftList) {
@@ -51,11 +51,17 @@ public class FragmentSettings extends Fragment {
             }
             textView5.append(stringBuilder.toString());
         });
+        mSpacecraftViewModel.getSpacecrafts();
 
-        mProgramViewModel.getProgramById(17).observe(getViewLifecycleOwner(), programList -> {
+        mProgramViewModel.getLiveData().observe(getViewLifecycleOwner(), programList -> {
 
-            textView6.append(programList.get(0).getName());
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Program program : programList) {
+                stringBuilder.append(program.getName()).append("\n");
+            }
+            textView6.append(stringBuilder.toString());
         });
+        mProgramViewModel.getPrograms();
 
         Button button = rootView.findViewById(R.id.button3);
         button.setOnClickListener(view -> {

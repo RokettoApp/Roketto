@@ -73,13 +73,14 @@ public class FragmentHome extends Fragment {
         RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros);
         mRecyclerViewAstro.setAdapter(mAdapterAstro);
 
-        mEventViewModel.getEvents().observe(getViewLifecycleOwner(), eventList -> {
+        mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), eventList -> {
 
             mEvents.clear();
             mEvents.addAll(eventList);
             mAdapterEvents.notifyDataSetChanged();
             Log.d("FragmentHome", "test");
         });
+        mEventViewModel.getEvents();
 
         /*
         mBtnSeeMore.setVisibility(View.VISIBLE);

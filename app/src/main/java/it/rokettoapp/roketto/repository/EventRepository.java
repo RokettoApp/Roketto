@@ -13,7 +13,6 @@ import it.rokettoapp.roketto.database.EventDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.model.ResponseList;
-import it.rokettoapp.roketto.model.SpaceStation;
 import it.rokettoapp.roketto.service.EventApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
@@ -39,12 +38,16 @@ public class EventRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Event>> getEventList() {
+    public MutableLiveData<List<Event>> getLiveData() {
+
+        return mEventListLiveData;
+    }
+
+    public void getEventList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mEventListLiveData);
 //        fetchEvents();
-        return mEventListLiveData;
     }
 
     public void refreshEvents() {
@@ -164,6 +167,7 @@ public class EventRepository {
             }
         });
     }
+
     private void fetchUpcomingEvents() {
 
         Call<ResponseList<Event>> eventResponseCall = mEventApiService.getUpcomingEvents(5);
