@@ -4,7 +4,9 @@ import androidx.room.Ignore;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AstronautType {
+import java.io.Serializable;
+
+public class AstronautType implements Serializable {
 
     @Ignore
     @SerializedName("id")

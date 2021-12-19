@@ -9,10 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:cardElevation="8dp"
         app:cardCornerRadius="12dp">
+
+
 
     <RelativeLayout
 
@@ -21,41 +25,118 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         >
-
-        <TextView
-            android:id="@+id/eventDate"
+        <include
+            android:id="@+id/date"
+            layout="@layout/date_item_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginVertical="16dp"
             android:layout_marginEnd="16dp"
+            android:visibility="visible"
 
-            android:text="22/03/2021"
-            android:textSize="8dp" />
+            />
+
+
+
+            <!-- Chips can be declared here, or added dynamically. -->
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCategory"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignRight="@id/event_title"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                android:backgroundTint="@color/pastel_green"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/human_exp"/>
+
 
         <TextView
             android:id="@+id/event_title"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-medium"
             android:text="Apollo # 12"
-            android:textSize="16dp" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/datetime"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_title"
+            android:text="15/12/2021"
+            android:layout_marginLeft="16dp"
+            android:visibility="gone"
+            android:textSize="6sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_title"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/datetime"
+            android:text="07:48 AM"
+            android:textSize="6sp"
+            android:visibility="gone">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/statusCircle"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_below="@id/event_title"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/hours"
+            android:visibility="gone"
+            android:src="@drawable/circle_shape">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_title"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/statusCircle"
+            android:text="LAUNCH SUCCESSFUL"
+            android:textColor="@color/status_green"
+            android:textSize="6sp"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone">
+        </TextView>
 
         <TextView
             android:id="@+id/event_d"
             android:layout_width="328dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_title"
-            android:layout_alignEnd="@id/eventDate"
+            android:layout_below="@+id/datetime"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="46dp"
+            android:layout_marginTop="8dp"
+            android:layout_toStartOf="@+id/cardImg"
+
             android:maxLines="3"
+
             android:minLines="3"
+            android:paddingRight="20dp"
             android:text="Descrizione"
 
-            android:textSize="8dp" />
+            android:textSize="8sp" />
+
 
         <Button
             android:id="@+id/idbutton"
@@ -67,7 +148,27 @@
             android:backgroundTint="@color/accent_color"
             android:fontFamily="sans-serif-medium"
             android:text="TAP TO READ"
-            android:textSize="8dp"
+            android:textSize="8sp"
             app:cardCornerRadius="16dp" />
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="8dp"
+        android:id="@+id/cardImg"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/chipCategory"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/imgtest">
+
+        </ImageView>
+    </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
     </androidx.cardview.widget.CardView>

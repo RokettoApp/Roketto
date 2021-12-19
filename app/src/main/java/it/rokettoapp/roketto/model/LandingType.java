@@ -2,7 +2,9 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LandingType {
+import java.io.Serializable;
+
+public class LandingType implements Serializable {
 
     @SerializedName("id")
     private int mId;

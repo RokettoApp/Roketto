@@ -6,10 +6,12 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
+
 @Entity(tableName = "docking_event")
-public class DockingEvent {
+public class DockingEvent implements Serializable {
 
     @PrimaryKey
     @SerializedName("id")

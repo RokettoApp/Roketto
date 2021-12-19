@@ -5,8 +5,11 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
+
 @Entity(tableName = "launcher")
-public class Launcher {
+public class Launcher implements Serializable {
 
     @PrimaryKey
     @SerializedName("id")

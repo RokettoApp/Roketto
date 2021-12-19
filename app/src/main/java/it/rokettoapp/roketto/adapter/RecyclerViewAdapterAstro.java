@@ -2,13 +2,18 @@ package it.rokettoapp.roketto.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -21,6 +26,7 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
 
     private List<Astronaut> mAstro;
     private Context mContext;
+    private Drawable mFlag;
 
     public RecyclerViewAdapterAstro(Context mContext, List<Astronaut> mAstro) {
         this.mContext = mContext;
@@ -32,6 +38,7 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
 
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
+
         view = mInflater.inflate(R.layout.recycler_astronauts_item,parent,false);
 
         MyViewHolderAstro mHolder = new MyViewHolderAstro(view, new MyClickListener() {
@@ -50,6 +57,11 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
     public void onBindViewHolder(MyViewHolderAstro holder, final int position) {
 
         holder.astro_name.setText(mAstro.get(position).getName());
+        Glide.with(mContext).load(mAstro.get(position).getProfileImage()).into(holder.mImageAstro);
+
+
+        //holder.nationalFlag.setImageDrawable(mDraw);
+
     }
 
     @Override
@@ -60,6 +72,8 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
     public static class MyViewHolderAstro extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView astro_name;
+        private ImageView mImageAstro;
+        private ImageView nationalFlag;
         CardView cardView;
 
         MyClickListener listener;
@@ -68,6 +82,8 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
             super(itemView);
             astro_name = (TextView) itemView.findViewById(R.id.astronautsName);
             cardView = (CardView) itemView.findViewById(R.id.astro_card);
+            mImageAstro = (ImageView) itemView.findViewById(R.id.imgAstronauts);
+            nationalFlag = (ImageView) itemView.findViewById(R.id.nationalFlag);
 
             this.listener = listener;
 

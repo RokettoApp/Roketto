@@ -2,7 +2,9 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Update {
+import java.io.Serializable;
+
+public class Update implements Serializable {
 
     @SerializedName("id")
     private int mId;

@@ -4,7 +4,9 @@ import androidx.room.Ignore;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FirstStage {
+import java.io.Serializable;
+
+public class FirstStage implements Serializable {
 
     @SerializedName("id")
     private int mId;

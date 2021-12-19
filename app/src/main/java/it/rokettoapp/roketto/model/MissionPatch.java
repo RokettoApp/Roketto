@@ -7,8 +7,10 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity(tableName = "mission_patch")
-public class MissionPatch {
+public class MissionPatch implements Serializable {
 
     @PrimaryKey
     @NonNull

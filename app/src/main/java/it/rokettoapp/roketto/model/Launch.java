@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+
 @Entity(tableName = "launch")
 public class Launch implements Serializable {
 

@@ -1,32 +1,16 @@
 package it.rokettoapp.roketto.ui;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
 
 import it.rokettoapp.roketto.R;
-import it.rokettoapp.roketto.model.AstronautFlight;
-import it.rokettoapp.roketto.model.DockingEvent;
-import it.rokettoapp.roketto.model.DockingLocation;
 import it.rokettoapp.roketto.model.Event;
-import it.rokettoapp.roketto.model.Expedition;
-import it.rokettoapp.roketto.model.Launch;
-import it.rokettoapp.roketto.model.Pad;
-import it.rokettoapp.roketto.model.Program;
-import it.rokettoapp.roketto.model.SpaceStation;
-import it.rokettoapp.roketto.model.SpacecraftFlight;
-import it.rokettoapp.roketto.ui.viewmodel.AstronautViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.DockingEventViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.ExpeditionViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.LaunchViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.LocationViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.PadViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.ProgramViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.SpaceStationViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.SpacecraftFlightViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.SpacecraftViewModel;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -34,12 +18,19 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        getSupportActionBar().hide();
 
         Event mEvent = (Event) getIntent().getSerializableExtra("Event");
+        ImageButton back = (ImageButton)findViewById(R.id.backButtonEvent);
+        TextView eventDescription = (TextView) findViewById(R.id.eventDetailDescription);
+        ImageView mEventImage = (ImageView) findViewById(R.id.imageEvent);
 
-        TextView eventDetailName = findViewById(R.id.eventDetail_name);
-        eventDetailName.setText(mEvent.getName());
+        Glide.with(this).load(mEvent.getFeatureImage()).into(mEventImage);
 
+        back.setOnClickListener(v -> onBackPressed());
+
+        eventDescription.setText(mEvent.getDescription());
+        /*
         ViewModelProvider viewModelProvider = new ViewModelProvider(this);
         LaunchViewModel launchViewModel = viewModelProvider.get(LaunchViewModel.class);
         ProgramViewModel programViewModel = viewModelProvider.get(ProgramViewModel.class);
@@ -141,6 +132,6 @@ public class EventDetailActivity extends AppCompatActivity {
         }
         for (SpaceStation spaceStation : mEvent.getSpaceStationList()) {
             spaceStationViewModel.getSpaceStationById(spaceStation.getId());
-        }
+        } */
     }
 }
