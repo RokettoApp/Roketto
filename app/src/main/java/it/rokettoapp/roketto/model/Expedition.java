@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+
 @Entity(tableName = "expedition")
 public class Expedition implements Serializable {
 

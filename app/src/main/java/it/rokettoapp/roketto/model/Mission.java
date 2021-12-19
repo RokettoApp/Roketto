@@ -1,11 +1,14 @@
 package it.rokettoapp.roketto.model;
 
 import androidx.room.Embedded;
+import androidx.room.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+
+@Entity(tableName = "mission")
 public class Mission implements Serializable {
 
     @SerializedName("id")

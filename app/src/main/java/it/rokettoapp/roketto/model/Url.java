@@ -2,7 +2,9 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Url {
+import java.io.Serializable;
+
+public class Url implements Serializable {
 
     @SerializedName("priority")
     private int mPriority;
