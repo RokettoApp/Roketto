@@ -1,11 +1,15 @@
 package it.rokettoapp.roketto.repository;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.AgencyDao;
@@ -13,7 +17,9 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AgencyApiService;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,11 +30,15 @@ public class AgencyRepository {
     private final AgencyApiService mAgencyApiService;
     private final AgencyDao mAgencyDao;
     private final MutableLiveData<List<Agency>> mAgencyListLiveData;
+    private final Application mApplication;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public AgencyRepository(Application application) {
 
         this.mAgencyApiService = ServiceLocator.getInstance().getAgencyApiService();
+        this.mApplication = application;
+        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
         mAgencyDao = RokettoDatabase.getDatabase(application).agencyDao();
         mAgencyListLiveData = new MutableLiveData<>();
         count = 0;
@@ -36,8 +46,11 @@ public class AgencyRepository {
 
     public MutableLiveData<List<Agency>> getAgencyList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getAgenciesFromDatabase();
+        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY)==0 ||
+           System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) > Constants.HOUR) {
+            getAgenciesFromDatabase();
+            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
+        }
 //        fetchAgencies();
         return mAgencyListLiveData;
     }

@@ -13,7 +13,9 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.ProgramApiService;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,11 +26,15 @@ public class ProgramRepository {
     private final ProgramApiService mProgramApiService;
     private final ProgramDao mProgramDao;
     private final MutableLiveData<List<Program>> mProgramListLiveData;
+    private final Application mApplication;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public ProgramRepository(Application application) {
 
         this.mProgramApiService = ServiceLocator.getInstance().getProgramApiService();
+        this.mApplication = application;
+        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
         mProgramDao = RokettoDatabase.getDatabase(application).programDao();
         mProgramListLiveData = new MutableLiveData<>();
         count = 0;
@@ -36,8 +42,11 @@ public class ProgramRepository {
 
     public MutableLiveData<List<Program>> getProgramList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getProgramsFromDatabase();
+        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM) > Constants.HOUR) {
+            getProgramsFromDatabase();
+            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
+        }
 //        fetchPrograms();
         return mProgramListLiveData;
     }

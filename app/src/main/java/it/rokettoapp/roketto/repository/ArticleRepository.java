@@ -13,7 +13,9 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.ArticleType;
 import it.rokettoapp.roketto.service.ArticleApiService;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,11 +28,15 @@ public class ArticleRepository {
     private final MutableLiveData<List<Article>> mArticleListLiveData;
     private final MutableLiveData<List<Article>> mReportListLiveData;
     private final MutableLiveData<List<Article>> mBlogPostListLiveData;
+    private final Application mApplication;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public ArticleRepository(Application application) {
 
         this.mArticleApiService = ServiceLocator.getInstance().getArticleApiService();
+        this.mApplication = application;
+        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
         mArticleDao = RokettoDatabase.getDatabase(application).articleDao();
         mArticleListLiveData = new MutableLiveData<>();
         mReportListLiveData = new MutableLiveData<>();
@@ -40,24 +46,33 @@ public class ArticleRepository {
 
     public MutableLiveData<List<Article>> getArticleList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getArticlesFromDatabase();
+        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE) > Constants.HOUR) {
+            getArticlesFromDatabase();
+            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
+        }
 //        fetchArticles();
         return mArticleListLiveData;
     }
 
     public MutableLiveData<List<Article>> getReportList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getReportsFromDatabase();
+        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT) > Constants.HOUR) {
+            getReportsFromDatabase();
+            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT);
+        }
 //        fetchReports();
         return mReportListLiveData;
     }
 
     public MutableLiveData<List<Article>> getBlogPostList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getBlogPostsFromDatabase();
+        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST) > Constants.HOUR) {
+            getBlogPostsFromDatabase();
+            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST);
+        }
 //        fetchBlogPosts();
         return mBlogPostListLiveData;
     }

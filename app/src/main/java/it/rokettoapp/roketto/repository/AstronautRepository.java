@@ -13,7 +13,9 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,11 +26,15 @@ public class AstronautRepository {
     private final AstronautApiService mAstronautApiService;
     private final AstronautDao mAstronautDao;
     private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
+    private final Application mApplication;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public AstronautRepository(Application application) {
 
         this.mAstronautApiService = ServiceLocator.getInstance().getAstronautApiService();
+        this.mApplication = application;
+        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
         mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
         mAstronautListLiveData = new MutableLiveData<>();
         count = 0;
@@ -36,8 +42,11 @@ public class AstronautRepository {
 
     public MutableLiveData<List<Astronaut>> getAstronautList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getAstronautsFromDatabase();
+        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
+            getAstronautsFromDatabase();
+            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
+        }
 //        fetchAstronauts();
         return mAstronautListLiveData;
     }

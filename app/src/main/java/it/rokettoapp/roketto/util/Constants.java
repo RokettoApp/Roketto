@@ -57,5 +57,12 @@ public class Constants {
     public static final String REPORT_ENDPOINT = "reports/{id}";
 
     public static final String SHARED_PREFERENCES_FILE_NAME = "roketto.shared.preferences";
-    public static final String SHARED_PREFERENCES_LAST_UPDATE = "LAST_UPDATE";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_AGENCY = "LAST_UPDATE_AGENCY";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_ARTICLE = "LAST_UPDATE_ARTICLE";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_REPORT = "LAST_UPDATE_REPORT";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST = "LAST_UPDATE_BLOGPOST";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT = "LAST_UPDATE_ASTRONAUT";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_EVENT = "LAST_UPDATE_EVENT";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_PROGRAM = "LAST_UPDATE_PROGRAM";
+    public static final String SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT = "LAST_UPDATE_SPACECRAFT";
 }
