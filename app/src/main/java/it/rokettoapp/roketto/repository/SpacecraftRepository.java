@@ -27,15 +27,13 @@ public class SpacecraftRepository {
     private final SpacecraftApiService mSpacecraftApiService;
     private final SpacecraftDao mSpacecraftDao;
     private final MutableLiveData<List<Spacecraft>> mSpacecraftListLiveData;
-    private final Application mApplication;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public SpacecraftRepository(Application application) {
 
         this.mSpacecraftApiService = ServiceLocator.getInstance().getSpacecraftApiService();
-        this.mApplication = application;
-        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mSpacecraftDao = RokettoDatabase.getDatabase(application).spacecraftDao();
         mSpacecraftListLiveData = new MutableLiveData<>();
         count = 0;
@@ -43,10 +41,10 @@ public class SpacecraftRepository {
 
     public MutableLiveData<List<Spacecraft>> getSpacecraftList() {
 
-        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT) > Constants.HOUR) {
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT) > Constants.HOUR) {
             getSpacecraftsFromDatabase();
-            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
         }
 
 //        fetchSpacecrafts();

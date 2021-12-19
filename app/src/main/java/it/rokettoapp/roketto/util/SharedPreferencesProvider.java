@@ -11,13 +11,13 @@ public class SharedPreferencesProvider {
     public SharedPreferencesProvider(Application application) {
         this.mApplication = application;
     }
-    public long getLastUpdateAgency(String type) {
+    public long getLastUpdate(String type) {
         SharedPreferences sharedPref =
                 mApplication.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
         return sharedPref.getLong(type, 0);
     }
 
-    public void setLastUpdateAgency(long lastUpdate, String type) {
+    public void setLastUpdate(long lastUpdate, String type) {
         SharedPreferences sharedPref = mApplication.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();

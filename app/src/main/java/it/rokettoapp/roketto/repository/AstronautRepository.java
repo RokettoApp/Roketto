@@ -26,15 +26,13 @@ public class AstronautRepository {
     private final AstronautApiService mAstronautApiService;
     private final AstronautDao mAstronautDao;
     private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
-    private final Application mApplication;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public AstronautRepository(Application application) {
 
         this.mAstronautApiService = ServiceLocator.getInstance().getAstronautApiService();
-        this.mApplication = application;
-        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
         mAstronautListLiveData = new MutableLiveData<>();
         count = 0;
@@ -42,10 +40,10 @@ public class AstronautRepository {
 
     public MutableLiveData<List<Astronaut>> getAstronautList() {
 
-        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
             getAstronautsFromDatabase();
-            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
         }
 //        fetchAstronauts();
         return mAstronautListLiveData;

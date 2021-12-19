@@ -26,15 +26,13 @@ public class EventRepository {
     private final EventApiService mEventApiService;
     private final EventDao mEventDao;
     private final MutableLiveData<List<Event>> mEventListLiveData;
-    private final Application mApplication;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public EventRepository(Application application) {
 
         this.mEventApiService = ServiceLocator.getInstance().getEventApiService();
-        this.mApplication = application;
-        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mEventDao = RokettoDatabase.getDatabase(application).eventDao();
         mEventListLiveData = new MutableLiveData<>();
         count = 0;
@@ -42,10 +40,10 @@ public class EventRepository {
 
     public MutableLiveData<List<Event>> getEventList() {
 
-        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
             getEventsFromDatabase();
-            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
         }
 //        fetchEvents();
         return mEventListLiveData;

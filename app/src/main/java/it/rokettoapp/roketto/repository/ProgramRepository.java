@@ -26,15 +26,13 @@ public class ProgramRepository {
     private final ProgramApiService mProgramApiService;
     private final ProgramDao mProgramDao;
     private final MutableLiveData<List<Program>> mProgramListLiveData;
-    private final Application mApplication;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public ProgramRepository(Application application) {
 
         this.mProgramApiService = ServiceLocator.getInstance().getProgramApiService();
-        this.mApplication = application;
-        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mProgramDao = RokettoDatabase.getDatabase(application).programDao();
         mProgramListLiveData = new MutableLiveData<>();
         count = 0;
@@ -42,10 +40,10 @@ public class ProgramRepository {
 
     public MutableLiveData<List<Program>> getProgramList() {
 
-        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM) > Constants.HOUR) {
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM) > Constants.HOUR) {
             getProgramsFromDatabase();
-            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
         }
 //        fetchPrograms();
         return mProgramListLiveData;

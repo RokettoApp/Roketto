@@ -30,15 +30,13 @@ public class AgencyRepository {
     private final AgencyApiService mAgencyApiService;
     private final AgencyDao mAgencyDao;
     private final MutableLiveData<List<Agency>> mAgencyListLiveData;
-    private final Application mApplication;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public AgencyRepository(Application application) {
 
         this.mAgencyApiService = ServiceLocator.getInstance().getAgencyApiService();
-        this.mApplication = application;
-        mSharedPreferencesProvider = new SharedPreferencesProvider(mApplication);
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mAgencyDao = RokettoDatabase.getDatabase(application).agencyDao();
         mAgencyListLiveData = new MutableLiveData<>();
         count = 0;
@@ -46,10 +44,10 @@ public class AgencyRepository {
 
     public MutableLiveData<List<Agency>> getAgencyList() {
 
-        if(mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY)==0 ||
-           System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdateAgency(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) > Constants.HOUR) {
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY)==0 ||
+           System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) > Constants.HOUR) {
             getAgenciesFromDatabase();
-            mSharedPreferencesProvider.setLastUpdateAgency(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
         }
 //        fetchAgencies();
         return mAgencyListLiveData;
