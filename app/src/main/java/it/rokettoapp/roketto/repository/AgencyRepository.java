@@ -14,8 +14,10 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AgencyApiService;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +29,13 @@ public class AgencyRepository {
     private final AgencyDao mAgencyDao;
     private final DatabaseOperations<Integer, Agency> databaseOperations;
     private final MutableLiveData<List<Agency>> mAgencyListLiveData;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public AgencyRepository(Application application) {
 
         this.mAgencyApiService = ServiceLocator.getInstance().getAgencyApiService();
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mAgencyDao = RokettoDatabase.getDatabase(application).agencyDao();
         databaseOperations = new DatabaseOperations<>(mAgencyDao);
         mAgencyListLiveData = new MutableLiveData<>();
@@ -45,10 +49,14 @@ public class AgencyRepository {
 
     public void getAgencyList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-//        getAgenciesFromDatabase();
-        getNextAgencies(0);
-//        fetchAgencies();
+        if(System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) < Constants.HOUR) {
+            databaseOperations.getListFromDatabase(mAgencyListLiveData);
+        }
+        else{
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
+            fetchAgencies(0);
+        }
+
     }
 
     public void getAgencyById(int id) {

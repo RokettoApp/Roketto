@@ -15,7 +15,9 @@ import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.Spacecraft;
 import it.rokettoapp.roketto.service.SpacecraftApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +29,13 @@ public class SpacecraftRepository {
     private final SpacecraftDao mSpacecraftDao;
     private final DatabaseOperations<Integer, Spacecraft> databaseOperations;
     private final MutableLiveData<List<Spacecraft>> mSpacecraftListLiveData;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public SpacecraftRepository(Application application) {
 
         this.mSpacecraftApiService = ServiceLocator.getInstance().getSpacecraftApiService();
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mSpacecraftDao = RokettoDatabase.getDatabase(application).spacecraftDao();
         databaseOperations = new DatabaseOperations<>(mSpacecraftDao);
         mSpacecraftListLiveData = new MutableLiveData<>();
@@ -45,9 +49,13 @@ public class SpacecraftRepository {
 
     public void getSpacecraftList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        databaseOperations.getListFromDatabase(mSpacecraftListLiveData);
-//        fetchSpacecrafts();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT) > Constants.HOUR) {
+            fetchSpacecrafts();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
+        }
+        else
+            databaseOperations.getListFromDatabase(mSpacecraftListLiveData);
     }
 
     public void getSpacecraftById(int id) {

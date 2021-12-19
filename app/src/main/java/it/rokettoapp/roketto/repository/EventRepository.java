@@ -15,7 +15,9 @@ import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.EventApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +29,13 @@ public class EventRepository {
     private final EventDao mEventDao;
     private final DatabaseOperations<Integer, Event> databaseOperations;
     private final MutableLiveData<List<Event>> mEventListLiveData;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public EventRepository(Application application) {
 
         this.mEventApiService = ServiceLocator.getInstance().getEventApiService();
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mEventDao = RokettoDatabase.getDatabase(application).eventDao();
         databaseOperations = new DatabaseOperations<>(mEventDao);
         mEventListLiveData = new MutableLiveData<>();
@@ -45,9 +49,13 @@ public class EventRepository {
 
     public void getEventList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        databaseOperations.getListFromDatabase(mEventListLiveData);
-//        fetchEvents();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
+            fetchEvents();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
+        }
+        else
+            databaseOperations.getListFromDatabase(mEventListLiveData);
     }
 
     public void getEventById(int id) {

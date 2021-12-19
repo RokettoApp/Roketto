@@ -85,12 +85,12 @@ public class FragmentHome extends Fragment {
         });
         mEventViewModel.getEvents();
 
-        mAstroViewModel.getAstronauts().observe(getViewLifecycleOwner(), astronauts -> {
+        mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), astronauts -> {
             mAstros.clear();
             mAstros.addAll(astronauts);
             mAdapterAstro.notifyDataSetChanged();
         });
-
+        mAstroViewModel.getAstronauts();
         /*
         mBtnSeeMore.setVisibility(View.VISIBLE);
         mRecyclerViewEvents.addOnScrollListener(new RecyclerView.OnScrollListener() {
