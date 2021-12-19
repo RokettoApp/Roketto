@@ -42,10 +42,11 @@ public class EventRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
-            getEventsFromDatabase();
+            fetchEvents();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
         }
-//        fetchEvents();
+        else
+            getEventsFromDatabase();
         return mEventListLiveData;
     }
 

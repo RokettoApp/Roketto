@@ -46,10 +46,11 @@ public class ArticleRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE) > Constants.HOUR) {
-            getArticlesFromDatabase();
+            fetchArticles();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
         }
-//        fetchArticles();
+        else
+            getArticlesFromDatabase();
         return mArticleListLiveData;
     }
 
@@ -57,10 +58,11 @@ public class ArticleRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT) > Constants.HOUR) {
-            getReportsFromDatabase();
+            fetchReports();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT);
         }
-//        fetchReports();
+        else
+            getReportsFromDatabase();
         return mReportListLiveData;
     }
 
@@ -68,10 +70,11 @@ public class ArticleRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST) > Constants.HOUR) {
-            getBlogPostsFromDatabase();
+            fetchBlogPosts();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST);
         }
-//        fetchBlogPosts();
+        else
+            getBlogPostsFromDatabase();
         return mBlogPostListLiveData;
     }
 

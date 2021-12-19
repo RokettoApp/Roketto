@@ -43,11 +43,11 @@ public class SpacecraftRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT) > Constants.HOUR) {
-            getSpacecraftsFromDatabase();
+            fetchSpacecrafts();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
         }
-
-//        fetchSpacecrafts();
+        else
+            getSpacecraftsFromDatabase();
         return mSpacecraftListLiveData;
     }
 

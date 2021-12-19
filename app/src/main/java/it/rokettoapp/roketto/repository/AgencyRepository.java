@@ -46,10 +46,11 @@ public class AgencyRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY)==0 ||
            System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) > Constants.HOUR) {
-            getAgenciesFromDatabase();
+            fetchAgencies();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
         }
-//        fetchAgencies();
+        else
+            getAgenciesFromDatabase();
         return mAgencyListLiveData;
     }
 

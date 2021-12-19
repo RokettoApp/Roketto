@@ -42,10 +42,11 @@ public class AstronautRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
-            getAstronautsFromDatabase();
+            fetchAstronauts();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
         }
-//        fetchAstronauts();
+        else
+            getAstronautsFromDatabase();
         return mAstronautListLiveData;
     }
 

@@ -42,10 +42,11 @@ public class ProgramRepository {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM) > Constants.HOUR) {
-            getProgramsFromDatabase();
+            fetchPrograms();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
         }
-//        fetchPrograms();
+        else
+            getProgramsFromDatabase();
         return mProgramListLiveData;
     }
 
