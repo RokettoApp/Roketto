@@ -15,7 +15,9 @@ import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.ProgramApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +29,13 @@ public class ProgramRepository {
     private final ProgramDao mProgramDao;
     private final DatabaseOperations<Integer, Program> databaseOperations;
     private final MutableLiveData<List<Program>> mProgramListLiveData;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public ProgramRepository(Application application) {
 
         this.mProgramApiService = ServiceLocator.getInstance().getProgramApiService();
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mProgramDao = RokettoDatabase.getDatabase(application).programDao();
         databaseOperations = new DatabaseOperations<>(mProgramDao);
         mProgramListLiveData = new MutableLiveData<>();
@@ -45,9 +49,13 @@ public class ProgramRepository {
 
     public void getProgramList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        databaseOperations.getListFromDatabase(mProgramListLiveData);
-//        fetchPrograms();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM) > Constants.HOUR) {
+            fetchPrograms();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
+        }
+        else
+            databaseOperations.getListFromDatabase(mProgramListLiveData);
     }
 
     public void getProgramById(int id) {

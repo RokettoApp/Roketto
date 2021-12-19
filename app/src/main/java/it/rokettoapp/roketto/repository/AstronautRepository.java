@@ -15,7 +15,9 @@ import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +29,13 @@ public class AstronautRepository {
     private final AstronautDao mAstronautDao;
     private final DatabaseOperations<Integer, Astronaut> databaseOperations;
     private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public AstronautRepository(Application application) {
 
         this.mAstronautApiService = ServiceLocator.getInstance().getAstronautApiService();
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
         databaseOperations = new DatabaseOperations<>(mAstronautDao);
         mAstronautListLiveData = new MutableLiveData<>();
@@ -45,9 +49,13 @@ public class AstronautRepository {
 
     public void getAstronautList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        databaseOperations.getListFromDatabase(mAstronautListLiveData);
-//        fetchAstronauts();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
+            fetchAstronauts();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
+        }
+        else
+            databaseOperations.getListFromDatabase(mAstronautListLiveData);
     }
 
     public void getAstronautById(int id) {

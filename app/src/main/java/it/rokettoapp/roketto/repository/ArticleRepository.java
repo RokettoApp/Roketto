@@ -14,7 +14,9 @@ import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.ArticleType;
 import it.rokettoapp.roketto.service.ArticleApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
+import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,11 +30,13 @@ public class ArticleRepository {
     private final MutableLiveData<List<Article>> mArticleListLiveData;
     private final MutableLiveData<List<Article>> mReportListLiveData;
     private final MutableLiveData<List<Article>> mBlogPostListLiveData;
+    private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
     public ArticleRepository(Application application) {
 
         this.mArticleApiService = ServiceLocator.getInstance().getArticleApiService();
+        mSharedPreferencesProvider = new SharedPreferencesProvider(application);
         mArticleDao = RokettoDatabase.getDatabase(application).articleDao();
         databaseOperations = new DatabaseOperations<>(mArticleDao);
         mArticleListLiveData = new MutableLiveData<>();
@@ -58,23 +62,35 @@ public class ArticleRepository {
 
     public void getArticleList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getArticlesFromDatabase();
-//        fetchArticles();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE) > Constants.HOUR) {
+            fetchArticles();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
+        }
+        else
+            getArticlesFromDatabase();
     }
 
     public void getReportList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getReportsFromDatabase();
-//        fetchReports();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT) > Constants.HOUR) {
+            fetchReports();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT);
+        }
+        else
+            getReportsFromDatabase();
     }
 
     public void getBlogPostList() {
 
-        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getBlogPostsFromDatabase();
-//        fetchBlogPosts();
+        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST)==0 ||
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST) > Constants.HOUR) {
+            fetchBlogPosts();
+            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST);
+        }
+        else
+            getBlogPostsFromDatabase();
     }
 
     public void refreshAll() {
