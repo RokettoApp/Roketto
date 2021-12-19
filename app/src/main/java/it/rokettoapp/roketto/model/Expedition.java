@@ -1,12 +1,19 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Expedition {
+@Entity(tableName = "expedition")
+public class Expedition implements Serializable {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -23,13 +30,31 @@ public class Expedition {
     private SpaceStation mSpaceStation;
 
     @SerializedName("crew")
-    private List<Astronaut> mCrew;
+    private List<AstronautFlight> mCrew;
 
     @SerializedName("mission_patches")
     private List<MissionPatch> mMissionPatches;
 
+    @Ignore
+    public Expedition(int id) {
+
+        this.mId = id;
+    }
+
+    public Expedition(int id, String name, Date start, Date end, List<AstronautFlight> crew,
+                      List<MissionPatch> missionPatches) {
+
+        this.mId = id;
+        this.mName = name;
+        this.mStart = start;
+        this.mEnd = end;
+        this.mCrew = crew;
+        this.mMissionPatches = missionPatches;
+    }
+
+    @Ignore
     public Expedition(int id, String name, Date start, Date end, SpaceStation spaceStation,
-                      List<Astronaut> crew, List<MissionPatch> missionPatches) {
+                      List<AstronautFlight> crew, List<MissionPatch> missionPatches) {
 
         this.mId = id;
         this.mName = name;
@@ -90,12 +115,12 @@ public class Expedition {
         this.mSpaceStation = spaceStation;
     }
 
-    public List<Astronaut> getCrew() {
+    public List<AstronautFlight> getCrew() {
 
         return mCrew;
     }
 
-    public void setCrew(List<Astronaut> crew) {
+    public void setCrew(List<AstronautFlight> crew) {
 
         this.mCrew = crew;
     }

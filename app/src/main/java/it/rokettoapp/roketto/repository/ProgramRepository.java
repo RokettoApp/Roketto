@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.ProgramDao;
@@ -13,6 +14,7 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.ProgramApiService;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +25,7 @@ public class ProgramRepository {
     private static final String TAG = "ProgramRepository";
     private final ProgramApiService mProgramApiService;
     private final ProgramDao mProgramDao;
+    private final DatabaseOperations<Integer, Program> databaseOperations;
     private final MutableLiveData<List<Program>> mProgramListLiveData;
     int count;
 
@@ -30,16 +33,35 @@ public class ProgramRepository {
 
         this.mProgramApiService = ServiceLocator.getInstance().getProgramApiService();
         mProgramDao = RokettoDatabase.getDatabase(application).programDao();
+        databaseOperations = new DatabaseOperations<>(mProgramDao);
         mProgramListLiveData = new MutableLiveData<>();
         count = 0;
     }
 
-    public MutableLiveData<List<Program>> getProgramList() {
+    public MutableLiveData<List<Program>> getLiveData() {
+
+        return mProgramListLiveData;
+    }
+
+    public void getProgramList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getProgramsFromDatabase();
+        databaseOperations.getListFromDatabase(mProgramListLiveData);
 //        fetchPrograms();
-        return mProgramListLiveData;
+    }
+
+    public void getProgramById(int id) {
+
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        new Thread(() -> {
+            Program program = mProgramDao.getById(id);
+            if (program != null) {
+                List<Program> programList = new ArrayList<>();
+                programList.add(program);
+                mProgramListLiveData.postValue(programList);
+            } else
+                fetchProgramById(id);
+        }).start();
     }
 
     public void refreshPrograms() {
@@ -59,8 +81,8 @@ public class ProgramRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Program> programList = response.body().getResults();
+                    databaseOperations.saveList(programList);
                     mProgramListLiveData.postValue(programList);
-                    saveOnDatabase(programList);
                     Log.d(TAG, "Retrieved " + programList.size() + " programs.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -87,6 +109,10 @@ public class ProgramRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Program program = response.body();
+                    databaseOperations.saveValue(program);
+                    List<Program> programList = new ArrayList<>();
+                    programList.add(program);
+                    mProgramListLiveData.postValue(programList);
                     Log.d(TAG, program.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -99,18 +125,5 @@ public class ProgramRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-    }
-
-    private void saveOnDatabase(List<Program> programList) {
-
-        RokettoDatabase.databaseWriteExecutor.execute(() -> {
-            mProgramDao.deleteAll();
-            mProgramDao.insertProgramList(programList);
-        });
-    }
-
-    private void getProgramsFromDatabase() {
-
-        new Thread(() -> mProgramListLiveData.postValue(mProgramDao.getAll())).start();
     }
 }

@@ -1,9 +1,17 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "mission_patch")
 public class MissionPatch {
 
+    @PrimaryKey
+    @NonNull
     @SerializedName("id")
     private String mId;
 
@@ -19,6 +27,7 @@ public class MissionPatch {
     @SerializedName("agency")
     private Agency mAgency;
 
+    @Ignore
     public MissionPatch(String id) {
         this.mId = id;
     }

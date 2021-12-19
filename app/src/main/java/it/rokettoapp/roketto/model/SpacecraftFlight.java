@@ -1,12 +1,18 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
 
+@Entity(tableName = "spacecraft_flight")
 public class SpacecraftFlight {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -34,7 +40,9 @@ public class SpacecraftFlight {
     @SerializedName("docking_events")
     private List<DockingEvent> mDockingEvent;
 
+    @Ignore
     public SpacecraftFlight(int id) {
+
         this.mId = id;
     }
 
@@ -94,7 +102,7 @@ public class SpacecraftFlight {
         this.mLaunchCrew = launchCrew;
     }
 
-    public List<AstronautFlight> gemOnboardCrew() {
+    public List<AstronautFlight> getOnboardCrew() {
 
         return mOnboardCrew;
     }

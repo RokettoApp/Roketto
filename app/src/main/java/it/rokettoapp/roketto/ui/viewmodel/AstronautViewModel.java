@@ -20,17 +20,22 @@ public class AstronautViewModel extends AndroidViewModel {
 
         super(application);
         mAstronautRepository = new AstronautRepository(application);
+        mAstronautListLivedata = mAstronautRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Astronaut>> getAstronauts() {
+    public MutableLiveData<List<Astronaut>> getLiveData() {
 
-        if (mAstronautListLivedata == null) fetchAstronauts();
         return mAstronautListLivedata;
     }
 
-    private void fetchAstronauts() {
+    public void getAstronauts() {
 
-        mAstronautListLivedata = mAstronautRepository.getAstronautList();
+        mAstronautRepository.getAstronautList();
+    }
+
+    public void getAstronautById(int id) {
+
+        mAstronautRepository.getAstronautById(id);
     }
 
     public void refreshAstronauts() {

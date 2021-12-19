@@ -1,11 +1,18 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Location {
+@Entity(tableName = "location")
+public class Location implements Serializable {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -27,6 +34,11 @@ public class Location {
     @SerializedName("pads")
     private List<Pad> mPads;
 
+    @Ignore
+    public Location(int id) {
+
+        this.mId = id;
+    }
 
     public Location(int id, String name, String countryCode, String mapImage,
                     String totalLaunchCount, String totalLandingCount, List<Pad> pads) {

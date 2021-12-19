@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import it.rokettoapp.roketto.model.Update;
 import it.rokettoapp.roketto.model.ResponseList;
+import it.rokettoapp.roketto.model.Update;
 import it.rokettoapp.roketto.service.UpdateApiService;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
@@ -35,11 +35,7 @@ public class UpdateRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Update> updateList = response.body().getResults();
-                    StringBuilder debugString = new StringBuilder();
-                    for (Update update : updateList) {
-                        debugString.append(update.getCreatedBy()).append(" --- ");
-                    }
-                    Log.d(TAG, debugString.toString());
+                    Log.d(TAG, "Retrieved " + updateList.size() + " updates.");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }

@@ -1,7 +1,6 @@
 package it.rokettoapp.roketto.model;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -46,9 +45,7 @@ public class Article {
     @SerializedName("events")
     private List<ArticleEvent> mEventList;
 
-
     private ArticleType mArticleType;
-
 
     public Article(int id, String title, String url, String imageUrl, String source,
                    String summary, Date publishedAt, Date updatedAt, boolean featured,

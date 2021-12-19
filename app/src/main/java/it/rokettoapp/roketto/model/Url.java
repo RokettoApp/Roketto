@@ -2,7 +2,7 @@ package it.rokettoapp.roketto.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class VidUrl {
+public class Url {
 
     @SerializedName("priority")
     private int mPriority;
@@ -19,7 +19,7 @@ public class VidUrl {
     @SerializedName("url")
     private String mUrl;
 
-    public VidUrl(int priority, String title, String description, String featureImage, String url) {
+    public Url(int priority, String title, String description, String featureImage, String url) {
 
         this.mPriority = priority;
         this.mTitle = title;
@@ -33,7 +33,7 @@ public class VidUrl {
         return mPriority;
     }
 
-    public void setmriority(int priority) {
+    public void setPriority(int priority) {
 
         this.mPriority = priority;
     }

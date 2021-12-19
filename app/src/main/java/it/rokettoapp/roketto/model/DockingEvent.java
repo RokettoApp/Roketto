@@ -1,11 +1,17 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
+@Entity(tableName = "docking_event")
 public class DockingEvent {
 
+    @PrimaryKey
     @SerializedName("id")
     private int mId;
 
@@ -26,6 +32,12 @@ public class DockingEvent {
 
     @SerializedName("space_station")
     private SpaceStation mSpaceStation;
+
+    @Ignore
+    public DockingEvent(int id) {
+
+        this.mId = id;
+    }
 
     public DockingEvent(int id, String launchId, Date docking, Date departure,
                         SpacecraftFlight flightVehicle, DockingLocation dockingLocation,

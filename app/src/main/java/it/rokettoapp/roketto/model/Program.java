@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "program")
-public class Program {
+public class Program implements Serializable {
 
     @PrimaryKey
     @SerializedName("id")
@@ -42,6 +43,12 @@ public class Program {
 
     @SerializedName("mission_patches")
     private List<MissionPatch> mMissionPatch;
+
+    @Ignore
+    public Program(int id) {
+
+        this.mId = id;
+    }
 
     public Program(int id, String name, String description, List<Agency> agencies, String imageUrl,
                    Date startDate, Date endDate, String infoUrl, String wikipedia,

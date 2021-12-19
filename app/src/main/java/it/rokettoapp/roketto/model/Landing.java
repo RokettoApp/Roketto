@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Landing {
@@ -16,9 +18,11 @@ public class Landing {
     @SerializedName("description")
     private String mDescription;
 
+    @Embedded(prefix = "location_")
     @SerializedName("location")
     private LandingLocation mLocation;
 
+    @Embedded(prefix = "type_")
     @SerializedName("type")
     private LandingType mType;
 

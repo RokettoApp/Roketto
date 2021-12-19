@@ -10,20 +10,31 @@ import java.util.List;
 import it.rokettoapp.roketto.model.Astronaut;
 
 @Dao
-public interface AstronautDao {
+public interface AstronautDao extends GenericDao<Integer, Astronaut> {
 
+    @Override
     @Query("SELECT * FROM astronaut")
     List<Astronaut> getAll();
 
-    @Insert
-    void insertAstronautList(List<Astronaut> astronautList);
+    @Override
+    @Query("SELECT * " +
+           "FROM astronaut " +
+           "WHERE mId = :id")
+    Astronaut getById(Integer id);
 
+    @Override
     @Insert
-    void insertAstronaut(Astronaut astronaut);
+    void insertList(List<Astronaut> astronautList);
 
+    @Override
+    @Insert
+    void insert(Astronaut astronaut);
+
+    @Override
     @Delete
     void delete(Astronaut astronaut);
 
+    @Override
     @Query("DELETE FROM astronaut")
     void deleteAll();
 }

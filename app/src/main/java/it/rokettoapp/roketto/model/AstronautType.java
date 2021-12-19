@@ -1,14 +1,22 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 public class AstronautType {
 
+    @Ignore
     @SerializedName("id")
     private int mId;
 
     @SerializedName("name")
     private String mName;
+
+    public AstronautType(String name) {
+
+        this.mName = name;
+    }
 
     public AstronautType(int id, String name) {
 

@@ -3,6 +3,7 @@ package it.rokettoapp.roketto.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
@@ -10,19 +11,31 @@ import java.util.List;
 import it.rokettoapp.roketto.model.Event;
 
 @Dao
-public interface EventDao {
+public interface EventDao extends GenericDao<Integer, Event> {
+
+    @Override
     @Query("SELECT * FROM event")
     List<Event> getAll();
 
-    @Insert
-    void insertEventList(List<Event> eventList);
+    @Override
+    @Query("SELECT * " +
+           "FROM event " +
+           "WHERE mId = :id")
+    Event getById(Integer id);
 
-    @Insert
-    void insertEvent(Event event);
+    @Override
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertList(List<Event> eventList);
 
+    @Override
+    @Insert
+    void insert(Event event);
+
+    @Override
     @Delete
     void delete(Event event);
 
+    @Override
     @Query("DELETE FROM event")
     void deleteAll();
 }

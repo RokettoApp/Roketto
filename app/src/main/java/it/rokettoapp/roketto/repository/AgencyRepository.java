@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.database.AgencyDao;
@@ -13,6 +14,7 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AgencyApiService;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +25,7 @@ public class AgencyRepository {
     private static final String TAG = "AgencyRepository";
     private final AgencyApiService mAgencyApiService;
     private final AgencyDao mAgencyDao;
+    private final DatabaseOperations<Integer, Agency> databaseOperations;
     private final MutableLiveData<List<Agency>> mAgencyListLiveData;
     int count;
 
@@ -30,26 +33,56 @@ public class AgencyRepository {
 
         this.mAgencyApiService = ServiceLocator.getInstance().getAgencyApiService();
         mAgencyDao = RokettoDatabase.getDatabase(application).agencyDao();
+        databaseOperations = new DatabaseOperations<>(mAgencyDao);
         mAgencyListLiveData = new MutableLiveData<>();
         count = 0;
     }
 
-    public MutableLiveData<List<Agency>> getAgencyList() {
+    public MutableLiveData<List<Agency>> getLiveData() {
+
+        return mAgencyListLiveData;
+    }
+
+    public void getAgencyList() {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        getAgenciesFromDatabase();
+//        getAgenciesFromDatabase();
+        getNextAgencies(0);
 //        fetchAgencies();
-        return mAgencyListLiveData;
+    }
+
+    public void getAgencyById(int id) {
+
+        // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        new Thread(() -> {
+            Agency agency = mAgencyDao.getById(id);
+            if (agency != null) {
+                List<Agency> agencyList = new ArrayList<>();
+                agencyList.add(agency);
+                mAgencyListLiveData.postValue(agencyList);
+            } else
+                fetchAgencyById(id);
+        }).start();
+    }
+
+    public void getNextAgencies(int lastId) {
+
+        new Thread(() -> {
+            List<Agency> agencyList = mAgencyDao.getAllInRange(lastId, lastId + 5);
+            if (agencyList.size() == 5) mAgencyListLiveData.postValue(agencyList);
+            else fetchAgencies(lastId);
+        }).start();
     }
 
     public void refreshAgencies() {
 
-        fetchAgencies();
+        fetchAgencies(0);
     }
 
-    private void fetchAgencies() {
+    private void fetchAgencies(int offset) {
 
-        Call<ResponseList<Agency>> agencyResponseCall = mAgencyApiService.getAgencies(5, count);
+        Call<ResponseList<Agency>> agencyResponseCall =
+                mAgencyApiService.getAgencies(5, offset, "id");
         agencyResponseCall.enqueue(new Callback<ResponseList<Agency>>() {
 
             @Override
@@ -58,8 +91,8 @@ public class AgencyRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Agency> agencyList = response.body().getResults();
+                    databaseOperations.saveList(agencyList);
                     mAgencyListLiveData.postValue(agencyList);
-                    saveOnDatabase(agencyList);
                     Log.d(TAG, "Retrieved " + agencyList.size() + " agencies.");
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -86,6 +119,10 @@ public class AgencyRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     Agency agency = response.body();
+                    databaseOperations.saveValue(agency);
+                    List<Agency> agencyList = new ArrayList<>();
+                    agencyList.add(agency);
+                    mAgencyListLiveData.postValue(agencyList);
                     Log.d(TAG, agency.getName());
                 } else {
                     Log.e(TAG, "Request failed.");
@@ -98,18 +135,5 @@ public class AgencyRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-    }
-
-    private void saveOnDatabase(List<Agency> agencyList) {
-
-        RokettoDatabase.databaseWriteExecutor.execute(() -> {
-            mAgencyDao.deleteAll();
-            mAgencyDao.insertAgencyList(agencyList);
-        });
-    }
-
-    private void getAgenciesFromDatabase() {
-
-        new Thread(() -> mAgencyListLiveData.postValue(mAgencyDao.getAll())).start();
     }
 }
