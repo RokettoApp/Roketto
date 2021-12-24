@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.LaunchDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
@@ -28,12 +30,15 @@ public class LaunchRepository {
     private final DatabaseOperations<String, Launch> databaseOperations;
     private final MutableLiveData<List<Launch>> mLaunchListLiveData;
 
+    private final ExecutorService mLaunchExecutorService;
+
     public LaunchRepository(Application application) {
 
         this.mLaunchApiService = ServiceLocator.getInstance().getLaunchApiService();
         mLaunchDao = RokettoDatabase.getDatabase(application).launchDao();
         databaseOperations = new DatabaseOperations<>(mLaunchDao);
         mLaunchListLiveData = new MutableLiveData<>();
+        mLaunchExecutorService = Executors.newSingleThreadExecutor();
     }
 
     public MutableLiveData<List<Launch>> getLiveData() {
@@ -51,15 +56,31 @@ public class LaunchRepository {
     public void getLaunchById(String id) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-        new Thread(() -> {
+
+        mLaunchExecutorService.execute(new Runnable(){
+            @Override
+            public void run(){
+                Launch launch = mLaunchDao.getById(id);
+                if (launch != null) {
+                    List<Launch> launchList = new ArrayList<>();
+                    launchList.add(launch);
+                    Log.d(TAG, launch.getName());
+                    mLaunchListLiveData.postValue(launchList);
+                } else
+                    fetchLaunchById(id);
+            }
+        });
+
+       /* new Thread(() -> {
             Launch launch = mLaunchDao.getById(id);
             if (launch != null) {
                 List<Launch> launchList = new ArrayList<>();
                 launchList.add(launch);
+                Log.d(TAG, launch.getName());
                 mLaunchListLiveData.postValue(launchList);
             } else
                 fetchLaunchById(id);
-        }).start();
+        }).start();*/
     }
 
     public void fetchLaunches() {
@@ -104,7 +125,7 @@ public class LaunchRepository {
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
                     mLaunchListLiveData.postValue(launchList);
-                    Log.d(TAG, launch.getName());
+                    Log.d(TAG, launch.getName() + " API");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }

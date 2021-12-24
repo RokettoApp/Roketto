@@ -27,10 +27,12 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
     private List<Astronaut> mAstro;
     private Context mContext;
     private Drawable mFlag;
+    private boolean mLimit;
 
-    public RecyclerViewAdapterAstro(Context mContext, List<Astronaut> mAstro) {
+    public RecyclerViewAdapterAstro(Context mContext, List<Astronaut> mAstro, boolean mLimit) {
         this.mContext = mContext;
         this.mAstro = mAstro;
+        this.mLimit = mLimit;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
             @Override
             public void onClick(int p) {
                 Intent intent = new Intent(mContext, AstroDetailActivity.class);
-                intent.putExtra("Astronaut", mAstro.get(p));
+                intent.putExtra("Astronaut", mAstro.get(p).getId());
                 mContext.startActivity(intent);
             }
         });
@@ -66,6 +68,9 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
 
     @Override
     public int getItemCount() {
+        if(mLimit)
+            if(mAstro.size() > 5)
+                return 5;
         return mAstro.size();
     }
 

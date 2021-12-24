@@ -89,7 +89,7 @@ public class AstronautRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Astronaut> astronautList = response.body().getResults();
-                    databaseOperations.saveList(astronautList);
+                    //databaseOperations.saveList(astronautList);
                     mAstronautListLiveData.postValue(astronautList);
                     Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {

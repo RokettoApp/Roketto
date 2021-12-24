@@ -13,5 +13,7 @@
     <string name="station">Station</string>
     <string name="recentnews">Recent News</string>
     <string name="human_exp">HUMAN EXPLORATION</string>
+    <string name="astro_launches">Spaceflight Record</string>
+    <string name="about">About</string>
 
 </resources>

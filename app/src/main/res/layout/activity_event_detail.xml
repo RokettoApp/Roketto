@@ -87,14 +87,13 @@
 
         <include
             android:id="@+id/cardLaunch"
-            android:layout_below="@+id/launchTitle"
             layout="@layout/recycleview_row_layout"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/launchTitle"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            >
+            android:layout_marginEnd="16dp">
 
         </include>
 

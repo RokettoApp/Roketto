@@ -31,4 +31,5 @@ public class DatabaseOperations<K, V> {
 
         new Thread(() -> liveData.postValue(dao.getAll())).start();
     }
+
 }

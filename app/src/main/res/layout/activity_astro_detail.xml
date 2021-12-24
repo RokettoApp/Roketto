@@ -1,22 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.AstroDetailActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/astroDetail_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.AstroDetailActivity">
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/astroDetail_name" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImageAstro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            android:layout_marginTop="-16dp"
+            android:layout_alignParentTop="true"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <FrameLayout
+                android:id="@+id/frameImageAstro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false">
+
+                <ImageView
+                    android:id="@+id/imageAstro"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/testsfondo"
+                    android:scaleType="fitXY"
+                    />
+
+                <ImageButton
+                    android:id="@+id/backButtonAstro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    app:srcCompat="@drawable/ic_baseline_home_24" />
+
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/astroDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/cardImageAstro"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/astroDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:textSize="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/astroDescription"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/astroLaunchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/astro_launches"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/astroDetailDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <Button
+            android:id="@+id/launches_see_all"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:drawableRight="@drawable/ic_baseline_chevron_right_24"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/eventsSeeAll"
+            android:textAllCaps="false"
+            android:textColor="@color/accent_color"
+            android:textSize="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.929"
+            app:layout_constraintStart_toEndOf="@+id/astroLaunchTitle"
+            app:layout_constraintTop_toBottomOf="@id/astroDetailDescription" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/launchesAstrorv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:overScrollMode="never"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/astroLaunchTitle"/>
+
+        <ImageView
+            android:id="@+id/agencyAstro"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:visibility="gone"
+
+            android:adjustViewBounds="true"
+            android:src="@drawable/testsfondo"
+            android:scaleType="fitXY"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent
+"
+            app:layout_constraintTop_toBottomOf="@+id/launchesAstrorv"
+            android:layout_marginTop="16dp"
+            />
+
+        <TextView
+            android:id="@+id/agencyAstroDescr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:textSize="14dp"
+
+            app:layout_constraintTop_toBottomOf="@+id/agencyAstro"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
