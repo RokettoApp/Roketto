@@ -59,6 +59,7 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
     public void onBindViewHolder(MyViewHolderAstro holder, final int position) {
 
         holder.astro_name.setText(mAstro.get(position).getName());
+        holder.astro_name.setSelected(true);
         Glide.with(mContext).load(mAstro.get(position).getProfileImage()).into(holder.mImageAstro);
 
 
