@@ -3,6 +3,7 @@ package it.rokettoapp.roketto.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface AstronautDao extends GenericDao<Integer, Astronaut> {
     Astronaut getById(Integer id);
 
     @Override
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertList(List<Astronaut> astronautList);
 
     @Override
