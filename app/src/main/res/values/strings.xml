@@ -15,5 +15,6 @@
     <string name="human_exp">HUMAN EXPLORATION</string>
     <string name="astro_launches">Spaceflight Record</string>
     <string name="about">About</string>
+    <string name="agency">Agency</string>
 
 </resources>

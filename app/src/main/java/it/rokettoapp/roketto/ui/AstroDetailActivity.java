@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
-import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterLaunches;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.Astronaut;
@@ -50,6 +48,8 @@ public class AstroDetailActivity extends AppCompatActivity {
         int mAstroId = (int) getIntent().getSerializableExtra("Astronaut");
         TextView mAstroDescription = (TextView) findViewById(R.id.astroDetailDescription);
         TextView mAgencyDescription = (TextView) findViewById(R.id.agencyAstroDescr);
+        TextView mAgencyName = (TextView) findViewById(R.id.astroAgencyName);
+        Chip mAgencyType = (Chip) findViewById(R.id.chipAgency);
         ImageView mAstroProfile = (ImageView) findViewById(R.id.imageAstro);
         ImageView mAgencyAstro = (ImageView) findViewById(R.id.agencyAstro);
         Button mLaunchesSeeAll = (Button) findViewById(R.id.launches_see_all);
@@ -70,7 +70,7 @@ public class AstroDetailActivity extends AppCompatActivity {
         LinearLayoutManager mLineaLayoutLaunches = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerLaunches.setLayoutManager(mLineaLayoutLaunches);
 
-        RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, true);
+        RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, false);
         mRecyclerLaunches.setAdapter(mAdapterLaunches);
 
         //Implementazione backbutton
@@ -88,7 +88,7 @@ public class AstroDetailActivity extends AppCompatActivity {
 
             mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
 
-            if(mAstro.getFlightList().size() > 2)
+            if(mAstro.getFlightList().size() > 5)
                 mLaunchesSeeAll.setVisibility(View.VISIBLE);
 
             for (Launch l: mAstro.getFlightList()) {
@@ -110,6 +110,9 @@ public class AstroDetailActivity extends AppCompatActivity {
                 mAgencyAstro.setVisibility(View.VISIBLE);
                 Glide.with(this).load(mLogo).into(mAgencyAstro);
             }
+
+            mAgencyName.setText(mAgency.getName());
+            mAgencyType.setText(mAgency.getType());
 
             mAgencyDescription.setText(mAgency.getDescription());
         });
