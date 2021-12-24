@@ -325,32 +325,22 @@ public class Converters {
 
     //Launch
     @TypeConverter
-    public static String fromLaunchToJson(List<Launch> value) {
-        if (value == null) {
-            return (null);
-        }
+    public static String fromLaunchToJson(List<Launch> launchList) {
+
+        if (launchList == null) return null;
+
         Gson gson = new Gson();
-        List<String> ids = new ArrayList<String>();
-        for (int i=0; i<value.size(); i++){
-            ids.add(value.get(i).getId());
-        }
-        String json = gson.toJson(ids);
-        return json;
+        Type type = new TypeToken<List<Launch>>() {}.getType();
+        return gson.toJson(launchList, type);
     }
     @TypeConverter
-    public static List<Launch> fromJsonToLaunch(String value) {
-        if (value == null) {
-            return (null);
-        }
+    public static List<Launch> fromJsonToLaunch(String json) {
+
+        if (json == null) return null;
+
         Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {}.getType();
-        List<String> ids = gson.fromJson(value, type);
-        List<Launch> valueList = new ArrayList<Launch>();
-        for (int i=0; i<ids.size(); i++){
-            Launch launchId = new Launch(ids.get(i));
-            valueList.add(launchId);
-        }
-        return valueList;
+        Type type = new TypeToken<List<Launch>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @TypeConverter
@@ -397,11 +387,9 @@ public class Converters {
         if (programList == null) return null;
 
         Gson gson = new Gson();
-        List<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < programList.size(); i++) {
-            ids.add(programList.get(i).getId());
-        }
-        return gson.toJson(ids);
+        Type type = new TypeToken<List<Program>>() {}.getType();
+
+        return gson.toJson(programList, type);
     }
 
     @TypeConverter
@@ -410,14 +398,8 @@ public class Converters {
         if (json == null) return null;
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> idList = gson.fromJson(json, type);
-        List<Program> programList = new ArrayList<>();
-        for (int i = 0; i < idList.size(); i++) {
-            Program program = new Program(idList.get(i));
-            programList.add(program);
-        }
-        return programList;
+        Type type = new TypeToken<List<Program>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     // DockingEvent
@@ -639,11 +621,8 @@ public class Converters {
         if (spaceStationList == null) return null;
 
         Gson gson = new Gson();
-        List<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < spaceStationList.size(); i++) {
-            ids.add(spaceStationList.get(i).getId());
-        }
-        return gson.toJson(ids);
+        Type type = new TypeToken<List<SpaceStation>>() {}.getType();
+        return gson.toJson(spaceStationList, type);
     }
 
     @TypeConverter
@@ -652,14 +631,8 @@ public class Converters {
         if (json == null) return null;
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> idList = gson.fromJson(json, type);
-        List<SpaceStation> spaceStationList = new ArrayList<>();
-        for (int i = 0; i < idList.size(); i++) {
-            SpaceStation spaceStation = new SpaceStation(idList.get(i));
-            spaceStationList.add(spaceStation);
-        }
-        return spaceStationList;
+        Type type = new TypeToken<List<SpaceStation>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @TypeConverter

@@ -16,8 +16,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             android:layout_marginTop="-16dp"
-            android:layout_alignParentTop="true"
-           >
+            android:layout_alignParentTop="true" >
 
             <FrameLayout
                 android:id="@+id/frameImageEvent"
@@ -31,8 +30,7 @@
                     android:layout_height="250dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/testsfondo"
-                    android:scaleType="fitXY"
-                    />
+                    android:scaleType="fitXY" />
 
                 <ImageButton
                     android:id="@+id/backButtonEvent"
@@ -41,92 +39,134 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     app:srcCompat="@drawable/ic_baseline_home_24" />
-
             </FrameLayout>
         </androidx.cardview.widget.CardView>
-
-
 
         <TextView
             android:id="@+id/eventDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/description"
+            android:layout_below="@+id/cardImageEvent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_below="@+id/cardImageEvent"
-            android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
-            android:textSize="16sp"
-            />
+            android:text="@string/description"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/eventDetailDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:text="@{event.description}"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_below="@+id/eventDescription"
-            android:textSize="14dp"
-            />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/launchTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/launch"
+            android:layout_below="@+id/eventDetailDescription"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_below="@+id/eventDetailDescription"
-            android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
+            android:text="@string/launch"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            />
+            android:visibility="gone" />
 
-        <include
-            android:id="@+id/cardLaunch"
-            android:layout_below="@+id/launchTitle"
-            layout="@layout/recycleview_row_layout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLaunch"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_below="@id/launchTitle"
             android:layout_marginStart="16dp"
-            android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
-            >
-
-        </include>
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:overScrollMode="never"
+            android:visibility="gone">
+        </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/stationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/station"
+            android:layout_below="@+id/recyclerViewLaunch"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_below="@+id/cardLaunch"
-            android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
+            android:text="@string/station"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            />
+            android:visibility="gone" />
 
-        <include
-            android:id="@+id/cardStation"
-            android:layout_below="@+id/stationTitle"
-            layout="@layout/recycleview_row_layout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSpaceStation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_below="@id/stationTitle"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            >
+            android:overScrollMode="never"
+            android:visibility="gone">
+        </androidx.recyclerview.widget.RecyclerView>
 
-        </include>
+        <TextView
+            android:id="@+id/expeditionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerViewSpaceStation"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/expedition"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExpedition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/expeditionTitle"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:overScrollMode="never"
+            android:visibility="gone">
+        </androidx.recyclerview.widget.RecyclerView>
 
+        <TextView
+            android:id="@+id/programTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerViewExpedition"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/program"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewProgram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/programTitle"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:overScrollMode="never"
+            android:visibility="gone">
+        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 </ScrollView>
-
