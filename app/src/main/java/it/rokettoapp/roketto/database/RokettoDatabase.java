@@ -19,7 +19,6 @@ import it.rokettoapp.roketto.model.Expedition;
 import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.Launcher;
 import it.rokettoapp.roketto.model.Location;
-import it.rokettoapp.roketto.model.MissionPatch;
 import it.rokettoapp.roketto.model.Pad;
 import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.SpaceStation;
@@ -27,9 +26,8 @@ import it.rokettoapp.roketto.model.Spacecraft;
 import it.rokettoapp.roketto.model.SpacecraftFlight;
 
 @Database(entities = {Agency.class, Astronaut.class, Spacecraft.class, Article.class, Event.class,
-        Program.class, MissionPatch.class, Expedition.class, Launch.class, SpaceStation.class,
-        DockingEvent.class, SpacecraftFlight.class, Pad.class, Location.class, Launcher.class},
-        version = 1)
+        Program.class, Expedition.class, Launch.class, SpaceStation.class, DockingEvent.class,
+        SpacecraftFlight.class, Pad.class, Location.class, Launcher.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class RokettoDatabase extends RoomDatabase {
 
@@ -40,7 +38,6 @@ public abstract class RokettoDatabase extends RoomDatabase {
     public abstract EventDao eventDao();
     public abstract ExpeditionDao expeditionDao();
     public abstract LaunchDao launchDao();
-    public abstract MissionPatchDao missionPatchDao();
     public abstract ProgramDao programDao();
     public abstract SpacecraftDao spacecraftDao();
     public abstract SpacecraftFlightDao spacecraftFlightDao();

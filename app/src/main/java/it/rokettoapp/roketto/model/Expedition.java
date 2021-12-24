@@ -42,18 +42,6 @@ public class Expedition implements Serializable {
         this.mId = id;
     }
 
-    public Expedition(int id, String name, Date start, Date end, List<AstronautFlight> crew,
-                      List<MissionPatch> missionPatches) {
-
-        this.mId = id;
-        this.mName = name;
-        this.mStart = start;
-        this.mEnd = end;
-        this.mCrew = crew;
-        this.mMissionPatches = missionPatches;
-    }
-
-    @Ignore
     public Expedition(int id, String name, Date start, Date end, SpaceStation spaceStation,
                       List<AstronautFlight> crew, List<MissionPatch> missionPatches) {
 
