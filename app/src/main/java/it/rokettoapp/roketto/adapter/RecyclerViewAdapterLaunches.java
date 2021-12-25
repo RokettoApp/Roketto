@@ -56,7 +56,7 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         holder.mStatusCircle.setVisibility(View.VISIBLE);
 
         holder.mHours.setVisibility(View.VISIBLE);
-        //holder.mHours.setText(mLaunches.get(position).getNet());
+        holder.mHours.setText(mLaunches.get(position).getNet().getHours() + ":" + mLaunches.get(position).getNet().getMinutes());
 
         Log.d("Rv", mLaunches.get(position).getName() + " RV");
     }
