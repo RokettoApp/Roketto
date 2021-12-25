@@ -1,6 +1,10 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +55,19 @@ public class AstroDetailActivity extends AppCompatActivity {
         TextView mAstroDescription = (TextView) findViewById(R.id.astroDetailDescription);
         TextView mAgencyDescription = (TextView) findViewById(R.id.agencyAstroDescr);
         TextView mAgencyName = (TextView) findViewById(R.id.astroAgencyName);
+        TextView mNationality = (TextView) findViewById(R.id.txtNationality);
+        TextView mAstroStatus = (TextView) findViewById(R.id.txtStatus);
+        TextView mAstroName = (TextView) findViewById(R.id.astronautsNameTitle);
+        TextView mAstroBirth = (TextView) findViewById(R.id.txtBirthDate);
         Chip mAgencyType = (Chip) findViewById(R.id.chipAgency);
         ImageView mAstroProfile = (ImageView) findViewById(R.id.imageAstro);
         ImageView mAgencyAstro = (ImageView) findViewById(R.id.agencyAstro);
+        ImageView mWiki = (ImageView) findViewById(R.id.iconWiki);
+        ImageView mInsta = (ImageView) findViewById(R.id.iconInsta);
+        ImageView mTwitter = (ImageView) findViewById(R.id.iconTwitter);
         Button mLaunchesSeeAll = (Button) findViewById(R.id.launches_see_all);
+
+
 
         if(mAstroLaunches == null)
             mAstroLaunches = new ArrayList<>();
@@ -80,11 +95,23 @@ public class AstroDetailActivity extends AppCompatActivity {
         //Recupero dati astronauta
         mAstroViewModel.getLiveData().observe(this, astronauts -> {
             mAstro = astronauts.get(0);
+            String urlWiki = mAstro.getWikipedia();
+            setVisibilityListener(mWiki, urlWiki);
+            String urlInsta = mAstro.getInstagram();
+            setVisibilityListener(mInsta, urlInsta);
+            String urlTwitter = mAstro.getTwitter();
+            setVisibilityListener(mTwitter, urlTwitter);
 
             Log.d("FragmentHome", "dentro");
 
             Glide.with(this).load(mAstro.getProfileImage()).into(mAstroProfile);
             mAstroDescription.setText(mAstro.getBiography());
+            mNationality.setText(mAstro.getNationality());
+            mAstroStatus.setText(mAstro.getStatus().getName());
+            mAstroName.setText(mAstro.getName());
+
+            String[] date = mAstro.getDateOfBirth().toString().split("\\s+");
+            mAstroBirth.setText(date[2] + "/"+ date[1]+ "/"+ date[5]);
 
             mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
 
@@ -136,5 +163,23 @@ public class AstroDetailActivity extends AppCompatActivity {
             Log.d("AgencyObserver", "test");
         });
         mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());*/
+    }
+
+    public void clicke_btn(String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
+
+    public void setVisibilityListener (ImageView icon, String url){
+        if(url != null){
+            icon.setVisibility(View.VISIBLE);
+            icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clicke_btn(url);
+                }
+            });
+        }
     }
 }
