@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.jwang123.flagkit.FlagKit;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.ui.AstroDetailActivity;
 import it.rokettoapp.roketto.ui.EventDetailActivity;
+import it.rokettoapp.roketto.util.CSVCountries;
 
 public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewAdapterAstro.MyViewHolderAstro> {
 
@@ -61,9 +63,12 @@ public class RecyclerViewAdapterAstro extends RecyclerView.Adapter<RecyclerViewA
         holder.astro_name.setText(mAstro.get(position).getName());
         holder.astro_name.setSelected(true);
         Glide.with(mContext).load(mAstro.get(position).getProfileImage()).into(holder.mImageAstro);
+        String mNationality = mAstro.get(position).getNationality();
 
+        CSVCountries mCountries = CSVCountries.getInstanceCountry();
+        if(mCountries.checkCountryCode(mNationality))
+            holder.nationalFlag.setImageDrawable(FlagKit.drawableWithFlag(mContext, mCountries.getCodeFromName(mNationality).toLowerCase()));
 
-        //holder.nationalFlag.setImageDrawable(mDraw);
 
     }
 

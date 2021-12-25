@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
+import com.jwang123.flagkit.FlagKit;
 
 import org.w3c.dom.Text;
 
@@ -33,6 +34,7 @@ import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.ui.viewmodel.AgencyViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.AstronautViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.LaunchViewModel;
+import it.rokettoapp.roketto.util.CSVCountries;
 
 public class AstroDetailActivity extends AppCompatActivity {
 
@@ -42,6 +44,7 @@ public class AstroDetailActivity extends AppCompatActivity {
     private Astronaut mAstro;
     private Agency mAgency;
     private List<Launch> mAstroLaunches;
+    private CSVCountries mCSVCountries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,9 @@ public class AstroDetailActivity extends AppCompatActivity {
         ImageView mWiki = (ImageView) findViewById(R.id.iconWiki);
         ImageView mInsta = (ImageView) findViewById(R.id.iconInsta);
         ImageView mTwitter = (ImageView) findViewById(R.id.iconTwitter);
+        ImageView mFlag = (ImageView) findViewById(R.id.iconFlag);
         Button mLaunchesSeeAll = (Button) findViewById(R.id.launches_see_all);
+        mCSVCountries = CSVCountries.getInstanceCountry();
 
 
 
@@ -109,6 +114,9 @@ public class AstroDetailActivity extends AppCompatActivity {
             mNationality.setText(mAstro.getNationality());
             mAstroStatus.setText(mAstro.getStatus().getName());
             mAstroName.setText(mAstro.getName());
+
+            if(mCSVCountries.checkCountryCode(mAstro.getNationality()))
+                mFlag.setImageDrawable(FlagKit.drawableWithFlag(this, mCSVCountries.getCodeFromName(mAstro.getNationality()).toLowerCase()));
 
             String[] date = mAstro.getDateOfBirth().toString().split("\\s+");
             mAstroBirth.setText(date[2] + "/"+ date[1]+ "/"+ date[5]);
