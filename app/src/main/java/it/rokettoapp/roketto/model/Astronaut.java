@@ -74,11 +74,12 @@ public class Astronaut implements Serializable {
         this.mId = id;
     }
 
-    public Astronaut(String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
+    public Astronaut(int id, String name, AstronautStatus status, AstronautType type, Date dateOfDeath, Date dateOfBirth,
                      String nationality, String biography, String twitter, String instagram, String wikipedia,
                      Agency agency, String profileImage, List<Launch> flightList,
                      List<SpacecraftFlight> landings, Date lastFlight, Date firstFlight) {
 
+        this.mId = id;
         this.mName = name;
         this.mStatus = status;
         this.mType = type;
