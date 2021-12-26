@@ -1,6 +1,7 @@
 package it.rokettoapp.roketto.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,11 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 
 import java.util.List;
+
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.model.Launch;
+import it.rokettoapp.roketto.ui.EventDetailActivity;
+import it.rokettoapp.roketto.ui.LaunchDetailActivity;
 
 public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerViewAdapterLaunches.MyViewHolderLaunches>{
     private List<Launch> mLaunches;
@@ -59,6 +63,13 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         holder.mHours.setText(mLaunches.get(position).getNet().getHours() + ":" + mLaunches.get(position).getNet().getMinutes());
 
         Log.d("Rv", mLaunches.get(position).getName() + " RV");
+       /*
+        holder.launch_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
     }
 
     @Override
@@ -79,7 +90,9 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         MyViewHolderLaunches mHolder = new MyViewHolderLaunches(view, new MyClickListener() {
             @Override
             public void onClick(int p) {
-
+                Intent intent = new Intent(mContext, LaunchDetailActivity.class);
+                intent.putExtra("Launch", mLaunches.get(p));
+                mContext.startActivity(intent);
             }
         });
 

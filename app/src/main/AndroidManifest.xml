@@ -13,13 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Roketto">
         <activity
-            android:name=".LaunchDetailActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.AstroDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.EventDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LaunchDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
