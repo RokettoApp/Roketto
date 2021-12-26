@@ -126,13 +126,15 @@ public class LaunchDetailActivity extends AppCompatActivity {
 
 
         //Recupero dati crew dal lancio
-
         mSpacecraftFlightModel.getLiveData().observe(this, spacecraftFlights -> {
             mSpacecraft = spacecraftFlights.get(0);
             Log.d("deb" , mSpacecraft.getLaunchCrew().get(0).getAstronaut().getId() + "");
-            for(AstronautFlight a : mSpacecraft.getLaunchCrew()){
-                mAstroViewModel.getAstronautById(a.getAstronaut().getId());
-            }
+
+            List<Integer> idsAstro = new ArrayList<>();
+
+            for(AstronautFlight a : mSpacecraft.getLaunchCrew())
+                idsAstro.add(a.getAstronaut().getId());
+            mAstroViewModel.getAstronautsByIds(idsAstro);
         });
 
         mAstroViewModel.getLiveData().observe(this, astronauts -> {
@@ -140,7 +142,6 @@ public class LaunchDetailActivity extends AppCompatActivity {
             mAdapterAstro.notifyDataSetChanged();
         });
         mSpacecraftFlightModel.getSpacecraftFlightById(mLaunch.getRocket().getSpacecraftStage().getId());
-        //Log.d("deb" , mLaunch.getRocket().getSpacecraftStage().getLaunchCrew().size() + "");
 
 
 

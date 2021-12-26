@@ -130,15 +130,18 @@ public class AstroDetailActivity extends AppCompatActivity {
             String[] date = mAstro.getDateOfBirth().toString().split("\\s+");
             mAstroBirth.setText(date[2] + "/"+ date[1]+ "/"+ date[5]);
 
-            mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
+            if(mAstro.getAgency() != null)
+                mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
 
             if(mAstro.getFlightList().size() > 5)
                 mLaunchesSeeAll.setVisibility(View.VISIBLE);
 
-            for (Launch l: mAstro.getFlightList()) {
-                mLaunchViewModel.getLaunchById(l.getId());
+            List<String> idsLaunches = new ArrayList<>();
 
-            }
+            for (Launch l: mAstro.getFlightList())
+                idsLaunches.add(l.getId());
+            mLaunchViewModel.getLaunchesByIds(idsLaunches);
+
 
         });
         mAstroViewModel.getAstronautById(mAstroId);

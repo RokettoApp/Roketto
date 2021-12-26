@@ -30,15 +30,12 @@ public class LaunchRepository {
     private final DatabaseOperations<String, Launch> databaseOperations;
     private final MutableLiveData<List<Launch>> mLaunchListLiveData;
 
-    private final ExecutorService mLaunchExecutorService;
-
     public LaunchRepository(Application application) {
 
         this.mLaunchApiService = ServiceLocator.getInstance().getLaunchApiService();
         mLaunchDao = RokettoDatabase.getDatabase(application).launchDao();
         databaseOperations = new DatabaseOperations<>(mLaunchDao);
         mLaunchListLiveData = new MutableLiveData<>();
-        mLaunchExecutorService = Executors.newSingleThreadExecutor();
     }
 
     public MutableLiveData<List<Launch>> getLiveData() {
@@ -56,23 +53,7 @@ public class LaunchRepository {
     public void getLaunchById(String id) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
-
-        mLaunchExecutorService.execute(new Runnable(){
-            @Override
-            public void run(){
-                Launch launch = mLaunchDao.getById(id);
-                if (launch != null) {
-                    List<Launch> launchList = new ArrayList<>();
-                    launchList.add(launch);
-                    Log.d(TAG, launch.getName());
-                    mLaunchListLiveData.postValue(launchList);
-
-                } else
-                    fetchLaunchById(id);
-            }
-        });
-
-       /* new Thread(() -> {
+        new Thread(() -> {
             Launch launch = mLaunchDao.getById(id);
             if (launch != null) {
                 List<Launch> launchList = new ArrayList<>();
@@ -81,7 +62,50 @@ public class LaunchRepository {
                 mLaunchListLiveData.postValue(launchList);
             } else
                 fetchLaunchById(id);
-        }).start();*/
+        }).start();
+    }
+
+    public void getLaunchesByIds(List<String> ids){
+        new Thread(() -> {
+            List<Launch> launchList = new ArrayList<>();
+            for (String id : ids) {
+                Launch launch = mLaunchDao.getById(id);
+                if (launch != null) {
+
+                    launchList.add(launch);
+                    Log.d(TAG, launch.getName());
+
+                } else
+                    fetchLaunchById(id);
+            }
+            mLaunchListLiveData.postValue(launchList);
+        }).start();
+    }
+
+    public void fetchLaunchByIds(String id, List<Launch> launches){
+        Call<Launch> launchResponseCall = mLaunchApiService.getLaunch(id);
+        launchResponseCall.enqueue(new Callback<Launch>() {
+
+            @Override
+            public void onResponse(@NonNull Call<Launch> call,
+                                   @NonNull Response<Launch> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    Launch launch = response.body();
+                    databaseOperations.saveValue(launch);
+                    launches.add(launch);
+                    Log.d(TAG, launch.getName() + " API");
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Launch> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
     }
 
     public void fetchLaunches() {
