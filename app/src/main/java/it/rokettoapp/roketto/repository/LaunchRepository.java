@@ -66,6 +66,7 @@ public class LaunchRepository {
                     launchList.add(launch);
                     Log.d(TAG, launch.getName());
                     mLaunchListLiveData.postValue(launchList);
+
                 } else
                     fetchLaunchById(id);
             }

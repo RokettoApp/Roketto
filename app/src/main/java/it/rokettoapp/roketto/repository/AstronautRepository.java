@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.AstronautDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Astronaut;
+import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
@@ -30,6 +33,7 @@ public class AstronautRepository {
     private final DatabaseOperations<Integer, Astronaut> databaseOperations;
     private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
+    private final ExecutorService mAstroExecutorService;
     int count;
 
     public AstronautRepository(Application application) {
@@ -39,6 +43,7 @@ public class AstronautRepository {
         mAstronautDao = RokettoDatabase.getDatabase(application).astronautDao();
         databaseOperations = new DatabaseOperations<>(mAstronautDao);
         mAstronautListLiveData = new MutableLiveData<>();
+        mAstroExecutorService =  Executors.newSingleThreadExecutor();
         count = 0;
     }
 
@@ -61,6 +66,20 @@ public class AstronautRepository {
     public void getAstronautById(int id) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
+        /*
+        mAstroExecutorService.execute(new Runnable(){
+            @Override
+            public void run(){
+                Astronaut astronaut = mAstronautDao.getById(id);
+                if (astronaut != null) {
+                    List<Astronaut> astronautList = new ArrayList<>();
+                    astronautList.add(astronaut);
+                    mAstronautListLiveData.postValue(astronautList);
+                } else
+                    fetchAstronautById(id);
+            }
+        });*/
+
         new Thread(() -> {
             Astronaut astronaut = mAstronautDao.getById(id);
             if (astronaut != null) {

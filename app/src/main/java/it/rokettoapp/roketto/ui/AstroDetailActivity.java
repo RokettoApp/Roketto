@@ -53,6 +53,7 @@ public class AstroDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_astro_detail);
         getSupportActionBar().hide();
 
+        Log.d("logastrodeital", "Acitivity astronauta");
         //Inizializzazione variabili
         int mAstroId = (int) getIntent().getSerializableExtra("Astronaut");
         TextView mAstroDescription = (TextView) findViewById(R.id.astroDetailDescription);
@@ -97,6 +98,15 @@ public class AstroDetailActivity extends AppCompatActivity {
         ImageButton back = (ImageButton)findViewById(R.id.backButtonAstro);
         back.setOnClickListener(v -> onBackPressed());
 
+
+        //Recupero dati lanci dell'astronauta
+        mLaunchViewModel.getLiveData().observe(this, launches -> {
+            mAstroLaunches.addAll(launches);
+            Log.d("aggobs" , "Observer aggiornato " + mAstroLaunches.size());
+            mAdapterLaunches.notifyDataSetChanged();
+
+        });
+
         //Recupero dati astronauta
         mAstroViewModel.getLiveData().observe(this, astronauts -> {
             mAstro = astronauts.get(0);
@@ -107,7 +117,6 @@ public class AstroDetailActivity extends AppCompatActivity {
             String urlTwitter = mAstro.getTwitter();
             setVisibilityListener(mTwitter, urlTwitter);
 
-            Log.d("FragmentHome", "dentro");
 
             Glide.with(this).load(mAstro.getProfileImage()).into(mAstroProfile);
             mAstroDescription.setText(mAstro.getBiography());
@@ -130,6 +139,7 @@ public class AstroDetailActivity extends AppCompatActivity {
                 mLaunchViewModel.getLaunchById(l.getId());
 
             }
+
         });
         mAstroViewModel.getAstronautById(mAstroId);
 
@@ -138,7 +148,7 @@ public class AstroDetailActivity extends AppCompatActivity {
             mAgency = agencies.get(0);
             String mLogo = mAgency.getLogoUrl();
 
-            Log.d("FragmentHome", "dentro b");
+
 
             if(mLogo != null)
             {
@@ -153,11 +163,7 @@ public class AstroDetailActivity extends AppCompatActivity {
         });
 
 
-        //Recupero dati lanci dell'astronauta
-        mLaunchViewModel.getLiveData().observe(this, launches -> {
-            mAstroLaunches.addAll(launches);
-            mAdapterLaunches.notifyDataSetChanged();
-        });
+
 
 
         /*((TextView)findViewById(R.id.astroDetail_name)).setText(mAstro.getName());

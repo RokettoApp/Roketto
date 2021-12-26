@@ -48,7 +48,7 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         holder.mDateTime.setText(dateLaunch[2] + "/"+ dateLaunch[1]+ "/"+ dateLaunch[5]);
 
         holder.mChip.setVisibility(View.VISIBLE);
-        holder.mChip.setText(mLaunches.get(position).getMission().getOrbit().getName());
+        holder.mChip.setText(mLaunches.get(position).getMission().getType());
 
         holder.mStatusLaunch.setVisibility(View.VISIBLE);
         holder.mStatusLaunch.setText(mLaunches.get(position).getLaunchStatus().getName());
