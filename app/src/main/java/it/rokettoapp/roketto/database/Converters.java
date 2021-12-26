@@ -33,6 +33,7 @@ import it.rokettoapp.roketto.model.Update;
 import it.rokettoapp.roketto.model.Url;
 
 public class Converters {
+
     //date
     @TypeConverter
     public static Date fromTimestamp(Long value) {
@@ -331,8 +332,13 @@ public class Converters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<Launch>>() {}.getType();
-        return gson.toJson(launchList, type);
+        List<Launch> minLaunchList = new ArrayList<>();
+        for (Launch launch : launchList) {
+            minLaunchList.add(Launch.buildMinLaunch(launch));
+        }
+        return gson.toJson(minLaunchList, type);
     }
+
     @TypeConverter
     public static List<Launch> fromJsonToLaunch(String json) {
 
@@ -388,8 +394,11 @@ public class Converters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<Program>>() {}.getType();
-
-        return gson.toJson(programList, type);
+        List<Program> minProgramList = new ArrayList<>();
+        for (Program program : programList) {
+            minProgramList.add(Program.buildMinProgram(program));
+        }
+        return gson.toJson(minProgramList, type);
     }
 
     @TypeConverter
@@ -622,7 +631,11 @@ public class Converters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<SpaceStation>>() {}.getType();
-        return gson.toJson(spaceStationList, type);
+        List<SpaceStation> minSpaceStationList = new ArrayList<>();
+        for (SpaceStation spaceStation : spaceStationList) {
+            minSpaceStationList.add(SpaceStation.buildMinSpaceStation(spaceStation));
+        }
+        return gson.toJson(minSpaceStationList, type);
     }
 
     @TypeConverter
