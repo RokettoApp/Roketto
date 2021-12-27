@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.rokettoapp.roketto.R;
+import it.rokettoapp.roketto.util.CSVCountries;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -18,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        CSVCountries mTest = CSVCountries.getInstanceCountry();
+        mTest.readFromCSV(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentHome()).commit();
         bottomNavigationView = findViewById(R.id.bottom_nav);

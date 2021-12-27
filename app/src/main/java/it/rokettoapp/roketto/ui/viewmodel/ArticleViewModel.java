@@ -1,6 +1,7 @@
 package it.rokettoapp.roketto.ui.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,6 +19,10 @@ public class ArticleViewModel extends AndroidViewModel {
     private MutableLiveData<List<Article>> mReportListLiveData;
     private MutableLiveData<List<Article>> mBlogPostListLiveData;
 
+    private int currentResults;
+
+    private boolean isLoading;
+
     public ArticleViewModel(@NonNull Application application) {
 
         super(application);
@@ -27,8 +32,13 @@ public class ArticleViewModel extends AndroidViewModel {
         mBlogPostListLiveData = mArticleRepository.getBlogPostLiveData();
     }
 
-    public MutableLiveData<List<Article>> getArticleLiveData() {
+    public void addNull(){
+        List<Article> currentArticleList = mArticleListLiveData.getValue();
+        currentArticleList.add(null);
+        mArticleListLiveData.setValue(currentArticleList);
+    }
 
+    public MutableLiveData<List<Article>> getArticleLiveData() {
         return mArticleListLiveData;
     }
 
@@ -43,8 +53,11 @@ public class ArticleViewModel extends AndroidViewModel {
     }
 
     public void getArticles() {
-
         fetchArticles();
+    }
+
+    public void getNewArticles() {
+        fetchNewArticles();
     }
 
     public void getReports() {
@@ -58,12 +71,15 @@ public class ArticleViewModel extends AndroidViewModel {
     }
 
     private void fetchArticles() {
-
         mArticleRepository.getArticleList();
     }
 
-    private void fetchReports() {
+    private void fetchNewArticles() {
+        mArticleRepository.getNewArticleList();
+    }
 
+
+    private void fetchReports() {
         mArticleRepository.getReportList();
     }
 
@@ -76,4 +92,21 @@ public class ArticleViewModel extends AndroidViewModel {
 
         mArticleRepository.refreshAll();
     }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public int getCurrentResults() {
+        return currentResults;
+    }
+
+    public void setCurrentResults(int currentResults) {
+        this.currentResults = currentResults;
+    }
+
 }

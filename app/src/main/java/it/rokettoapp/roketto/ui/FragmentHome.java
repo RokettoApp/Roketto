@@ -73,7 +73,7 @@ public class FragmentHome extends Fragment {
         RecyclerViewAdapterEvents mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents, true);
         mRecyclerViewEvents.setAdapter(mAdapterEvents);
 
-        RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros);
+        RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros, true);
         mRecyclerViewAstro.setAdapter(mAdapterAstro);
 
         mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), eventList -> {
@@ -81,7 +81,6 @@ public class FragmentHome extends Fragment {
             mEvents.clear();
             mEvents.addAll(eventList);
             mAdapterEvents.notifyDataSetChanged();
-            Log.d("FragmentHome", "test");
         });
         mEventViewModel.getEvents();
 

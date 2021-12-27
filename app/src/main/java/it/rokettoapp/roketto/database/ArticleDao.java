@@ -34,6 +34,7 @@ public interface ArticleDao extends GenericDao<Integer, Article> {
 
     @Override
     @Insert(onConflict = OnConflictStrategy.IGNORE)
+
     void insertList(List<Article> articleList);
 
     @Override

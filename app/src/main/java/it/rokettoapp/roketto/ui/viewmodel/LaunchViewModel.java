@@ -37,4 +37,8 @@ public class LaunchViewModel extends AndroidViewModel {
 
         mLaunchRepository.getLaunchById(id);
     }
+
+    public void getLaunchesByIds(List<String> ids){
+        mLaunchRepository.getLaunchesByIds(ids);
+    }
 }

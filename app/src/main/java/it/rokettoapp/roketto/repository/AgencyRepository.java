@@ -67,9 +67,11 @@ public class AgencyRepository {
             if (agency != null) {
                 List<Agency> agencyList = new ArrayList<>();
                 agencyList.add(agency);
+                Log.d("dbagency","recupero dati database lancio: " );
                 mAgencyListLiveData.postValue(agencyList);
             } else
                 fetchAgencyById(id);
+
         }).start();
     }
 
@@ -132,6 +134,7 @@ public class AgencyRepository {
                     agencyList.add(agency);
                     mAgencyListLiveData.postValue(agencyList);
                     Log.d(TAG, agency.getName());
+                    Log.d("dbagency","recupero dati api lancio: " );
                 } else {
                     Log.e(TAG, "Request failed.");
                 }

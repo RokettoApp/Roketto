@@ -15,5 +15,33 @@
     <string name="program">Program</string>
     <string name="recentnews">Recent News</string>
     <string name="human_exp">HUMAN EXPLORATION</string>
+    <string name="astro_launches">Spaceflight Record</string>
+    <string name="about">About</string>
+    <string name="agency">Agency</string>
+    <string name="specification">Specification</string>
+    <string name="min_stage">Min Stage:</string>
+    <string name="max_stage">Max Stage:</string>
+    <string name="length">Length:</string>
+    <string name="diameter">Diameter:</string>
+    <string name="fairing_diameter">Fairing diameter:</string>
+    <string name="launch_mass">Launch mass:</string>
+    <string name="thrust">Thrust:</string>
+    <string name="family_title">Family</string>
+    <string name="family">Family:</string>
+    <string name="name">Name:</string>
+    <string name="alias">Alias:</string>
+    <string name="variant">Variant:</string>
+    <string name="full_name">Full name:</string>
+    <string name="payload_capacity">Payload capacity</string>
+    <string name="launch_cost">Launch cost:</string>
+    <string name="low_earth_orbit">Low Earth orbit:</string>
+    <string name="geo_tra">Geostationary transfer orbit:</string>
+    <string name="direct_geo">Direct Geostationary:</string>
+    <string name="sun_sync">Sun-Synchronous Capacity:</string>
+    <string name="crew">Crew</string>
+    <string name="Agency">Agency</string>
+
+
+
 
 </resources>

@@ -1,22 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.AstroDetailActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/astroDetail_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.AstroDetailActivity">
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/astroDetail_name" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/backButtonAstro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_baseline_home_24" />
+
+        <TextView
+            android:id="@+id/astronautsNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@id/backButtonAstro"
+            android:fontFamily="@font/montserrat"
+            android:text="Philip Juan"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImageAstro"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="16dp"
+            android:layout_below="@id/astronautsNameTitle"
+            app:cardCornerRadius="300dp">
+
+
+            <ImageView
+                android:id="@+id/imageAstro"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="matrix"
+                android:src="@drawable/testsfondo" />
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/iconCake"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="16dp"
+            android:layout_toEndOf="@id/cardImageAstro"
+            android:layout_alignTop="@id/cardImageAstro"
+            android:src="@drawable/ic_cake" />
+
+        <TextView
+            android:id="@+id/txtBirthDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/cardImageAstro"
+            android:layout_alignBottom="@id/iconCake"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="36dp"
+            android:layout_toEndOf="@+id/iconCake"
+            android:text="23/10/2000"
+            android:textSize="16dp">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/iconRocket"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_below="@id/iconCake"
+            android:layout_toEndOf="@id/cardImageAstro"
+            android:src="@drawable/ic_rocket" />
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBirthDate"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@+id/iconCake"
+            android:text="Active"
+            android:textSize="16dp">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/iconFlag"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/iconRocket"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/cardImageAstro"
+            android:src="@drawable/ic_rocket" />
+
+        <TextView
+            android:id="@+id/txtNationality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtStatus"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@+id/iconCake"
+            android:text="Italy"
+            android:textSize="16dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/astroDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardImageAstro"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+
+            />
+
+        <ImageView
+            android:id="@+id/iconWiki"
+            android:visibility="gone"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/astroDescription"
+            android:layout_marginLeft="16dp"
+            android:layout_toEndOf="@id/astroDescription"
+            android:src="@drawable/ic_wiki" />
+        <ImageView
+            android:id="@+id/iconInsta"
+            android:visibility="gone"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/astroDescription"
+            android:layout_marginLeft="16dp"
+            android:layout_toEndOf="@id/iconWiki"
+            android:src="@drawable/ic_instagram" />
+
+        <ImageView
+            android:id="@+id/iconTwitter"
+            android:visibility="gone"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/astroDescription"
+            android:layout_marginLeft="16dp"
+            android:layout_toEndOf="@id/iconInsta"
+            android:src="@drawable/ic_twitter" />
+
+
+        <TextView
+            android:id="@+id/astroDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/astroDescription"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/astroLaunchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/astroDetailDescription"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/astro_launches"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+
+            />
+
+        <Button
+            android:id="@+id/launches_see_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/astroDetailDescription"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:drawableRight="@drawable/ic_baseline_chevron_right_24"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/eventsSeeAll"
+            android:textAllCaps="false"
+            android:textColor="@color/accent_color"
+
+            android:textSize="10dp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/launchesAstrorv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/astroLaunchTitle"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:overScrollMode="never" />
+
+
+        <TextView
+            android:id="@+id/astroAgencyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/launchesAstrorv"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/agency"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+
+
+            />
+
+
+        <TextView
+            android:id="@+id/astroAgencyName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/astroAgencyTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/agency"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAgency"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/astroAgencyName"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/pastel_green"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/human_exp"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+
+
+            />
+
+        <ImageView
+            android:id="@+id/agencyAstro"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:layout_below="@id/astroAgencyTitle"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:adjustViewBounds="true"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/testsfondo"
+
+            />
+
+        <TextView
+            android:id="@+id/agencyAstroDescr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/agencyAstro"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/agencyAstro" />
+    </RelativeLayout>
+
+
+</ScrollView>

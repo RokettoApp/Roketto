@@ -25,11 +25,12 @@
             android:src="@drawable/imgtest">
 
         </ImageView>
+
         <ImageView
             android:layout_width="200dp"
-            android:background="@drawable/linear_black_gradient"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
-            android:layout_height="100dp">
+            android:background="@drawable/linear_black_gradient">
 
         </ImageView>
 
@@ -40,21 +41,28 @@
             android:layout_above="@id/nationalFlag"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
-            android:maxLines="1"
-            android:maxLength="10"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:fontFamily="sans-serif-medium"
-            android:text="Gary Moore"
-            android:textColor="@color/white"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+
+
             android:gravity="center"
 
-
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Gary Moore"
+            android:textColor="@color/white"
             android:textSize="18dp" />
 
 
         <ImageView
             android:id="@+id/nationalFlag"
             android:layout_width="60dp"
-            android:layout_height="12dp"
+            android:layout_height="18dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="20dp"

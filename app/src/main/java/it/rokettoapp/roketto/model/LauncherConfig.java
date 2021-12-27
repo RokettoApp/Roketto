@@ -31,6 +31,7 @@ public class LauncherConfig implements Serializable {
     @SerializedName("variant")
     private String mVariant;
 
+
     @SerializedName("alias")
     private String mAlias;
 
