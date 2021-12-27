@@ -27,6 +27,7 @@ import it.rokettoapp.roketto.model.Expedition;
 import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.SpaceStation;
+import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.ExpeditionViewModel;
 
 public class EventDetailActivity extends AppCompatActivity {
@@ -47,87 +48,94 @@ public class EventDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.hide();
 
-        Event mEvent = (Event) getIntent().getSerializableExtra("Event");
-        mLaunchList = mEvent.getLaunchList();
-        mSpaceStationList = mEvent.getSpaceStationList();
-        mAstronautList = new ArrayList<>();
-        mProgramList = mEvent.getProgramList();
+        int eventId = (int) getIntent().getSerializableExtra("EventId");
 
-        Glide.with(this).load(mEvent.getFeatureImage()).into(binding.imageEvent);
-        binding.backButtonEvent.setOnClickListener(v -> onBackPressed());
-        binding.eventDetailDescription.setText(mEvent.getDescription());
+        EventViewModel eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+        eventViewModel.getLiveData().observe(this, eventList -> {
 
-        if (mEvent.getLaunchList().size() > 0) {
-            RecyclerView launchRecyclerView = (RecyclerView)
-                    findViewById(R.id.recyclerViewLaunch);
-            LinearLayoutManager launchlinearLayoutManager = new LinearLayoutManager(this,
-                    LinearLayoutManager.VERTICAL, false);
-            launchRecyclerView.setLayoutManager(launchlinearLayoutManager);
-            RecyclerViewAdapterLaunches recyclerViewAdapterLaunches =
-                    new RecyclerViewAdapterLaunches(this, mLaunchList, false);
-            launchRecyclerView.setAdapter(recyclerViewAdapterLaunches);
+            Event mEvent = eventList.get(0);
 
-            findViewById(R.id.launchTitle).setVisibility(View.VISIBLE);
-            findViewById(R.id.recyclerViewLaunch).setVisibility(View.VISIBLE);
-        }
+            mLaunchList = mEvent.getLaunchList();
+            mSpaceStationList = mEvent.getSpaceStationList();
+            mAstronautList = new ArrayList<>();
+            mProgramList = mEvent.getProgramList();
 
-        if (mEvent.getSpaceStationList().size() > 0) {
-            RecyclerView spaceStationRecyclerView = (RecyclerView)
-                    findViewById(R.id.recyclerViewSpaceStation);
-            LinearLayoutManager spaceStationlinearLayoutManager = new LinearLayoutManager(this,
-                    LinearLayoutManager.VERTICAL, false);
-            spaceStationRecyclerView.setLayoutManager(spaceStationlinearLayoutManager);
-            SpaceStationRecyclerViewAdapter spaceStationRecyclerViewAdapter =
-                    new SpaceStationRecyclerViewAdapter(this, mSpaceStationList);
-            spaceStationRecyclerView.setAdapter(spaceStationRecyclerViewAdapter);
+            Glide.with(this).load(mEvent.getFeatureImage()).into(binding.imageEvent);
+            binding.backButtonEvent.setOnClickListener(v -> onBackPressed());
+            binding.eventDetailDescription.setText(mEvent.getDescription());
 
-            findViewById(R.id.stationTitle).setVisibility(View.VISIBLE);
-            findViewById(R.id.recyclerViewSpaceStation).setVisibility(View.VISIBLE);
-        }
+            if (mEvent.getLaunchList().size() > 0) {
+                RecyclerView launchRecyclerView = (RecyclerView)
+                        findViewById(R.id.recyclerViewLaunch);
+                LinearLayoutManager launchlinearLayoutManager = new LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL, false);
+                launchRecyclerView.setLayoutManager(launchlinearLayoutManager);
+                RecyclerViewAdapterLaunches recyclerViewAdapterLaunches =
+                        new RecyclerViewAdapterLaunches(this, mLaunchList, false);
+                launchRecyclerView.setAdapter(recyclerViewAdapterLaunches);
 
-        // TODO: Le spedizioni potrebbero essere più di una
-        if (mEvent.getExpeditionList().size() > 0) {
-            RecyclerView expeditionRecyclerView = (RecyclerView)
-                    findViewById(R.id.recyclerViewExpedition);
-            LinearLayoutManager expeditionLinearLayoutManager = new LinearLayoutManager(this,
-                    LinearLayoutManager.HORIZONTAL, false);
-            expeditionRecyclerView.setLayoutManager(expeditionLinearLayoutManager);
-            RecyclerViewAdapterAstro astronautRecyclerViewAdapter =
-                    new RecyclerViewAdapterAstro(this, mAstronautList);
-            expeditionRecyclerView.setAdapter(astronautRecyclerViewAdapter);
-
-            findViewById(R.id.expeditionTitle).setVisibility(View.VISIBLE);
-            findViewById(R.id.recyclerViewExpedition).setVisibility(View.VISIBLE);
-
-            ExpeditionViewModel expeditionViewModel =
-                    new ViewModelProvider(this).get(ExpeditionViewModel.class);
-
-            expeditionViewModel.getLiveData().observe(this, expeditionList -> {
-
-                Expedition expedition = expeditionList.get(0);
-
-                for (AstronautFlight astronautFlight : expedition.getCrew()) {
-                    mAstronautList.add(astronautFlight.getAstronaut());
-                    astronautRecyclerViewAdapter.notifyItemInserted(mAstronautList.size() - 1);
-                }
-            });
-
-            for (Expedition expedition : mEvent.getExpeditionList()) {
-                expeditionViewModel.getExpeditionById(expedition.getId());
+                findViewById(R.id.launchTitle).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclerViewLaunch).setVisibility(View.VISIBLE);
             }
-        }
 
-        if (mEvent.getProgramList().size() > 0) {
-            RecyclerView programRecyclerView = (RecyclerView)  findViewById(R.id.recyclerViewProgram);
-            LinearLayoutManager programLinearLayoutManager = new LinearLayoutManager(this,
-                    LinearLayoutManager.VERTICAL, false);
-            programRecyclerView.setLayoutManager(programLinearLayoutManager);
-            ProgramRecyclerViewAdapter programRecyclerViewAdapter =
-                    new ProgramRecyclerViewAdapter(this, mProgramList);
-            programRecyclerView.setAdapter(programRecyclerViewAdapter);
+            if (mEvent.getSpaceStationList().size() > 0) {
+                RecyclerView spaceStationRecyclerView = (RecyclerView)
+                        findViewById(R.id.recyclerViewSpaceStation);
+                LinearLayoutManager spaceStationlinearLayoutManager = new LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL, false);
+                spaceStationRecyclerView.setLayoutManager(spaceStationlinearLayoutManager);
+                SpaceStationRecyclerViewAdapter spaceStationRecyclerViewAdapter =
+                        new SpaceStationRecyclerViewAdapter(this, mSpaceStationList);
+                spaceStationRecyclerView.setAdapter(spaceStationRecyclerViewAdapter);
 
-            findViewById(R.id.programTitle).setVisibility(View.VISIBLE);
-            findViewById(R.id.recyclerViewProgram).setVisibility(View.VISIBLE);
-        }
+                findViewById(R.id.stationTitle).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclerViewSpaceStation).setVisibility(View.VISIBLE);
+            }
+
+            if (mEvent.getExpeditionList().size() > 0) {
+                RecyclerView expeditionRecyclerView = (RecyclerView)
+                        findViewById(R.id.recyclerViewExpedition);
+                LinearLayoutManager expeditionLinearLayoutManager = new LinearLayoutManager(this,
+                        LinearLayoutManager.HORIZONTAL, false);
+                expeditionRecyclerView.setLayoutManager(expeditionLinearLayoutManager);
+                RecyclerViewAdapterAstro astronautRecyclerViewAdapter =
+                        new RecyclerViewAdapterAstro(this, mAstronautList, false);
+                expeditionRecyclerView.setAdapter(astronautRecyclerViewAdapter);
+
+                findViewById(R.id.expeditionTitle).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclerViewExpedition).setVisibility(View.VISIBLE);
+
+                ExpeditionViewModel expeditionViewModel =
+                        new ViewModelProvider(this).get(ExpeditionViewModel.class);
+
+                expeditionViewModel.getLiveData().observe(this, expeditionList -> {
+
+                    Expedition expedition = expeditionList.get(0);
+
+                    for (AstronautFlight astronautFlight : expedition.getCrew()) {
+                        mAstronautList.add(astronautFlight.getAstronaut());
+                        astronautRecyclerViewAdapter.notifyItemInserted(mAstronautList.size() - 1);
+                    }
+                });
+
+                for (Expedition expedition : mEvent.getExpeditionList()) {
+                    expeditionViewModel.getExpeditionById(expedition.getId());
+                }
+            }
+
+            if (mEvent.getProgramList().size() > 0) {
+                RecyclerView programRecyclerView = (RecyclerView)  findViewById(R.id.recyclerViewProgram);
+                LinearLayoutManager programLinearLayoutManager = new LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL, false);
+                programRecyclerView.setLayoutManager(programLinearLayoutManager);
+                ProgramRecyclerViewAdapter programRecyclerViewAdapter =
+                        new ProgramRecyclerViewAdapter(this, mProgramList);
+                programRecyclerView.setAdapter(programRecyclerViewAdapter);
+
+                findViewById(R.id.programTitle).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclerViewProgram).setVisibility(View.VISIBLE);
+            }
+        });
+        eventViewModel.getEventById(eventId);
     }
 }

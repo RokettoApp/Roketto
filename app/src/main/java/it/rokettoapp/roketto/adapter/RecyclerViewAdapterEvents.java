@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
-import it.rokettoapp.roketto.ui.EventDetailActivity;
 import it.rokettoapp.roketto.model.Event;
+import it.rokettoapp.roketto.ui.EventDetailActivity;
 
 public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerViewAdapterEvents.MyViewHolderEvents> {
 
@@ -29,24 +30,20 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
         this.mLimit = mLimit;
     }
 
+    @NonNull
     @Override
-    public MyViewHolderEvents onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolderEvents onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.recycleview_row_layout,parent,false);
 
-        MyViewHolderEvents mHolder = new MyViewHolderEvents(view, new MyClickListener() {
-            @Override
-            public void onClick(int p) {
+        return new MyViewHolderEvents(view, p -> {
 
-                Intent intent = new Intent(mContext, EventDetailActivity.class);
-                intent.putExtra("Event", mEvents.get(p));
-                mContext.startActivity(intent);
-            }
+            Intent intent = new Intent(mContext, EventDetailActivity.class);
+            intent.putExtra("EventId", mEvents.get(p).getId());
+            mContext.startActivity(intent);
         });
-
-        return mHolder;
     }
 
     @Override

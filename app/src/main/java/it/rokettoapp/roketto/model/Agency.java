@@ -147,6 +147,16 @@ public class Agency implements Serializable {
         this.mSpacecraftList = spacecraftList;
     }
 
+    public static Agency buildMinAgency(Agency agency) {
+
+        Agency minAgency = new Agency(agency.getId());
+        minAgency.setName(agency.getName());
+        minAgency.setType(agency.getType());
+        minAgency.setDescription(agency.getDescription());
+        minAgency.setLogoUrl(agency.getLogoUrl());
+        return minAgency;
+    }
+
     public int getId() {
 
         return mId;

@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -95,7 +97,9 @@ public class LauncherConfig implements Serializable {
     @SerializedName("pending_launches")
     private int mPendingLaunches;
 
+    @Ignore
     public LauncherConfig(String id) {
+
         this.mId = id;
     }
 
@@ -138,6 +142,26 @@ public class LauncherConfig implements Serializable {
         this.mSuccessfulLaunches = successfulLaunches;
         this.mFailedLaunches = failedLaunches;
         this.mPendingLaunches = pendingLaunches;
+    }
+
+    public static LauncherConfig buildMinLauncherConfig(LauncherConfig launcherConfig) {
+
+        LauncherConfig minLauncherConfig = new LauncherConfig(launcherConfig.getId());
+        minLauncherConfig.setMinStage(launcherConfig.getMinStage());
+        minLauncherConfig.setMaxStage(launcherConfig.getMaxStage());
+        minLauncherConfig.setLength(launcherConfig.getLength());
+        minLauncherConfig.setDiameter(launcherConfig.getDiameter());
+        minLauncherConfig.setLaunchMass(launcherConfig.getLaunchMass());
+        minLauncherConfig.setToThrust(launcherConfig.getToThrust());
+        minLauncherConfig.setName(launcherConfig.getName());
+        minLauncherConfig.setFamily(launcherConfig.getFamily());
+        minLauncherConfig.setVariant(launcherConfig.getVariant());
+        minLauncherConfig.setAlias(launcherConfig.getAlias());
+        minLauncherConfig.setFullName(launcherConfig.getFullName());
+        minLauncherConfig.setLaunchCost(launcherConfig.getLaunchCost());
+        minLauncherConfig.setLeoCapacity(launcherConfig.getLeoCapacity());
+        minLauncherConfig.setGtoCapacity(launcherConfig.getGtoCapacity());
+        return minLauncherConfig;
     }
 
     public String getId() {

@@ -15,7 +15,6 @@ import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.EventApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
-import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
@@ -49,13 +48,13 @@ public class EventRepository {
 
     public void getEventList() {
 
-        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
+//        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
+//                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
             fetchEvents();
-            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
-        }
-        else
-            databaseOperations.getListFromDatabase(mEventListLiveData);
+//            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
+//        }
+//        else
+//            databaseOperations.getListFromDatabase(mEventListLiveData);
     }
 
     public void getEventById(int id) {
@@ -88,7 +87,7 @@ public class EventRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Event> eventList = response.body().getResults();
-                    databaseOperations.saveList(eventList);
+//                    databaseOperations.saveList(eventList);
                     mEventListLiveData.postValue(eventList);
                     Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {

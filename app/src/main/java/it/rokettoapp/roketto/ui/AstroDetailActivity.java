@@ -1,10 +1,8 @@
 package it.rokettoapp.roketto.ui;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.jwang123.flagkit.FlagKit;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +87,6 @@ public class AstroDetailActivity extends AppCompatActivity {
         LinearLayoutManager mLineaLayoutLaunches = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerLaunches.setLayoutManager(mLineaLayoutLaunches);
 
-        RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, false);
-        mRecyclerLaunches.setAdapter(mAdapterLaunches);
 
         //Implementazione backbutton
         ImageButton back = (ImageButton)findViewById(R.id.backButtonAstro);
@@ -100,12 +94,6 @@ public class AstroDetailActivity extends AppCompatActivity {
 
 
         //Recupero dati lanci dell'astronauta
-        mLaunchViewModel.getLiveData().observe(this, launches -> {
-            mAstroLaunches.addAll(launches);
-            Log.d("aggobs" , "Observer aggiornato " + mAstroLaunches.size());
-            mAdapterLaunches.notifyDataSetChanged();
-
-        });
 
         //Recupero dati astronauta
         mAstroViewModel.getLiveData().observe(this, astronauts -> {
@@ -136,13 +124,20 @@ public class AstroDetailActivity extends AppCompatActivity {
             if(mAstro.getFlightList().size() > 5)
                 mLaunchesSeeAll.setVisibility(View.VISIBLE);
 
-            List<String> idsLaunches = new ArrayList<>();
 
+            RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, false);
+            mRecyclerLaunches.setAdapter(mAdapterLaunches);
+            mLaunchViewModel.getLiveData().observe(this, launches -> {
+                mAstroLaunches.addAll(launches);
+                Log.d("aggobs" , "Observer aggiornato " + mAstroLaunches.size());
+                mAdapterLaunches.notifyDataSetChanged();
+
+            });
+
+            List<String> idsLaunches = new ArrayList<>();
             for (Launch l: mAstro.getFlightList())
                 idsLaunches.add(l.getId());
             mLaunchViewModel.getLaunchesByIds(idsLaunches);
-
-
         });
         mAstroViewModel.getAstronautById(mAstroId);
 
@@ -191,12 +186,7 @@ public class AstroDetailActivity extends AppCompatActivity {
     public void setVisibilityListener (ImageView icon, String url){
         if(url != null){
             icon.setVisibility(View.VISIBLE);
-            icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clicke_btn(url);
-                }
-            });
+            icon.setOnClickListener(v -> clicke_btn(url));
         }
     }
 }

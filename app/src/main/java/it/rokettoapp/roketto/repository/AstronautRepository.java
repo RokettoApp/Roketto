@@ -8,17 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.AstronautDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Astronaut;
-import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
-import it.rokettoapp.roketto.util.Constants;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
@@ -52,13 +48,13 @@ public class AstronautRepository {
 
     public void getAstronautList() {
 
-        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
+//        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
+//                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
             fetchAstronauts();
-            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
-        }
-        else
-            databaseOperations.getListFromDatabase(mAstronautListLiveData);
+//            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
+//        }
+//        else
+//            databaseOperations.getListFromDatabase(mAstronautListLiveData);
     }
 
     public void getAstronautById(int id) {

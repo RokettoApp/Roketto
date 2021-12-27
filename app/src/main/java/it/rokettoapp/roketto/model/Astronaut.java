@@ -98,6 +98,15 @@ public class Astronaut implements Serializable {
         this.mFirstFlight = firstFlight;
     }
 
+    public static Astronaut buildMinAstronaut(Astronaut astronaut) {
+
+        Astronaut minAstronaut = new Astronaut(astronaut.getId());
+        minAstronaut.setName(astronaut.getName());
+        minAstronaut.setProfileImage(astronaut.getProfileImage());
+        minAstronaut.setNationality(astronaut.getNationality());
+        return minAstronaut;
+    }
+
     public int getId() {
 
         return mId;

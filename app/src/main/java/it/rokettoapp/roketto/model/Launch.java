@@ -61,7 +61,6 @@ public class Launch implements Serializable {
     @SerializedName("launch_service_provider")
     private Agency mLaunchServiceProvider;
 
-    @Embedded(prefix = "rocket_")
     @SerializedName("rocket")
     private Rocket mRocket;
 
@@ -121,11 +120,11 @@ public class Launch implements Serializable {
     private boolean mNotificationEnabled;
 
     @Ignore
-    public Launch(String id) {
+    public Launch(@NonNull String id) {
         this.mId = id;
     }
 
-    public Launch(String id, String slug, String name, LaunchStatus launchStatus,
+    public Launch(@NonNull String id, String slug, String name, LaunchStatus launchStatus,
                   Date lastUpdated, List<Update> updateList, Date net, Date windowEnd,
                   Date windowStart, int probability, String holdReason, String failReason,
                   String hashtag, Agency launchServiceProvider, Rocket rocket, Mission mission,
@@ -180,6 +179,8 @@ public class Launch implements Serializable {
         minLaunch.setNet(launch.getNet());
         minLaunch.setLaunchStatus(LaunchStatus.buildMinLaunchStatus(launch.getLaunchStatus()));
         minLaunch.setImage(launch.getImage());
+        minLaunch.setLaunchServiceProvider(Agency.buildMinAgency(launch.getLaunchServiceProvider()));
+        minLaunch.setRocket(Rocket.buildMinRocket(launch.getRocket()));
         return minLaunch;
     }
 

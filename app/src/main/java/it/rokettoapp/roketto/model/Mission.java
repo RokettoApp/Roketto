@@ -52,6 +52,7 @@ public class Mission implements Serializable {
 
         Mission minMission = new Mission(mission.getId());
         minMission.setDescription(mission.getDescription());
+        minMission.setType(mission.getType());
         minMission.setOrbit(Orbit.buildMinOrbit(mission.getOrbit()));
         return minMission;
     }

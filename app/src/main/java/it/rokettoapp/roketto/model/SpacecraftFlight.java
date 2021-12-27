@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +62,19 @@ public class SpacecraftFlight implements Serializable {
         this.mSpacecraft = spacecraft;
         this.mLaunch = launch;
         this.mDockingEvent = dockingEvent;
+    }
+
+    public static SpacecraftFlight buildMinSpacecraftFlight(SpacecraftFlight spacecraftFlight) {
+
+        SpacecraftFlight minSpacecraftFlight = new SpacecraftFlight(spacecraftFlight.getId());
+        List<AstronautFlight> minAstronautFlightList = new ArrayList<>();
+        if (spacecraftFlight.getLaunchCrew() != null) {
+            for (AstronautFlight astronautFlight : spacecraftFlight.getLaunchCrew()) {
+                minAstronautFlightList.add(AstronautFlight.buildMinAstronautFlight(astronautFlight));
+            }
+        }
+        minSpacecraftFlight.setLaunchCrew(minAstronautFlightList);
+        return minSpacecraftFlight;
     }
 
     public int getId() {

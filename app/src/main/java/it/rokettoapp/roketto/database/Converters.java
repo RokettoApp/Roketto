@@ -25,6 +25,7 @@ import it.rokettoapp.roketto.model.Location;
 import it.rokettoapp.roketto.model.MissionPatch;
 import it.rokettoapp.roketto.model.Pad;
 import it.rokettoapp.roketto.model.Program;
+import it.rokettoapp.roketto.model.Rocket;
 import it.rokettoapp.roketto.model.SpaceStation;
 import it.rokettoapp.roketto.model.Spacecraft;
 import it.rokettoapp.roketto.model.SpacecraftConfiguration;
@@ -47,17 +48,21 @@ public class Converters {
 
     //LauncherConfig
     @TypeConverter
-    public static String fromLaunchConfToJson(List<LauncherConfig> value) {
+    public static String fromLauncherConfigListToJson(List<LauncherConfig> launcherConfigList) {
 
-        if (value == null) return null;
+        if (launcherConfigList == null) return null;
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<LauncherConfig>>() {}.getType();
-        return gson.toJson(value, type);
+        List<LauncherConfig> minLauncherConfigList = new ArrayList<>();
+        for (LauncherConfig launcherConfig : launcherConfigList) {
+            minLauncherConfigList.add(LauncherConfig.buildMinLauncherConfig(launcherConfig));
+        }
+        return gson.toJson(minLauncherConfigList, type);
     }
 
     @TypeConverter
-    public static List<LauncherConfig> fromJsonToLaunchConfList(String value) {
+    public static List<LauncherConfig> fromJsonToLauncherConfigList(String value) {
 
         if (value == null) return null;
 
@@ -73,7 +78,8 @@ public class Converters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<LauncherConfig>() {}.getType();
-        return gson.toJson(launcherConfig, type);
+        LauncherConfig minLauncherConfig = LauncherConfig.buildMinLauncherConfig(launcherConfig);
+        return gson.toJson(minLauncherConfig, type);
     }
 
     @TypeConverter
@@ -178,48 +184,47 @@ public class Converters {
 
     //SpacecraftFlight
     @TypeConverter
-    public static String fromSpaceFlightToJson(List<SpacecraftFlight> value) {
-        if (value == null) {
-            return (null);
-        }
+    public static String fromSpacecraftFlightToJson(List<SpacecraftFlight> spacecraftFlightList) {
+
         Gson gson = new Gson();
-        List<Integer> ids = new ArrayList<>();
-        for (int i=0; i<value.size(); i++){
-            ids.add(value.get(i).getId());
+        Type type = new TypeToken<List<Agency>>() {}.getType();
+        List<SpacecraftFlight> minAgencyList = new ArrayList<>();
+        for (SpacecraftFlight spacecraftFlight : spacecraftFlightList) {
+            minAgencyList.add(SpacecraftFlight.buildMinSpacecraftFlight(spacecraftFlight));
         }
-        return gson.toJson(ids);
+        return gson.toJson(minAgencyList, type);
     }
 
     @TypeConverter
-    public static List<SpacecraftFlight> fromJsonToSpaceFlight(String value) {
-        if (value == null) {
-            return (null);
-        }
+    public static List<SpacecraftFlight> fromJsonToSpacecraftFlight(String json) {
+
+        if (json == null) return null;
+
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> ids = gson.fromJson(value, type);
-        List<SpacecraftFlight> valueList = new ArrayList<>();
-        for (int i=0; i<ids.size(); i++){
-            SpacecraftFlight spacecraftFlightId = new SpacecraftFlight(ids.get(i));
-            valueList.add(spacecraftFlightId);
-        }
-        return valueList;
+        Type type = new TypeToken<List<SpacecraftFlight>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @TypeConverter
-    public static Integer fromSpacecraftFlightToInteger(SpacecraftFlight spacecraftFlight) {
+    public static String fromSpacecraftFlightToJson(SpacecraftFlight spacecraftFlight) {
 
         if (spacecraftFlight == null) return null;
 
-        return spacecraftFlight.getId();
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Agency>>() {}.getType();
+        SpacecraftFlight minSpacecraftFlight =
+                SpacecraftFlight.buildMinSpacecraftFlight(spacecraftFlight);
+        return gson.toJson(minSpacecraftFlight, type);
     }
 
     @TypeConverter
-    public static SpacecraftFlight fromIntegerToSpacecaraftFlight(Integer id) {
+    public static SpacecraftFlight fromIntegerToSpacecaraftFlight(String json) {
 
-        if (id == null) return null;
+        if (json == null) return null;
 
-        return new SpacecraftFlight(id);
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Agency>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     //Update
@@ -254,46 +259,48 @@ public class Converters {
 
     //Agency
     @TypeConverter
-    public static String fromAgencyListToJson(List<Agency> value) {
-        if (value == null) {
-            return (null);
-        }
+    public static String fromAgencyListToJson(List<Agency> agencyList) {
+
+        if (agencyList == null) return null;
+
         Gson gson = new Gson();
-        List<Integer> ids = new ArrayList<>();
-        for (int i=0; i<value.size(); i++){
-            ids.add(value.get(i).getId());
+        Type type = new TypeToken<List<Agency>>() {}.getType();
+        List<Agency> minAgencyList = new ArrayList<>();
+        for (Agency agency : agencyList) {
+            minAgencyList.add(Agency.buildMinAgency(agency));
         }
-        return gson.toJson(ids);
+        return gson.toJson(minAgencyList, type);
     }
 
     @TypeConverter
-    public static List<Agency> fromJsonToAgencyList(String value) {
-        if (value == null) {
-            return (null);
-        }
+    public static List<Agency> fromJsonToAgencyList(String json) {
+
+        if (json == null) return null;
+
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> ids = gson.fromJson(value, type);
-        List<Agency> valueList = new ArrayList<>();
-        for (int i=0; i<ids.size(); i++){
-            Agency agencyId = new Agency(ids.get(i));
-            valueList.add(agencyId);
-        }
-        return valueList;
+        Type type = new TypeToken<List<Agency>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @TypeConverter
-    public static Integer fromAgencyToInteger(Agency agency) {
+    public static String fromAgencyToJson(Agency agency) {
 
         if (agency == null) return null;
-        return agency.getId();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Agency>() {}.getType();
+        Agency minAgency = Agency.buildMinAgency(agency);
+        return gson.toJson(minAgency, type);
     }
 
     @TypeConverter
-    public static Agency fromIntegerToAgency(Integer id) {
+    public static Agency fromJsonToAgency(String json) {
 
-        if (id == null) return null;
-        return new Agency(id);
+        if (json == null) return null;
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Agency>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     //MissionPatch
@@ -328,7 +335,7 @@ public class Converters {
 
     //Launch
     @TypeConverter
-    public static String fromLaunchToJson(List<Launch> launchList) {
+    public static String fromLaunchListToJson(List<Launch> launchList) {
 
         if (launchList == null) return null;
 
@@ -342,7 +349,7 @@ public class Converters {
     }
 
     @TypeConverter
-    public static List<Launch> fromJsonToLaunch(String json) {
+    public static List<Launch> fromJsonToLaunchList(String json) {
 
         if (json == null) return null;
 
@@ -352,19 +359,24 @@ public class Converters {
     }
 
     @TypeConverter
-    public static String fromLaunchToString(Launch launch) {
+    public static String fromLaunchToJson(Launch launch) {
 
         if (launch == null) return null;
 
-        return launch.getId();
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Launch>>() {}.getType();
+        Launch minLaunch = Launch.buildMinLaunch(launch);
+        return gson.toJson(minLaunch, type);
     }
 
     @TypeConverter
-    public static Launch fromStringToLaunch(String id) {
+    public static Launch fromJsonToLaunch(String json) {
 
-        if (id == null) return null;
+        if (json == null) return null;
 
-        return new Launch(id);
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Launch>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     // Url
@@ -582,7 +594,11 @@ public class Converters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<AstronautFlight>>() {}.getType();
-        return gson.toJson(astronautFlightList, type);
+        List<AstronautFlight> minAstronautFlightList = new ArrayList<>();
+        for (AstronautFlight astronautFlight : astronautFlightList) {
+            minAstronautFlightList.add(AstronautFlight.buildMinAstronautFlight(astronautFlight));
+        }
+        return gson.toJson(minAstronautFlightList, type);
     }
 
     @TypeConverter
@@ -602,11 +618,12 @@ public class Converters {
         if (astronautList == null) return null;
 
         Gson gson = new Gson();
-        List<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < astronautList.size(); i++) {
-            ids.add(astronautList.get(i).getId());
+        Type type = new TypeToken<List<Agency>>() {}.getType();
+        List<Astronaut> minAstronautList = new ArrayList<>();
+        for (Astronaut astronaut : astronautList) {
+            minAstronautList.add(Astronaut.buildMinAstronaut(astronaut));
         }
-        return gson.toJson(ids);
+        return gson.toJson(minAstronautList, type);
     }
 
     @TypeConverter
@@ -615,14 +632,8 @@ public class Converters {
         if (json == null) return null;
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Integer>>() {}.getType();
-        List<Integer> idList = gson.fromJson(json, type);
-        List<Astronaut> astronautList = new ArrayList<>();
-        for (int i = 0; i < idList.size(); i++) {
-            Astronaut astronaut = new Astronaut(idList.get(i));
-            astronautList.add(astronaut);
-        }
-        return astronautList;
+        Type type = new TypeToken<List<Astronaut>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     // SpaceStation
@@ -651,19 +662,24 @@ public class Converters {
     }
 
     @TypeConverter
-    public static Integer fromSpaceStationToInteger(SpaceStation spaceStation) {
+    public static String fromSpaceStationToJson(SpaceStation spaceStation) {
 
         if (spaceStation == null) return null;
 
-        return spaceStation.getId();
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<SpaceStation>>() {}.getType();
+        SpaceStation minSpaceStation = SpaceStation.buildMinSpaceStation(spaceStation);
+        return gson.toJson(minSpaceStation, type);
     }
 
     @TypeConverter
-    public static SpaceStation fromIntegerToSpaceStation(Integer id) {
+    public static SpaceStation fromJsonToSpaceStation(String json) {
 
-        if (id == null) return null;
+        if (json == null) return null;
 
-        return new SpaceStation(id);
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<SpaceStation>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     // DockingLocation
@@ -704,6 +720,28 @@ public class Converters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<DockingLocation>() {}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    // Rocket
+    @TypeConverter
+    public static String fromRocketToJson(Rocket rocket) {
+
+        if (rocket == null) return null;
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Rocket>() {}.getType();
+        Rocket minRocket = Rocket.buildMinRocket(rocket);
+        return gson.toJson(minRocket, type);
+    }
+
+    @TypeConverter
+    public static Rocket fromJsonToRocket(String json) {
+
+        if (json == null) return null;
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Rocket>() {}.getType();
         return gson.fromJson(json, type);
     }
 }
