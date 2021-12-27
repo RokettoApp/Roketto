@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +19,14 @@ import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.ui.EventDetailActivity;
 
-public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerViewAdapterEvents.MyViewHolderEvents> {
+public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<Event> mEvents;
     private Context mContext;
     private boolean mLimit;
+
+    private static final int EVENTS_VIEW_TYPE = 0;
+    private static final int LOADING_VIEW_TYPE = 1;
 
     public RecyclerViewAdapterEvents(Context mContext, List<Event> mEvents, boolean mLimit) {
         this.mContext = mContext;
@@ -32,31 +36,34 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
 
     @NonNull
     @Override
-    public MyViewHolderEvents onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
-        view = mInflater.inflate(R.layout.recycleview_row_layout,parent,false);
 
-        return new MyViewHolderEvents(view, p -> {
-
-            Intent intent = new Intent(mContext, EventDetailActivity.class);
-            intent.putExtra("EventId", mEvents.get(p).getId());
-            mContext.startActivity(intent);
-        });
+        if(viewType == EVENTS_VIEW_TYPE) {
+            view = mInflater.inflate(R.layout.recycleview_row_layout, parent, false);
+            RecyclerViewAdapterEvents.MyViewHolderEvents mHolder =
+                    new RecyclerViewAdapterEvents.MyViewHolderEvents(view, p -> {
+                        Intent intent = new Intent(mContext, EventDetailActivity.class);
+                        intent.putExtra("EventId", mEvents.get(p).getId());
+                        mContext.startActivity(intent);
+                    });
+            return mHolder;
+        }else{
+            view = mInflater.inflate(R.layout.news_loading_item, parent, false);
+            return new RecyclerViewAdapterNews.LoadingNewsViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolderEvents holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof MyViewHolderEvents) {
+            ((MyViewHolderEvents) holder).bind(mEvents.get(position));
+        } else if (holder instanceof LoadingNewsViewHolder) {
+            ((LoadingNewsViewHolder) holder).activate();
+        }
 
-        holder.event_title.setText(mEvents.get(position).getName());
-        holder.event_d.setText(mEvents.get(position).getDescription());
-
-        String[] dateEvent = mEvents.get(position).getDate().toString().split("\\s+");
-
-        holder.mDayText.setText(dateEvent[2]);
-        holder.mMonthText.setText(dateEvent[1]);
-        holder.mYearText.setText(dateEvent[5]);
     }
 
     @Override
@@ -65,6 +72,14 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
                 if (mEvents.size() > 2)
                     return 2;
         return mEvents.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(mEvents.get(position) == null)
+            return LOADING_VIEW_TYPE;
+        else
+            return EVENTS_VIEW_TYPE;
     }
 
     public static class MyViewHolderEvents extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -95,6 +110,17 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
             event_button.setOnClickListener(this);
         }
 
+        public void bind(Event event){
+            event_title.setText(event.getName());
+            event_d.setText(event.getDescription());
+
+            String[] dateEvent = event.getDate().toString().split("\\s+");
+
+            mDayText.setText(dateEvent[2]);
+            mMonthText.setText(dateEvent[1]);
+            mYearText.setText(dateEvent[5]);
+        }
+
         @Override
         public void onClick(View v) {
             listener.onClick(this.getLayoutPosition());
@@ -103,6 +129,18 @@ public class RecyclerViewAdapterEvents extends RecyclerView.Adapter<RecyclerView
 
     public interface MyClickListener{
         void onClick(int p);
+    }
+
+    public static class LoadingNewsViewHolder extends RecyclerView.ViewHolder {
+        private final ProgressBar progressBar;
+        LoadingNewsViewHolder(View view) {
+            super(view);
+            progressBar = view.findViewById(R.id.progressbar_loading_news);
+        }
+
+        public void activate() {
+            progressBar.setIndeterminate(true);
+        }
     }
 
 

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +51,8 @@ public class FragmentNews extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_news,container, false);
 
+        SwipeRefreshLayout mSwipe = rootView.findViewById(R.id.swipeNews);
+
         RecyclerView mRecyclerNews = (RecyclerView) rootView.findViewById(R.id.rvNews);
         RecyclerViewAdapterNews mRecyclerViewAdapterNews = new RecyclerViewAdapterNews(mArticle,getContext());
 
@@ -68,6 +71,7 @@ public class FragmentNews extends Fragment {
                 mArticle.add(null);
             mRecyclerViewAdapterNews.notifyDataSetChanged();
             mArticleViewModel.setLoading(false);
+            mSwipe.setRefreshing(false);
             Log.d("FragmentNews", "test");
         });
 
@@ -93,11 +97,19 @@ public class FragmentNews extends Fragment {
         mArticleViewModel.getArticles();
         mArticleViewModel.getReports();
         mArticleViewModel.getBlogPosts();
-        Button button = rootView.findViewById(R.id.button);
+
+        /*Button button = rootView.findViewById(R.id.button);
         button.setOnClickListener(view -> {
 
             textView.setText("");
             mArticleViewModel.refreshArticles();
+        });*/
+
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mArticleViewModel.refreshArticles();
+            }
         });
 
         mRecyclerNews.addOnScrollListener(new RecyclerView.OnScrollListener() {

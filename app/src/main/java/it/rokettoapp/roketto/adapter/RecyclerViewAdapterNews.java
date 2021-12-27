@@ -51,11 +51,9 @@ public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.V
         if (viewType == NEWS_VIEW_TYPE) {
             LayoutInflater mInflater = LayoutInflater.from(mContext);
             view = mInflater.inflate(R.layout.recycler_news_item, parent, false);
-            RecyclerViewAdapterNews.MyViewHolderNews mHolder = new RecyclerViewAdapterNews.MyViewHolderNews(view, new RecyclerViewAdapterNews.MyClickListener() {
-                @Override
-                public void onClick(int p) {
+            RecyclerViewAdapterNews.MyViewHolderNews mHolder =
+                    new RecyclerViewAdapterNews.MyViewHolderNews(view, p -> {
 
-                }
             });
             return mHolder;
         } else {

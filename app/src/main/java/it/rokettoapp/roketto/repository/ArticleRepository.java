@@ -153,10 +153,9 @@ public class ArticleRepository {
                     }
                     databaseOperations.saveList(articleList);
                     List<Article> currentArticleList = mArticleListLiveData.getValue();
-                    currentArticleList.remove(currentArticleList.size()-1);
                     currentArticleList.addAll(articleList);
                     mArticleListLiveData.postValue(currentArticleList);
-                    Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
+                    Log.d(TAG, "Retrieved " + articleList.size() + " current articles.");
                     count +=4;
                 } else {
                     Log.e(TAG, "Request failed.");

@@ -1,5 +1,6 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,8 @@ public class FragmentHome extends Fragment {
 
 
         super.onCreate(savedInstanceState);
+
+
 
 
         mEventViewModel = new ViewModelProvider(requireActivity()).get(EventViewModel.class);
@@ -106,10 +110,14 @@ public class FragmentHome extends Fragment {
             }
         });*/
 
-        Button button = rootView.findViewById(R.id.events_see_all);
+        Button button = rootView.findViewById(R.id.astronauts_see_all);
+        Button seeAllEvents = rootView.findViewById(R.id.events_see_all);
         button.setOnClickListener(view -> {
-            mEventViewModel.refreshEvents();
+            mEventViewModel.getEvents();
             mAstroViewModel.refreshAstronauts();
+        });
+        seeAllEvents.setOnClickListener(v -> {
+            requireActivity().startActivity(new Intent(requireActivity(), SeeAllEventsActivity.class));
         });
 
         return rootView;
