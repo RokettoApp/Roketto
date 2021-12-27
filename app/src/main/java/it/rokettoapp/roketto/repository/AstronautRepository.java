@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.AstronautDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Astronaut;
+import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
 import it.rokettoapp.roketto.util.DatabaseOperations;
@@ -72,6 +75,45 @@ public class AstronautRepository {
         }).start();
     }
 
+    public void getAstronautsByIds(List <Integer> ids){
+        new Thread(() -> {
+            List<Astronaut> astronautList = new ArrayList<>();
+            for (Integer id : ids) {
+                Astronaut astronaut = mAstronautDao.getById(id);
+                if (astronaut != null) {
+                    astronautList.add(astronaut);
+                } else
+                    fetchAstronautById(id);
+            }
+            mAstronautListLiveData.postValue(astronautList);
+        }).start();
+    }
+
+    public void fetchAstronautByIds(Integer id, List<Astronaut> astronautList){
+        Call<Astronaut> astronautResponseCall = mAstronautApiService.getAstronaut(id);
+        astronautResponseCall.enqueue(new Callback<Astronaut>() {
+
+            @Override
+            public void onResponse(@NonNull Call<Astronaut> call,
+                                   @NonNull Response<Astronaut> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    Astronaut astronaut = response.body();
+                    databaseOperations.saveValue(astronaut);
+                    astronautList.add(astronaut);
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Astronaut> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
     public void refreshAstronauts() {
 
         fetchAstronauts();
@@ -89,7 +131,7 @@ public class AstronautRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Astronaut> astronautList = response.body().getResults();
-                    databaseOperations.saveList(astronautList);
+                    //databaseOperations.saveList(astronautList);
                     mAstronautListLiveData.postValue(astronautList);
                     Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {

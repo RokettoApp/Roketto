@@ -38,6 +38,10 @@ public class AstronautViewModel extends AndroidViewModel {
         mAstronautRepository.getAstronautById(id);
     }
 
+    public void getAstronautsByIds(List<Integer> ids){
+        mAstronautRepository.getAstronautsByIds(ids);
+    }
+
     public void refreshAstronauts() {
 
         mAstronautRepository.refreshAstronauts();

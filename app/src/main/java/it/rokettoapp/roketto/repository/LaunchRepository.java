@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.LaunchDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
@@ -56,10 +58,54 @@ public class LaunchRepository {
             if (launch != null) {
                 List<Launch> launchList = new ArrayList<>();
                 launchList.add(launch);
+                Log.d(TAG, launch.getName());
                 mLaunchListLiveData.postValue(launchList);
             } else
                 fetchLaunchById(id);
         }).start();
+    }
+
+    public void getLaunchesByIds(List<String> ids){
+        new Thread(() -> {
+            List<Launch> launchList = new ArrayList<>();
+            for (String id : ids) {
+                Launch launch = mLaunchDao.getById(id);
+                if (launch != null) {
+
+                    launchList.add(launch);
+                    Log.d(TAG, launch.getName());
+
+                } else
+                    fetchLaunchById(id);
+            }
+            mLaunchListLiveData.postValue(launchList);
+        }).start();
+    }
+
+    public void fetchLaunchByIds(String id, List<Launch> launches){
+        Call<Launch> launchResponseCall = mLaunchApiService.getLaunch(id);
+        launchResponseCall.enqueue(new Callback<Launch>() {
+
+            @Override
+            public void onResponse(@NonNull Call<Launch> call,
+                                   @NonNull Response<Launch> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    Launch launch = response.body();
+                    databaseOperations.saveValue(launch);
+                    launches.add(launch);
+                    Log.d(TAG, launch.getName() + " API");
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Launch> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
     }
 
     public void fetchLaunches() {
@@ -104,7 +150,7 @@ public class LaunchRepository {
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
                     mLaunchListLiveData.postValue(launchList);
-                    Log.d(TAG, launch.getName());
+                    Log.d(TAG, launch.getName() + " API");
                 } else {
                     Log.e(TAG, "Request failed.");
                 }
