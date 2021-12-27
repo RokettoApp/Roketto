@@ -100,6 +100,15 @@ public class SpaceStation implements Serializable {
         this.mImageUrl = imageUrl;
     }
 
+    public static SpaceStation buildMinSpaceStation(SpaceStation spaceStation) {
+
+        SpaceStation minSpaceStation = new SpaceStation(spaceStation.getId());
+        minSpaceStation.setName(spaceStation.getName());
+        minSpaceStation.setDescription(spaceStation.getDescription());
+        minSpaceStation.setSpaceStationStatus(spaceStation.getSpaceStationStatus());
+        return minSpaceStation;
+    }
+
     public int getId() {
 
         return mId;

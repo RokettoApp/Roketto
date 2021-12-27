@@ -33,7 +33,8 @@ public interface ArticleDao extends GenericDao<Integer, Article> {
     Article getById(Integer id);
 
     @Override
-    @Insert (onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+
     void insertList(List<Article> articleList);
 
     @Override

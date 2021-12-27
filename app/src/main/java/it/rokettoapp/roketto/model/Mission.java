@@ -2,6 +2,7 @@ package it.rokettoapp.roketto.model;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -30,6 +31,12 @@ public class Mission implements Serializable {
     @SerializedName("orbit")
     private Orbit mOrbit;
 
+    @Ignore
+    public Mission(int id) {
+
+        this.mId = id;
+    }
+
     public Mission(int id, String name, String description, String launchDesignator, String type,
                    Orbit orbit) {
 
@@ -39,6 +46,14 @@ public class Mission implements Serializable {
         this.mLaunchDesignator = launchDesignator;
         this.mType = type;
         this.mOrbit = orbit;
+    }
+
+    public static Mission buildMinMission(Mission mission) {
+
+        Mission minMission = new Mission(mission.getId());
+        minMission.setDescription(mission.getDescription());
+        minMission.setOrbit(Orbit.buildMinOrbit(mission.getOrbit()));
+        return minMission;
     }
 
     public int getId() {

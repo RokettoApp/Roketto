@@ -1,5 +1,7 @@
 package it.rokettoapp.roketto.model;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -18,12 +20,25 @@ public class LaunchStatus implements Serializable {
     @SerializedName("description")
     private String mDescription;
 
+    @Ignore
+    public LaunchStatus(int id) {
+
+        this.mId = id;
+    }
+
     public LaunchStatus(int id, String name, String abbreviation, String description) {
 
         this.mId = id;
         this.mName = name;
         this.mAbbreviation = abbreviation;
         this.mDescription = description;
+    }
+
+    public static LaunchStatus buildMinLaunchStatus(LaunchStatus launchStatus) {
+
+        LaunchStatus minLaunchStatus = new LaunchStatus(launchStatus.getId());
+        minLaunchStatus.setName(launchStatus.getName());
+        return minLaunchStatus;
     }
 
     public int getId() {

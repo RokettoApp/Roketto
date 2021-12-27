@@ -66,6 +66,15 @@ public class Program implements Serializable {
         this.mMissionPatch = missionPatch;
     }
 
+    public static Program buildMinProgram(Program program) {
+
+        Program minProgram = new Program(program.getId());
+        minProgram.setName(program.getName());
+        minProgram.setDescription(program.getDescription());
+        minProgram.setStartDate(program.getStartDate());
+        return minProgram;
+    }
+
     public int getId() {
 
         return mId;

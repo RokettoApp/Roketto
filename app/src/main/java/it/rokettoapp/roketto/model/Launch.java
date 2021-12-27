@@ -172,6 +172,17 @@ public class Launch implements Serializable {
         this.mNotificationEnabled = notificationEnabled;
     }
 
+    public static Launch buildMinLaunch(Launch launch) {
+
+        Launch minLaunch = new Launch(launch.getId());
+        minLaunch.setName(launch.getName());
+        minLaunch.setMission(Mission.buildMinMission(launch.getMission()));
+        minLaunch.setNet(launch.getNet());
+        minLaunch.setLaunchStatus(LaunchStatus.buildMinLaunchStatus(launch.getLaunchStatus()));
+        minLaunch.setImage(launch.getImage());
+        return minLaunch;
+    }
+
     public String getId() {
 
         return mId;
