@@ -63,12 +63,16 @@ public class ArticleRepository {
     public void getArticleList() {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE) > Constants.HOUR) {
-            fetchArticles();
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE) < Constants.HOUR) {
+            refreshAll();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
         }
         else
             getArticlesFromDatabase();
+    }
+
+    public void getNewArticleList () {
+        fetchNewArticles();
     }
 
     public void getReportList() {
@@ -94,7 +98,6 @@ public class ArticleRepository {
     }
 
     public void refreshAll() {
-
         new Thread(() -> {
             mArticleDao.deleteAll();
             fetchArticles();
@@ -106,7 +109,7 @@ public class ArticleRepository {
 
     private void fetchArticles() {
 
-        Call<List<Article>> articleResponseCall = mArticleApiService.getArticles(2, count);
+        Call<List<Article>> articleResponseCall = mArticleApiService.getArticles(4, count);
         articleResponseCall.enqueue(new Callback<List<Article>>() {
 
             @Override
@@ -121,6 +124,40 @@ public class ArticleRepository {
                     databaseOperations.saveList(articleList);
                     mArticleListLiveData.postValue(articleList);
                     Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
+                    count +=4;
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Article>> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    private void fetchNewArticles() {
+        Call<List<Article>> articleResponseCall = mArticleApiService.getArticles(4, count);
+        articleResponseCall.enqueue(new Callback<List<Article>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Article>> call,
+                                   @NonNull Response<List<Article>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Article> articleList = response.body();
+                    for (Article article : articleList) {
+                        article.setArticleType(ArticleType.ARTICLE);
+                    }
+                    databaseOperations.saveList(articleList);
+                    List<Article> currentArticleList = mArticleListLiveData.getValue();
+                    currentArticleList.remove(currentArticleList.size()-1);
+                    currentArticleList.addAll(articleList);
+                    mArticleListLiveData.postValue(currentArticleList);
+                    Log.d(TAG, "Retrieved " + articleList.size() + " articles.");
+                    count +=4;
                 } else {
                     Log.e(TAG, "Request failed.");
                 }

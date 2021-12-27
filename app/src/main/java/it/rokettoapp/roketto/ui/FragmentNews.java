@@ -29,6 +29,13 @@ public class FragmentNews extends Fragment {
     private ArticleViewModel mArticleViewModel;
     private List<Article> mArticle;
 
+
+    private int totalItemCount;
+    private int lastVisibleItem;
+    private int visibleItemCount;
+
+    private final int threshold = 3;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -36,9 +43,10 @@ public class FragmentNews extends Fragment {
         mArticleViewModel = new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
         mArticle = new ArrayList<>();
 
-        mArticle.add(new Article(0,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
+        if(mArticle == null) mArticle = new ArrayList<>();
+        /*mArticle.add(new Article(0,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
         mArticle.add(new Article(1,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
-        mArticle.add(new Article(2,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
+        mArticle.add(new Article(2,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));*/
 
     }
 
@@ -59,15 +67,14 @@ public class FragmentNews extends Fragment {
 
 
         TextView textView = rootView.findViewById(R.id.textView2);
-
         mArticleViewModel.getArticleLiveData().observe(getViewLifecycleOwner(), articleList -> {
 
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Article article : articleList) {
-                stringBuilder.append(article.getTitle()).append("\n");
-            }
-            textView.append(stringBuilder.toString());
-            Log.d("ArticleObserver", "test");
+            mArticle.clear();
+            mArticle.addAll(articleList);
+            mArticle.add(null);
+            mRecyclerViewAdapterNews.notifyDataSetChanged();
+            mArticleViewModel.setLoading(false);
+            Log.d("FragmentNews", "test");
         });
 
         mArticleViewModel.getReportLiveData().observe(getViewLifecycleOwner(), reportList -> {
@@ -89,16 +96,44 @@ public class FragmentNews extends Fragment {
             textView.append(stringBuilder.toString());
             Log.d("BlogPostObserver", "test");
         });
-
         mArticleViewModel.getArticles();
         mArticleViewModel.getReports();
         mArticleViewModel.getBlogPosts();
-
         Button button = rootView.findViewById(R.id.button);
         button.setOnClickListener(view -> {
 
             textView.setText("");
             mArticleViewModel.refreshArticles();
+        });
+
+        RecyclerView.LayoutManager layoutManager = new RecyclerView.LayoutManager() {
+            @Override
+            public RecyclerView.LayoutParams generateDefaultLayoutParams() {
+                return null;
+            }
+        };
+        mRecyclerNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (totalItemCount != 100) {
+
+                    if(!recyclerView.canScrollVertically(1)) {
+
+
+                        if (mArticleViewModel.getArticleLiveData().getValue() != null) {
+
+                            Log.d("BlogPostObserver", "test3");
+                            mArticleViewModel.setLoading(true);
+                            mArticleViewModel.getNewArticles();
+                            //mArticleViewModel.setCurrentResults(mArticle);
+                        }
+                    }
+                }
+            }
         });
 
         return rootView;
