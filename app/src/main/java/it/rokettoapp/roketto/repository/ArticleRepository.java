@@ -100,11 +100,11 @@ public class ArticleRepository {
     public void refreshAll() {
         new Thread(() -> {
             mArticleDao.deleteAll();
+            count = 0;
             fetchArticles();
             fetchReports();
             fetchBlogPosts();
         }).start();
-        count += 6;
     }
 
     private void fetchArticles() {

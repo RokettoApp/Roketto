@@ -29,13 +29,6 @@ public class FragmentNews extends Fragment {
     private ArticleViewModel mArticleViewModel;
     private List<Article> mArticle;
 
-
-    private int totalItemCount;
-    private int lastVisibleItem;
-    private int visibleItemCount;
-
-    private final int threshold = 3;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -71,7 +64,8 @@ public class FragmentNews extends Fragment {
 
             mArticle.clear();
             mArticle.addAll(articleList);
-            mArticle.add(null);
+            if(mArticle.size()<100)
+                mArticle.add(null);
             mRecyclerViewAdapterNews.notifyDataSetChanged();
             mArticleViewModel.setLoading(false);
             Log.d("FragmentNews", "test");
@@ -106,30 +100,17 @@ public class FragmentNews extends Fragment {
             mArticleViewModel.refreshArticles();
         });
 
-        RecyclerView.LayoutManager layoutManager = new RecyclerView.LayoutManager() {
-            @Override
-            public RecyclerView.LayoutParams generateDefaultLayoutParams() {
-                return null;
-            }
-        };
         mRecyclerNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (totalItemCount != 100) {
-
-                    if(!recyclerView.canScrollVertically(1)) {
-
-
+                if (mArticle.size() < 100) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (!recyclerView.canScrollVertically(1) && !mArticleViewModel.isLoading()) {
                         if (mArticleViewModel.getArticleLiveData().getValue() != null) {
-
                             Log.d("BlogPostObserver", "test3");
                             mArticleViewModel.setLoading(true);
                             mArticleViewModel.getNewArticles();
-                            //mArticleViewModel.setCurrentResults(mArticle);
                         }
                     }
                 }
