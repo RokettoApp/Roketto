@@ -153,12 +153,23 @@ public class LauncherConfig implements Serializable {
         minLauncherConfig.setDiameter(launcherConfig.getDiameter());
         minLauncherConfig.setLaunchMass(launcherConfig.getLaunchMass());
         minLauncherConfig.setToThrust(launcherConfig.getToThrust());
-        minLauncherConfig.setName(launcherConfig.getName());
-        minLauncherConfig.setFamily(launcherConfig.getFamily());
-        minLauncherConfig.setVariant(launcherConfig.getVariant());
-        minLauncherConfig.setAlias(launcherConfig.getAlias());
-        minLauncherConfig.setFullName(launcherConfig.getFullName());
-        minLauncherConfig.setLaunchCost(launcherConfig.getLaunchCost());
+        minLauncherConfig.setName(launcherConfig.getName() == null ? "--" :
+                launcherConfig.getName());
+        minLauncherConfig.setFamily(
+                (launcherConfig.getFamily() == null || launcherConfig.getFamily().equals("")) ? "--" :
+                launcherConfig.getFamily());
+        minLauncherConfig.setVariant(
+                (launcherConfig.getVariant() == null || launcherConfig.getVariant().equals("")) ? "--" :
+                launcherConfig.getVariant());
+        minLauncherConfig.setAlias(
+                (launcherConfig.getAlias() == null || launcherConfig.getAlias().equals("")) ? "--" :
+                launcherConfig.getAlias());
+        minLauncherConfig.setFullName(
+                (launcherConfig.getFullName() == null || launcherConfig.getFullName().equals("")) ? "--" :
+                launcherConfig.getFullName());
+        minLauncherConfig.setLaunchCost(
+                (launcherConfig.getLaunchCost() == null || launcherConfig.getLaunchCost().equals("")) ? "--" :
+                launcherConfig.getLaunchCost());
         minLauncherConfig.setLeoCapacity(launcherConfig.getLeoCapacity());
         minLauncherConfig.setGtoCapacity(launcherConfig.getGtoCapacity());
         return minLauncherConfig;

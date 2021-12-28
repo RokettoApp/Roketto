@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="astro"
+            type="it.rokettoapp.roketto.model.Astronaut" />
+        <variable
+            name="agency"
+            type="it.rokettoapp.roketto.model.Agency" />
+        <variable
+            name="date"
+            type="String" />
+    </data>
 <ScrollView
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +41,7 @@
             android:layout_marginBottom="16dp"
             android:layout_toEndOf="@id/backButtonAstro"
             android:fontFamily="@font/montserrat"
-            android:text="Philip Juan"
+            android:text="@{astro.name}"
             android:textColor="@color/black"
             android:textSize="16sp"
 
@@ -74,7 +87,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginTop="36dp"
             android:layout_toEndOf="@+id/iconCake"
-            android:text="23/10/2000"
+            android:text="@{date}"
             android:textSize="16dp">
 
         </TextView>
@@ -97,7 +110,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/iconCake"
-            android:text="Active"
+            android:text="@{astro.status.name}"
             android:textSize="16dp">
 
         </TextView>
@@ -120,7 +133,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginTop="16dp"
             android:layout_toEndOf="@+id/iconCake"
-            android:text="Italy"
+            android:text="@{astro.nationality}"
             android:textSize="16dp">
 
         </TextView>
@@ -141,16 +154,17 @@
 
         <ImageView
             android:id="@+id/iconWiki"
-            android:visibility="gone"
+            android:visibility="@{astro.wikipedia == null ? View.GONE : View.VISIBLE}"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignBottom="@id/astroDescription"
             android:layout_marginLeft="16dp"
             android:layout_toEndOf="@id/astroDescription"
-            android:src="@drawable/ic_wiki" />
+            android:src="@drawable/ic_wiki"/>
+
         <ImageView
             android:id="@+id/iconInsta"
-            android:visibility="gone"
+            android:visibility="@{astro.instagram == null ? View.GONE : View.VISIBLE}"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignBottom="@id/astroDescription"
@@ -160,13 +174,13 @@
 
         <ImageView
             android:id="@+id/iconTwitter"
-            android:visibility="gone"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignBottom="@id/astroDescription"
             android:layout_marginLeft="16dp"
             android:layout_toEndOf="@id/iconInsta"
-            android:src="@drawable/ic_twitter" />
+            android:src="@drawable/ic_twitter"
+            android:visibility="@{astro.twitter == null ? View.GONE : View.VISIBLE}" />
 
 
         <TextView
@@ -177,7 +191,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:text="@{astro.biography}"
             android:textSize="14dp" />
 
         <TextView
@@ -247,7 +261,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/agency"
+            android:text="@{agency.name}"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -261,7 +275,7 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/pastel_green"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/human_exp"
+            android:text="@{agency.type}"
             android:textColor="@color/white"
             android:textSize="10sp"
 
@@ -272,16 +286,14 @@
             android:id="@+id/agencyAstro"
             android:layout_width="100dp"
             android:layout_height="100dp"
-
             android:layout_below="@id/astroAgencyTitle"
+
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
             android:adjustViewBounds="true"
-
             android:scaleType="fitXY"
-            android:src="@drawable/testsfondo"
 
-            />
+            android:src="@drawable/testsfondo" />
 
         <TextView
             android:id="@+id/agencyAstroDescr"
@@ -292,7 +304,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
+            android:text="@{agency.description}"
             android:textSize="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/agencyAstro" />
@@ -300,3 +312,4 @@
 
 
 </ScrollView>
+</layout>

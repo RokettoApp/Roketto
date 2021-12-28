@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,7 @@ import java.util.List;
 
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterLaunches;
+import it.rokettoapp.roketto.databinding.ActivityAstroDetailBinding;
 import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.Launch;
@@ -49,17 +52,12 @@ public class AstroDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_astro_detail);
         getSupportActionBar().hide();
 
+        ActivityAstroDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_astro_detail);
+
         Log.d("logastrodeital", "Acitivity astronauta");
         //Inizializzazione variabili
         int mAstroId = (int) getIntent().getSerializableExtra("Astronaut");
-        TextView mAstroDescription = (TextView) findViewById(R.id.astroDetailDescription);
-        TextView mAgencyDescription = (TextView) findViewById(R.id.agencyAstroDescr);
-        TextView mAgencyName = (TextView) findViewById(R.id.astroAgencyName);
-        TextView mNationality = (TextView) findViewById(R.id.txtNationality);
-        TextView mAstroStatus = (TextView) findViewById(R.id.txtStatus);
-        TextView mAstroName = (TextView) findViewById(R.id.astronautsNameTitle);
         TextView mAstroBirth = (TextView) findViewById(R.id.txtBirthDate);
-        Chip mAgencyType = (Chip) findViewById(R.id.chipAgency);
         ImageView mAstroProfile = (ImageView) findViewById(R.id.imageAstro);
         ImageView mAgencyAstro = (ImageView) findViewById(R.id.agencyAstro);
         ImageView mWiki = (ImageView) findViewById(R.id.iconWiki);
@@ -98,25 +96,22 @@ public class AstroDetailActivity extends AppCompatActivity {
         //Recupero dati astronauta
         mAstroViewModel.getLiveData().observe(this, astronauts -> {
             mAstro = astronauts.get(0);
+            binding.setAstro(mAstro);
             String urlWiki = mAstro.getWikipedia();
-            setVisibilityListener(mWiki, urlWiki);
+            mWiki.setOnClickListener(v -> clicke_btn(urlWiki));
             String urlInsta = mAstro.getInstagram();
-            setVisibilityListener(mInsta, urlInsta);
+            mInsta.setOnClickListener(v -> clicke_btn(urlInsta) );
             String urlTwitter = mAstro.getTwitter();
-            setVisibilityListener(mTwitter, urlTwitter);
+            mTwitter.setOnClickListener(v -> clicke_btn(urlTwitter));
 
 
             Glide.with(this).load(mAstro.getProfileImage()).into(mAstroProfile);
-            mAstroDescription.setText(mAstro.getBiography());
-            mNationality.setText(mAstro.getNationality());
-            mAstroStatus.setText(mAstro.getStatus().getName());
-            mAstroName.setText(mAstro.getName());
 
             if(mCSVCountries.checkCountryCode(mAstro.getNationality()))
                 mFlag.setImageDrawable(FlagKit.drawableWithFlag(this, mCSVCountries.getCodeFromName(mAstro.getNationality()).toLowerCase()));
 
             String[] date = mAstro.getDateOfBirth().toString().split("\\s+");
-            mAstroBirth.setText(date[2] + "/"+ date[1]+ "/"+ date[5]);
+            binding.setDate(date[2] + "/"+ date[1]+ "/"+ date[5]);
 
             if(mAstro.getAgency() != null)
                 mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
@@ -144,49 +139,22 @@ public class AstroDetailActivity extends AppCompatActivity {
         //Recupero dati agenzia dell'astronauta
         mAgencyViewModel.getLiveData().observe(this, agencies -> {
             mAgency = agencies.get(0);
+            binding.setAgency(mAgency);
             String mLogo = mAgency.getLogoUrl();
-
-
 
             if(mLogo != null)
             {
                 mAgencyAstro.setVisibility(View.VISIBLE);
                 Glide.with(this).load(mLogo).into(mAgencyAstro);
             }
-
-            mAgencyName.setText(mAgency.getName());
-            mAgencyType.setText(mAgency.getType());
-
-            mAgencyDescription.setText(mAgency.getDescription());
         });
-
-
-
-
-
-        /*((TextView)findViewById(R.id.astroDetail_name)).setText(mAstro.getName());
-
-        AgencyViewModel mAgencyViewModel = new ViewModelProvider(this)
-                .get(AgencyViewModel.class);
-        TextView textView7 = findViewById(R.id.textView7);
-        mAgencyViewModel.getLiveData().observe(this, agencyList -> {
-
-            textView7.setText(agencyList.get(0).getName());
-            Log.d("AgencyObserver", "test");
-        });
-        mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());*/
     }
 
     public void clicke_btn(String url){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
-    }
-
-    public void setVisibilityListener (ImageView icon, String url){
-        if(url != null){
-            icon.setVisibility(View.VISIBLE);
-            icon.setOnClickListener(v -> clicke_btn(url));
+        if(url != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
         }
     }
 }
