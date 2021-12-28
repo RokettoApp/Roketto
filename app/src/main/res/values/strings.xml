@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name_kana">ロケット</string>
     <string name="app_name">Roketto</string>
     <string name="home">Home</string>
     <string name="news">News</string>
@@ -40,8 +41,11 @@
     <string name="sun_sync">Sun-Synchronous Capacity:</string>
     <string name="crew">Crew</string>
     <string name="Agency">Agency</string>
-
-
-
-
+    <string name="form_email_address">Email address</string>
+    <string name="form_password">Password</string>
+    <string name="email_signin">Sign in with email</string>
+    <string name="google_signin">Sign in with Google</string>
+    <string name="email_signup">Sign up with email</string>
+    <string name="registration_failure">An error occurred</string>
+    <string name="logout">Logout</string>
 </resources>

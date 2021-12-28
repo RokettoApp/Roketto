@@ -40,8 +40,6 @@ public class Constants {
     public static final String EVENT_UPCOMING_ENDPOINT = "event/upcoming/{id}";
     public static final String UPDATES_ENDPOINT = "updates";
     public static final String UPDATE_ENDPOINT = "updates/{id}";
-    public static final Long HOUR = 3600000L;
-
 
     public static final String SFN_API_BASE_URL = "https://api.spaceflightnewsapi.net/v3/";
     public static final String INFO_ENDPOINT = "info";
@@ -56,6 +54,7 @@ public class Constants {
     public static final String REPORTS_ENDPOINT = "reports";
     public static final String REPORT_ENDPOINT = "reports/{id}";
 
+    public static final Long HOUR = 3600000L;
     public static final String SHARED_PREFERENCES_FILE_NAME = "roketto.shared.preferences";
     public static final String SHARED_PREFERENCES_LAST_UPDATE_AGENCY = "LAST_UPDATE_AGENCY";
     public static final String SHARED_PREFERENCES_LAST_UPDATE_ARTICLE = "LAST_UPDATE_ARTICLE";
@@ -65,4 +64,8 @@ public class Constants {
     public static final String SHARED_PREFERENCES_LAST_UPDATE_EVENT = "LAST_UPDATE_EVENT";
     public static final String SHARED_PREFERENCES_LAST_UPDATE_PROGRAM = "LAST_UPDATE_PROGRAM";
     public static final String SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT = "LAST_UPDATE_SPACECRAFT";
+
+    public static final String AUTHENTICATION_TOKEN = "AUTHENTICATION_TOKEN";
+    public static final String USER_ID = "USER_ID";
+    public static final String DEFAULT_WEB_CLIENT_ID = "";
 }
