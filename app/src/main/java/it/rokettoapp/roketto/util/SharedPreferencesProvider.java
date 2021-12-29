@@ -39,4 +39,8 @@ public class SharedPreferencesProvider {
         editor.apply();
     }
 
+    public void deleteAll() {
+
+        sharedPreferences.edit().clear().apply();
+    }
 }
