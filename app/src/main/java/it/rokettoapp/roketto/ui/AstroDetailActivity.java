@@ -85,6 +85,9 @@ public class AstroDetailActivity extends AppCompatActivity {
         LinearLayoutManager mLineaLayoutLaunches = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerLaunches.setLayoutManager(mLineaLayoutLaunches);
 
+        RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, false);
+        mRecyclerLaunches.setAdapter(mAdapterLaunches);
+
 
         //Implementazione backbutton
         ImageButton back = (ImageButton)findViewById(R.id.backButtonAstro);
@@ -116,23 +119,12 @@ public class AstroDetailActivity extends AppCompatActivity {
             if(mAstro.getAgency() != null)
                 mAgencyViewModel.getAgencyById(mAstro.getAgency().getId());
 
-            if(mAstro.getFlightList().size() > 5)
-                mLaunchesSeeAll.setVisibility(View.VISIBLE);
-
-
-            RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, false);
-            mRecyclerLaunches.setAdapter(mAdapterLaunches);
-            mLaunchViewModel.getLiveData().observe(this, launches -> {
-                mAstroLaunches.addAll(launches);
-                Log.d("aggobs" , "Observer aggiornato " + mAstroLaunches.size());
-                mAdapterLaunches.notifyDataSetChanged();
-
-            });
-
             List<String> idsLaunches = new ArrayList<>();
             for (Launch l: mAstro.getFlightList())
                 idsLaunches.add(l.getId());
+
             mLaunchViewModel.getLaunchesByIds(idsLaunches);
+
         });
         mAstroViewModel.getAstronautById(mAstroId);
 
@@ -147,6 +139,12 @@ public class AstroDetailActivity extends AppCompatActivity {
                 mAgencyAstro.setVisibility(View.VISIBLE);
                 Glide.with(this).load(mLogo).into(mAgencyAstro);
             }
+        });
+
+        mLaunchViewModel.getLiveData().observe(this, launches -> {
+            mAstroLaunches.addAll(launches);
+            Log.d("aggobs" , "Observer aggiornato " + mAstroLaunches.size());
+            mAdapterLaunches.notifyDataSetChanged();
         });
     }
 

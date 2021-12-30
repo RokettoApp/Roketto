@@ -35,13 +35,8 @@ public class FragmentNews extends Fragment {
 
         super.onCreate(savedInstanceState);
         mArticleViewModel = new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
-        mArticle = new ArrayList<>();
 
         if(mArticle == null) mArticle = new ArrayList<>();
-        /*mArticle.add(new Article(0,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
-        mArticle.add(new Article(1,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
-        mArticle.add(new Article(2,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));*/
-
     }
 
     @Nullable
@@ -61,8 +56,6 @@ public class FragmentNews extends Fragment {
         mRecyclerNews.setLayoutManager(llm);
         mRecyclerNews.setAdapter( mRecyclerViewAdapterNews );
 
-
-        TextView textView = rootView.findViewById(R.id.textView2);
         mArticleViewModel.getArticleLiveData().observe(getViewLifecycleOwner(), articleList -> {
 
             mArticle.clear();
@@ -74,6 +67,9 @@ public class FragmentNews extends Fragment {
             mSwipe.setRefreshing(false);
             Log.d("FragmentNews", "test");
         });
+        mArticleViewModel.getArticles();
+
+        /*TextView textView = rootView.findViewById(R.id.textView2);
 
         mArticleViewModel.getReportLiveData().observe(getViewLifecycleOwner(), reportList -> {
 
@@ -94,11 +90,10 @@ public class FragmentNews extends Fragment {
             textView.append(stringBuilder.toString());
             Log.d("BlogPostObserver", "test");
         });
-        mArticleViewModel.getArticles();
         mArticleViewModel.getReports();
         mArticleViewModel.getBlogPosts();
 
-        /*Button button = rootView.findViewById(R.id.button);
+        Button button = rootView.findViewById(R.id.button);
         button.setOnClickListener(view -> {
 
             textView.setText("");

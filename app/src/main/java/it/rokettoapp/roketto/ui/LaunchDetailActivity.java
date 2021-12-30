@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.chip.Chip;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.AstronautFlight;
 import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.ui.viewmodel.LaunchViewModel;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class LaunchDetailActivity extends AppCompatActivity {
 
@@ -45,41 +49,23 @@ public class LaunchDetailActivity extends AppCompatActivity {
         //Mi prendo i dati passati da Astronauta
         Launch mLaunch = (Launch) getIntent().getSerializableExtra("LaunchId");
         binding.setLaunch(mLaunch);
+        binding.setDefaultString("--");
+        binding.setEmptyString("");
+
         ImageView mThumbnail = (ImageView) findViewById(R.id.imageEvent);
         ImageView mImageAgency = (ImageView) findViewById(R.id.agencyLaunch);
-        /*TextView mMinStage = (TextView) findViewById(R.id.min_stage_value);
-        mMinStage.setText(mLaunch.getRocket().getConfiguration().getMinStage() == 0 ? "--" : mLaunch.getRocket().getConfiguration().getMinStage()+"");
-        TextView mMaxStage = (TextView) findViewById(R.id.max_stage_value);
-        mMaxStage.setText(mLaunch.getRocket().getConfiguration().getMaxStage() == 0 ? "--" : mLaunch.getRocket().getConfiguration().getMaxStage()+"");
-        TextView mLength = (TextView) findViewById(R.id.length_value);
-        mLength.setText(mLaunch.getRocket().getConfiguration().getLength() == 0 ? "--" : mLaunch.getRocket().getConfiguration().getLength()+"");
-        TextView mDiameter = (TextView) findViewById(R.id.diameter_value);
-        mDiameter.setText(mLaunch.getRocket().getConfiguration().getDiameter() == 0 ? "--" : mLaunch.getRocket().getConfiguration().getDiameter()+"");
-        TextView mLaunchMass = (TextView) findViewById(R.id.launch_mass_value);
-        mLaunchMass.setText(mLaunch.getRocket().getConfiguration().getLaunchMass() == 0 ? "--" :mLaunch.getRocket().getConfiguration().getLaunchMass()+"" );
-        TextView mThrust = (TextView) findViewById(R.id.thrust_value);
-        mThrust.setText(mLaunch.getRocket().getConfiguration().getToThrust() == 0 ? "--" : mLaunch.getRocket().getConfiguration().getToThrust()+"" );
-        TextView mName = (TextView) findViewById(R.id.name_value);
-        mName.setText(mLaunch.getRocket().getConfiguration().getName() == "" ? "--" : mLaunch.getRocket().getConfiguration().getName());
-        TextView mFamily = (TextView) findViewById(R.id.family_value);
-        mFamily.setText(mLaunch.getRocket().getConfiguration().getFamily() == "" ? "--" : mLaunch.getRocket().getConfiguration().getFamily() );
-        TextView mVariant = (TextView) findViewById(R.id.variant_value);
-        mVariant.setText(mLaunch.getRocket().getConfiguration().getVariant() == "" ? "--" :mLaunch.getRocket().getConfiguration().getVariant());
-        TextView mAlias = (TextView) findViewById(R.id.alias_value);
-        mAlias.setText(mLaunch.getRocket().getConfiguration().getAlias() == "" ? "--" :mLaunch.getRocket().getConfiguration().getAlias() );
-        TextView mFullName = (TextView) findViewById(R.id.full_name_value);
-        mFullName.setText(mLaunch.getRocket().getConfiguration().getFullName() == "" ? "--" :mLaunch.getRocket().getConfiguration().getFullName());
-        TextView mLaunchCost = (TextView) findViewById(R.id.launch_cost_value);
-        mLaunchCost.setText(mLaunch.getRocket().getConfiguration().getLaunchCost()  == "" ? "--" :mLaunch.getRocket().getConfiguration().getLaunchCost());
-        TextView mLowOrbit = (TextView) findViewById(R.id.low_orbit_value);
-        mLowOrbit.setText(mLaunch.getRocket().getConfiguration().getLeoCapacity()  == 0 ? "--" : mLaunch.getRocket().getConfiguration().getLeoCapacity()+"");
-        TextView mGeoTra = (TextView) findViewById(R.id.geo_tra_value);
-        mGeoTra.setText(mLaunch.getRocket().getConfiguration().getGtoCapacity()  == 0 ? "--" :mLaunch.getRocket().getConfiguration().getGtoCapacity() +"");
-        TextView mLaunchAgencyName = (TextView) findViewById(R.id.launchAgencyName);
-        TextView mLaunchAgencyDescription = (TextView) findViewById(R.id.agencyLaunchDescr);
-        mLaunchAgencyName.setText(mLaunch.getLaunchServiceProvider().getName());
-        Log.d("nameag", mLaunch.getLaunchServiceProvider().getName() + "");
-        Log.d("idag", mLaunch.getLaunchServiceProvider().getId() + "");*/
+        TextView mDay = (TextView) findViewById(R.id.txtGiorno);
+        TextView mMonth = (TextView) findViewById(R.id.txtMese);
+        TextView mYear = (TextView) findViewById(R.id.txtAnno);
+
+        String[] dateLaunch = mLaunch.getNet().toString().split("\\s+");
+        mDay.setText(dateLaunch[2]);
+        mMonth.setText(dateLaunch[1]);
+        mYear.setText(dateLaunch[5]);
+
+        Glide.with(this).load(mLaunch.getImage()).apply(RequestOptions.bitmapTransform(
+                new BlurTransformation(15))).into(mThumbnail);
+
 
         String mLogo = mLaunch.getLaunchServiceProvider().getLogoUrl();
         if(mLogo != null)
@@ -89,10 +75,6 @@ public class LaunchDetailActivity extends AppCompatActivity {
         }
 
         binding.setAgency(mLaunch.getLaunchServiceProvider());
-        /*Chip mAgencyType = (Chip) findViewById(R.id.chipAgency);
-        mLaunchAgencyName.setText(mAgency.getName());
-        mAgencyType.setText(mAgency.getType());
-        mLaunchAgencyDescription.setText(mAgency.getDescription());*/
 
         if (mLaunch.getRocket().getSpacecraftStage() != null) {
             for (AstronautFlight astronautFlight :

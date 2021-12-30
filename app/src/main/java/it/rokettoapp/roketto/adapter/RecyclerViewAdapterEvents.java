@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
+import it.rokettoapp.roketto.databinding.DateItemLayoutBinding;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.ui.EventDetailActivity;
 

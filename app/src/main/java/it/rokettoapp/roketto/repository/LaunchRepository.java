@@ -82,32 +82,6 @@ public class LaunchRepository {
         }).start();
     }
 
-    public void fetchLaunchByIds(String id, List<Launch> launches){
-        Call<Launch> launchResponseCall = mLaunchApiService.getLaunch(id);
-        launchResponseCall.enqueue(new Callback<Launch>() {
-
-            @Override
-            public void onResponse(@NonNull Call<Launch> call,
-                                   @NonNull Response<Launch> response) {
-
-                if (response.body() != null && response.isSuccessful()) {
-                    Launch launch = response.body();
-                    databaseOperations.saveValue(launch);
-                    launches.add(launch);
-                    Log.d(TAG, launch.getName() + " API");
-                } else {
-                    Log.e(TAG, "Request failed.");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Launch> call, @NonNull Throwable t) {
-
-                Log.e(TAG, t.getMessage());
-            }
-        });
-    }
-
     public void fetchLaunches() {
 
         Call<ResponseList<Launch>> launchResponseCall = mLaunchApiService.getLaunches(5);
