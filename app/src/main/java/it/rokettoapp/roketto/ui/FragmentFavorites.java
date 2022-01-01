@@ -1,11 +1,9 @@
 package it.rokettoapp.roketto.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,21 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import it.rokettoapp.roketto.R;
-import it.rokettoapp.roketto.model.Agency;
-import it.rokettoapp.roketto.ui.viewmodel.AgencyViewModel;
+import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
 
 public class FragmentFavorites extends Fragment {
 
-    private AgencyViewModel mAgencyViewModel;
-    int lastAgencyId;
+    private FavouritesViewModel mFavouritesViewModel;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mAgencyViewModel = new ViewModelProvider(requireActivity()).get(AgencyViewModel.class);
-        lastAgencyId = 0;
+        mFavouritesViewModel = new ViewModelProvider(requireActivity())
+                .get(FavouritesViewModel.class);
+        mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Nullable
@@ -39,24 +40,20 @@ public class FragmentFavorites extends Fragment {
                 .inflate(R.layout.fragment_favorites, container, false);
 
         TextView textView4 = rootView.findViewById(R.id.textView4);
-        mAgencyViewModel.getLiveData().observe(getViewLifecycleOwner(), agencyList -> {
 
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Agency agency : agencyList) {
-                stringBuilder.append(agency.getName()).append("\n");
-                lastAgencyId = agency.getId();
-            }
-            textView4.append(stringBuilder.toString());
-            Log.d("AgencyObserver", "test");
-        });
-        mAgencyViewModel.getAgencies();
-
-        Button button = rootView.findViewById(R.id.button2);
-        button.setOnClickListener(view -> {
-
-            textView4.setText("");
-            mAgencyViewModel.getNextAgencies(lastAgencyId);
-        });
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            mFavouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
+                    .observe(getViewLifecycleOwner(), user -> {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        if (user != null) {
+                            for (Integer id : user.getFavouriteEvents()) {
+                                stringBuilder.append(id);
+                            }
+                        }
+                        textView4.setText(stringBuilder.toString());
+            });
+        }
 
         return rootView;
     }
