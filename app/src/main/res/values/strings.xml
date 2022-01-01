@@ -48,4 +48,7 @@
     <string name="email_signup">Sign up with email</string>
     <string name="registration_failure">An error occurred</string>
     <string name="logout">Logout</string>
+    <string name="favourite_button_description">Favourite button</string>
+    <string name="home_button_description">Home button</string>
+    <string name="event_image_description">Event image</string>
 </resources>

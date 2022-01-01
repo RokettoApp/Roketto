@@ -30,7 +30,8 @@
                     android:layout_height="250dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/testsfondo"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/event_image_description" />
 
                 <ImageButton
                     android:id="@+id/backButtonEvent"
@@ -38,7 +39,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    app:srcCompat="@drawable/ic_baseline_home_24" />
+                    app:srcCompat="@drawable/ic_baseline_home_24"
+                    android:contentDescription="@string/home_button_description" />
+
+                <ImageButton
+                    android:id="@+id/set_favourite_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="56dp"
+                    app:srcCompat="@drawable/ic_baseline_favorite_24"
+                    android:contentDescription="@string/favourite_button_description" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
