@@ -28,9 +28,9 @@ public class LauncherViewModel extends AndroidViewModel {
         return mLauncherListLivedata;
     }
 
-    public void getLaunchers() {
+    public void getLaunchers(Boolean isConnected) {
 
-        mLauncherRepository.getLauncherList();
+        mLauncherRepository.getLauncherList(isConnected);
     }
 
     public void getLauncherById(int id) {

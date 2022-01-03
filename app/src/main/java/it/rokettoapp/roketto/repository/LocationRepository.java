@@ -40,7 +40,7 @@ public class LocationRepository {
         return mLocationListLiveData;
     }
 
-    public void getLocationList() {
+    public void getLocationList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mLocationListLiveData);

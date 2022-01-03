@@ -41,7 +41,7 @@ public class LauncherRepository {
         return mLauncherListLiveData;
     }
 
-    public void getLauncherList() {
+    public void getLauncherList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mLauncherListLiveData);

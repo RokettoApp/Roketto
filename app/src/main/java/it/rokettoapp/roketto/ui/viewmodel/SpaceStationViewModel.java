@@ -28,9 +28,9 @@ public class SpaceStationViewModel extends AndroidViewModel {
         return mSpaceStationListLivedata;
     }
 
-    public void getSpaceStations() {
+    public void getSpaceStations(Boolean isConnected) {
 
-        mSpaceStationRepository.getSpaceStationList();
+        mSpaceStationRepository.getSpaceStationList(isConnected);
     }
 
     public void getSpaceStationById(int id) {

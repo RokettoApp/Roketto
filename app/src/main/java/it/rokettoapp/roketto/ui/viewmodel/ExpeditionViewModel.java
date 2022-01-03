@@ -28,9 +28,9 @@ public class ExpeditionViewModel extends AndroidViewModel {
         return mExpeditionListLiveData;
     }
 
-    public void getExpeditions() {
+    public void getExpeditions(Boolean isConnected) {
 
-        mExpeditionRepository.getExpeditionList();
+        mExpeditionRepository.getExpeditionList(isConnected);
     }
 
     public void getExpeditionById(int id) {

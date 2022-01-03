@@ -1,5 +1,8 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,14 +94,14 @@ public class FragmentNews extends Fragment {
             textView.append(stringBuilder.toString());
             Log.d("BlogPostObserver", "test");
         });
-        mArticleViewModel.getArticles();
-        mArticleViewModel.getReports();
-        mArticleViewModel.getBlogPosts();
+        mArticleViewModel.getArticles(isConnected());
+        mArticleViewModel.getReports(isConnected());
+        mArticleViewModel.getBlogPosts(isConnected());
         Button button = rootView.findViewById(R.id.button);
         button.setOnClickListener(view -> {
 
             textView.setText("");
-            mArticleViewModel.refreshArticles();
+            mArticleViewModel.refreshArticles(isConnected());
         });
 
         mRecyclerNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -107,10 +111,19 @@ public class FragmentNews extends Fragment {
                 if (mArticle.size() < 100) {
                     super.onScrolled(recyclerView, dx, dy);
                     if (!recyclerView.canScrollVertically(1) && !mArticleViewModel.isLoading()) {
-                        if (mArticleViewModel.getArticleLiveData().getValue() != null) {
+                        if (mArticleViewModel.getArticleLiveData().getValue() != null && isConnected()) {
                             Log.d("BlogPostObserver", "test3");
                             mArticleViewModel.setLoading(true);
                             mArticleViewModel.getNewArticles();
+                        } else {
+                            if (!isConnected()) {
+                                Context context = getContext();
+                                CharSequence text = "Nessuna connesione";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+                            }
                         }
                     }
                 }
@@ -118,5 +131,13 @@ public class FragmentNews extends Fragment {
         });
 
         return rootView;
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager)requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

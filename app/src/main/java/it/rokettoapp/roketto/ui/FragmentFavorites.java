@@ -1,5 +1,8 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +52,7 @@ public class FragmentFavorites extends Fragment {
             textView4.append(stringBuilder.toString());
             Log.d("AgencyObserver", "test");
         });
-        mAgencyViewModel.getAgencies();
+        mAgencyViewModel.getAgencies(isConnected());
 
         Button button = rootView.findViewById(R.id.button2);
         button.setOnClickListener(view -> {
@@ -59,5 +62,13 @@ public class FragmentFavorites extends Fragment {
         });
 
         return rootView;
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager)requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

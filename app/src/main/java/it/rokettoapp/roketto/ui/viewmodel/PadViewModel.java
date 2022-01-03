@@ -28,9 +28,9 @@ public class PadViewModel extends AndroidViewModel {
         return mPadListLiveData;
     }
 
-    public void getPads() {
+    public void getPads(Boolean isConnected) {
 
-        mPadRepository.getPadList();
+        mPadRepository.getPadList(isConnected);
     }
 
     public void getPadById(int id) {

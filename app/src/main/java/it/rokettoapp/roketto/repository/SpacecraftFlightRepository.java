@@ -44,7 +44,7 @@ public class SpacecraftFlightRepository {
         return mSpacecraftFlightListLiveData;
     }
 
-    public void getSpacecraftFlightList() {
+    public void getSpacecraftFlightList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mSpacecraftFlightListLiveData);

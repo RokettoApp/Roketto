@@ -28,9 +28,9 @@ public class DockingEventViewModel extends AndroidViewModel {
         return mDockingEventListLiveData;
     }
 
-    public void getDockingEvents() {
+    public void getDockingEvents(Boolean isConnected) {
 
-        mDockingEventRepository.getDockingEventList();
+        mDockingEventRepository.getDockingEventList(isConnected);
     }
 
     public void getDockingEventById(int id) {
