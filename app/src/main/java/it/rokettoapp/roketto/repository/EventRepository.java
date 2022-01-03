@@ -73,12 +73,16 @@ public class EventRepository {
 
     public void refreshEvents() {
 
-        fetchEvents();
+        new Thread(() -> {
+            mEventDao.deleteAll();
+            count = 0;
+            fetchEvents();
+        }).start();
     }
 
     private void fetchEvents() {
 
-        Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(5, count);
+        Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(4, count);
         eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
 
             @Override
@@ -101,7 +105,36 @@ public class EventRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-        count += 5;
+        count += 4;
+    }
+
+    public void fetchNewEvents(){
+        Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(4, count);
+        eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<ResponseList<Event>> call,
+                                   @NonNull Response<ResponseList<Event>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Event> eventList = response.body().getResults();
+//                    databaseOperations.saveList(eventList);
+                    List<Event> mCurrentEventList = mEventListLiveData.getValue();
+                    mCurrentEventList.addAll(eventList);
+                    mEventListLiveData.postValue(mCurrentEventList);
+                    Log.d(TAG, "Retrieved " + eventList.size() + " current events.");
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseList<Event>> call, @NonNull Throwable t) {
+
+                Log.e(TAG, t.getMessage());
+            }
+        });
+        count += 4;
     }
 
     private void fetchEventById(int id) {

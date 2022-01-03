@@ -15,6 +15,7 @@ public class EventViewModel extends AndroidViewModel {
 
     private final EventRepository mEventRepository;
     private MutableLiveData<List<Event>> mEventMutableLiveData;
+    private boolean isLoading;
 
     public EventViewModel(@NonNull Application application) {
 
@@ -33,6 +34,10 @@ public class EventViewModel extends AndroidViewModel {
         mEventRepository.getEventList(isConnected);
     }
 
+    public void getNewEvents(){
+        mEventRepository.fetchNewEvents();
+    }
+
     public void getEventById(int id) {
 
         mEventRepository.getEventById(id);
@@ -41,5 +46,13 @@ public class EventViewModel extends AndroidViewModel {
     public void refreshEvents() {
 
         mEventRepository.refreshEvents();
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
     }
 }

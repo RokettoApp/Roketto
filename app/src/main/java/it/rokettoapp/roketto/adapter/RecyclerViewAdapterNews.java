@@ -2,6 +2,7 @@ package it.rokettoapp.roketto.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -51,11 +54,11 @@ public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.V
         if (viewType == NEWS_VIEW_TYPE) {
             LayoutInflater mInflater = LayoutInflater.from(mContext);
             view = mInflater.inflate(R.layout.recycler_news_item, parent, false);
-            RecyclerViewAdapterNews.MyViewHolderNews mHolder = new RecyclerViewAdapterNews.MyViewHolderNews(view, new RecyclerViewAdapterNews.MyClickListener() {
-                @Override
-                public void onClick(int p) {
-
-                }
+            RecyclerViewAdapterNews.MyViewHolderNews mHolder =
+                    new RecyclerViewAdapterNews.MyViewHolderNews(view, p -> {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(mArticle.get(p).getUrl()));
+                        mContext.startActivity(intent);
             });
             return mHolder;
         } else {
@@ -68,19 +71,19 @@ public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolderNews) {
-            ((MyViewHolderNews) holder).bind(mArticle.get(position));
+            ((MyViewHolderNews) holder).bind(mArticle.get(position), mContext);
         } else if (holder instanceof LoadingNewsViewHolder) {
             ((LoadingNewsViewHolder) holder).activate();
         }
     }
 
 
-    public void onBindViewHolder(MyViewHolderNews holder, int position) {
+    /*public void onBindViewHolder(MyViewHolderNews holder, int position) {
         holder.news_title.setText(mArticle.get(position).getTitle());
         holder.news_description.setText(mArticle.get(position).getSummary());
         holder.news_date.setText(mArticle.get(position).getPublishedAt().toString());
         holder.news_publisher.setText(mArticle.get(position).getSource());
-    }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -96,8 +99,6 @@ public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.V
         private ImageView news_image;
         private Button news_read;
 
-        CardView cardView;
-
         RecyclerViewAdapterNews.MyClickListener listener;
 
         public MyViewHolderNews(View itemView, RecyclerViewAdapterNews.MyClickListener listener) {
@@ -106,21 +107,22 @@ public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.V
             news_date = (TextView) itemView.findViewById(R.id.datetime_news);
             news_publisher = (TextView) itemView.findViewById(R.id.publisher);
             news_description = (TextView) itemView.findViewById(R.id.news_d);
-            cardView = (CardView) itemView.findViewById(R.id.news_card);
             news_read = (Button) itemView.findViewById(R.id.readButton);
             news_image = (ImageView) itemView.findViewById(R.id.imageNews);
 
 
             this.listener = listener;
 
-            cardView.setOnClickListener(this);
+            news_read.setOnClickListener(this);
         }
 
-        public void bind (Article article) {
+        public void bind (Article article, Context context) {
             news_title.setText(article.getTitle());
             news_description.setText(article.getSummary());
             news_date.setText(article.getPublishedAt().toString());
             news_publisher.setText(article.getSource());
+
+            Glide.with(context).load(article.getImageUrl()).into(news_image);
         }
 
         @Override

@@ -1,564 +1,579 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-android:layout_width="match_parent"
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_height="match_parent">
-<RelativeLayout
+<layout>
+    <data>
+        <variable
+            name="launch"
+            type="it.rokettoapp.roketto.model.Launch" />
+        <variable
+            name="agency"
+            type="it.rokettoapp.roketto.model.Agency" />
+        <variable
+            name="defaultString"
+            type="String" />
+        <variable
+            name="emptyString"
+            type="String" />
+    </data>
+
+    <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.LaunchDetailActivity">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardImageLaunch"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        android:layout_marginTop="-16dp"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_height="match_parent"
+        tools:context=".ui.LaunchDetailActivity">
 
-        <FrameLayout
-            android:id="@+id/frameImageEvent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImageLaunch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false">
+            app:cardCornerRadius="16dp"
+            android:layout_marginTop="-16dp"
+            android:layout_alignParentTop="true"
+            >
 
-            <ImageView
-                android:id="@+id/imageEvent"
+            <FrameLayout
+                android:id="@+id/frameImageEvent"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/testsfondo"
-                android:scaleType="fitXY"
-                />
+                android:layout_height="wrap_content"
+                android:focusable="false">
 
-            <ImageButton
-                android:id="@+id/backButtonLaunch"
+                <ImageView
+                    android:id="@+id/imageEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/testsfondo"
+                    android:scaleType="fitXY"
+                    />
+
+                <ImageButton
+                    android:id="@+id/backButtonLaunch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:srcCompat="@drawable/ic_baseline_home_24" />
+                <ImageButton
+                    android:id="@+id/playButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_play_button" />
+
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_above="@id/launchDescription"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+            <include
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:srcCompat="@drawable/ic_baseline_home_24" />
-            <ImageButton
-                android:id="@+id/playButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_play_button" />
+                layout="@layout/date_item_layout">
 
-        </FrameLayout>
-    </androidx.cardview.widget.CardView>
+            </include>
+        </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_above="@id/launchDescription"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content">
-        <include
+        <TextView
+            android:id="@+id/launchDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/date_item_layout">
+            android:text="@string/description"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/cardImageLaunch"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            />
 
-        </include>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/launchDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/launchDescription"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{launch.mission.description}"
+            android:textSize="14dp" />
 
-    <TextView
-        android:id="@+id/launchDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/cardImageLaunch"
-        android:textColor="@color/black"
-        android:fontFamily="@font/montserrat"
-        android:textSize="16sp"
-        />
+        <TextView
+            android:id="@+id/specificationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/specification"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/launchDetailDescription"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/specificationTitle"
+            android:layout_marginLeft="16dp"
+            android:text="@string/min_stage"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/min_stage_txt"
+            >
 
-    <TextView
-        android:id="@+id/launchDetailDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launchDescription"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
-        android:textSize="14dp" />
+        </TextView>
 
-    <TextView
-        android:id="@+id/specificationTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/specification"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/launchDetailDescription"
-        android:textColor="@color/black"
-        android:fontFamily="@font/montserrat"
-        android:textSize="16sp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/specificationTitle"
-        android:layout_marginLeft="16dp"
-        android:text="@string/min_stage"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/min_stage_txt"
-        >
+        <TextView
+            android:id="@+id/min_stage_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/specificationTitle"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/min_stage_txt"
+            android:text="@{Integer.toString(launch.rocket.configuration.minStage)}">
+        </TextView>
+        <TextView
+            android:id="@+id/max_stage_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/min_stage_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/max_stage"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp">
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/specificationTitle"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/min_stage_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/min_stage_value"
-        >
-    </TextView>
-    <TextView
-        android:id="@+id/max_stage_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/min_stage_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/max_stage"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp">
+        </TextView>
 
-    </TextView>
+        <TextView
+            android:id="@+id/max_stage_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/min_stage_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/max_stage_txt"
+            android:text="@{Integer.toString(launch.rocket.configuration.maxStage)}">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/min_stage_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/max_stage_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/max_stage_value"
-        >
-    </TextView>
-    <TextView
-        android:id="@+id/length_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/max_stage_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/length"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp">
+        </TextView>
+        <TextView
+            android:id="@+id/length_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/max_stage_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/length"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp">
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/max_stage_txt"
-        android:layout_marginLeft="8dp"
-        android:text="8"
-        android:layout_toEndOf="@id/length_txt"
-        android:layout_marginTop="8dp"
-        android:id="@+id/length_value"
-        >
-    </TextView>
-    <TextView
-        android:id="@+id/diameter_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/length_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/diameter"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp">
+        </TextView>
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/length_txt"
-        android:layout_marginLeft="8dp"
-        android:text="8"
-        android:layout_toEndOf="@id/diameter_txt"
-        android:layout_marginTop="8dp"
-        android:id="@+id/diameter_value"
-        >
-    </TextView>
+        <TextView
+            android:id="@+id/length_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/max_stage_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/length_txt"
+            android:text="@{Float.toString(launch.rocket.configuration.length)}">
 
-    <TextView
-        android:id="@+id/launch_mass_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/diameter_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/launch_mass"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp">
+        </TextView>
+        <TextView
+            android:id="@+id/diameter_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/length_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/diameter"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp">
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/diameter_txt"
-        android:layout_marginLeft="8dp"
-        android:text="8"
-        android:layout_toEndOf="@id/launch_mass_txt"
-        android:layout_marginTop="8dp"
-        android:id="@+id/launch_mass_value"
-        >
-    </TextView>
+        <TextView
+            android:id="@+id/diameter_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/length_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/diameter_txt"
+            android:text="@{Float.toString(launch.rocket.configuration.diameter)}">
+        </TextView>
 
-    <TextView
-        android:id="@+id/thrust_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launch_mass_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/thrust"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/launch_mass_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/diameter_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/launch_mass"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp">
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launch_mass_txt"
-        android:layout_marginLeft="8dp"
-        android:text="8"
-        android:layout_toEndOf="@id/thrust_txt"
-        android:layout_marginTop="8dp"
-        android:id="@+id/thrust_value"
-        >
-    </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/diameter_txt"
+            android:layout_marginLeft="8dp"
+            android:text="@{Integer.toString(launch.rocket.configuration.launchMass)}"
+            android:layout_toEndOf="@id/launch_mass_txt"
+            android:layout_marginTop="8dp"
+            android:id="@+id/launch_mass_value"
+            >
+        </TextView>
 
-    <TextView
-        android:id="@+id/FamilyTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/thrust_txt"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/family_title"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/thrust_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/launch_mass_txt"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/thrust">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/FamilyTitle"
-        android:layout_marginLeft="16dp"
-        android:text="@string/name"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/name_txt"
-        >
+        </TextView>
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/FamilyTitle"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/name_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/name_value"
-        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/launch_mass_txt"
+            android:layout_marginLeft="8dp"
+            android:text="@{Integer.toString(launch.rocket.configuration.toThrust)}"
+            android:layout_toEndOf="@id/thrust_txt"
+            android:layout_marginTop="8dp"
+            android:id="@+id/thrust_value"
+            >
+        </TextView>
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/family"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/family_txt"
-        >
+        <TextView
+            android:id="@+id/FamilyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/thrust_txt"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/family_title"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/family_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/family_value"
-        >
+        <TextView
+            android:id="@+id/name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/FamilyTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/name">
 
-    </TextView>
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/FamilyTitle"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/name_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{(launch.rocket.configuration.name == null || launch.rocket.configuration.name == emptyString) ? defaultString : launch.rocket.configuration.name}"
+            android:id="@+id/name_value"
+            >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/family_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/variant"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/variant_txt"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/family"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/family_txt"
+            >
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/family_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/variant_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/variant_value"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/family_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{(launch.rocket.configuration.family == null || launch.rocket.configuration.family == emptyString) ? defaultString : launch.rocket.configuration.family}"
+            android:id="@+id/family_value"
+            >
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/variant_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/alias"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/alias_txt"
-        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/family_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/variant"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/variant_txt"
+            >
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/variant_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/alias_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/alias_value"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/family_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/variant_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{(launch.rocket.configuration.variant == null || launch.rocket.configuration.variant == emptyString) ? defaultString : launch.rocket.configuration.variant}"
+            android:id="@+id/variant_value"
+            >
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alias_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/full_name"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/full_name_txt"
-        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/variant_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/alias"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/alias_txt"
+            >
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alias_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/full_name_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/full_name_value"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/variant_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/alias_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{(launch.rocket.configuration.alias == null || launch.rocket.configuration.alias == emptyString) ? defaultString : launch.rocket.configuration.alias}"
+            android:id="@+id/alias_value"
+            >
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:id="@+id/payloadCapacityTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/full_name_txt"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/payload_capacity"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alias_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/full_name"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/full_name_txt"
+            >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/payloadCapacityTitle"
-        android:layout_marginLeft="16dp"
-        android:text="@string/launch_cost"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/launch_cost_txt"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alias_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/full_name_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{(launch.rocket.configuration.fullName == null || launch.rocket.configuration.fullName == emptyString) ? defaultString : launch.rocket.configuration.fullName}"
+            android:id="@+id/full_name_value"
+            >
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/payloadCapacityTitle"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/launch_cost_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/launch_cost_value"
-        >
+        </TextView>
 
-    </TextView>
+        <TextView
+            android:id="@+id/payloadCapacityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/full_name_txt"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/payload_capacity"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launch_cost_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/low_earth_orbit"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/low_orbit_txt"
-        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/payloadCapacityTitle"
+            android:layout_marginLeft="16dp"
+            android:text="@string/launch_cost"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/launch_cost_txt"
+            >
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launch_cost_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/low_orbit_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/low_orbit_value"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/payloadCapacityTitle"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/launch_cost_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{(launch.rocket.configuration.launchCost == null || launch.rocket.configuration.launchCost == emptyString) ? defaultString : launch.rocket.configuration.launchCost}"
+            android:id="@+id/launch_cost_value"
+            >
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/low_orbit_txt"
-        android:layout_marginLeft="16dp"
-        android:text="@string/geo_tra"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="8dp"
-        android:id="@+id/geo_tra_txt"
-        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/launch_cost_txt"
+            android:layout_marginLeft="16dp"
+            android:text="@string/low_earth_orbit"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="8dp"
+            android:id="@+id/low_orbit_txt"
+            >
 
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/low_orbit_txt"
-        android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/geo_tra_txt"
-        android:layout_marginTop="8dp"
-        android:text="8"
-        android:id="@+id/geo_tra_value"
-        >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/launch_cost_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/low_orbit_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{Integer.toString(launch.rocket.configuration.leoCapacity)}"
+            android:id="@+id/low_orbit_value"
+            >
 
-    </TextView>
+        </TextView>
 
-    <TextView
-        android:id="@+id/crewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/geo_tra_txt"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/crew"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/geo_tra_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/low_orbit_txt"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/geo_tra">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCrew"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:overScrollMode="never"
-        android:layout_below="@id/crewTitle">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/low_orbit_txt"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/geo_tra_txt"
+            android:layout_marginTop="8dp"
+            android:text="@{Integer.toString(launch.rocket.configuration.gtoCapacity)}"
+            android:id="@+id/geo_tra_value"
+            >
 
-    </androidx.recyclerview.widget.RecyclerView>
+        </TextView>
 
-    <TextView
-        android:id="@+id/launchAgencyTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rvCrew"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/agency"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        <TextView
+            android:id="@+id/crewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/geo_tra_txt"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/crew"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCrew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:overScrollMode="never"
+            android:layout_below="@id/crewTitle">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/launchAgencyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rvCrew"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/agency"
+            android:textColor="@color/black"
+            android:textSize="16sp"
 
 
-        />
+            />
 
 
-    <TextView
-        android:id="@+id/launchAgencyName"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/launchAgencyTitle"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/agency"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/launchAgencyName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/launchAgencyTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{agency.name}"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chipAgency"
-        style="@style/Widget.MaterialComponents.Chip.Action"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@id/launchAgencyName"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/pastel_green"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/human_exp"
-        android:textColor="@color/white"
-        android:textSize="10sp"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAgency"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/launchAgencyName"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/pastel_green"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{agency.type}"
+            android:textColor="@color/white"
+            android:textSize="10sp"
 
 
-        />
+            />
 
-    <ImageView
-        android:id="@+id/agencyLaunch"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        <ImageView
+            android:id="@+id/agencyLaunch"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
 
-        android:layout_below="@id/launchAgencyTitle"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="16dp"
+            android:layout_below="@id/launchAgencyTitle"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="16dp"
 
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
 
-        android:src="@drawable/testsfondo" />
+            android:src="@drawable/testsfondo" />
 
-    <TextView
-        android:id="@+id/agencyLaunchDescr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/agencyLaunch"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="The Soyuz MS-20 spacecraft will undock from the International Space Station carrying ROSCOSMOS cosmonaut Alexander Misurkin as well as Japanese entrepreneur Yusaku Maezawa and his cameraman Yozo Hirano."
-        android:textSize="14dp"
-         />
+        <TextView
+            android:id="@+id/agencyLaunchDescr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/agencyLaunch"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{agency.description}"
+            android:textSize="14dp" />
 
-</RelativeLayout>
-</ScrollView>
+    </RelativeLayout>
+    </ScrollView>
+</layout>

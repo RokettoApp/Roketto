@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,13 +39,8 @@ public class FragmentNews extends Fragment {
 
         super.onCreate(savedInstanceState);
         mArticleViewModel = new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
-        mArticle = new ArrayList<>();
 
         if(mArticle == null) mArticle = new ArrayList<>();
-        /*mArticle.add(new Article(0,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
-        mArticle.add(new Article(1,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));
-        mArticle.add(new Article(2,"Prova","url", "url","Sky tg","dcdcdd",new Date(2021,11,10),null,false,null,null));*/
-
     }
 
     @Nullable
@@ -54,6 +50,8 @@ public class FragmentNews extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_news,container, false);
 
+        SwipeRefreshLayout mSwipe = rootView.findViewById(R.id.swipeNews);
+
         RecyclerView mRecyclerNews = (RecyclerView) rootView.findViewById(R.id.rvNews);
         RecyclerViewAdapterNews mRecyclerViewAdapterNews = new RecyclerViewAdapterNews(mArticle,getContext());
 
@@ -62,8 +60,6 @@ public class FragmentNews extends Fragment {
         mRecyclerNews.setLayoutManager(llm);
         mRecyclerNews.setAdapter( mRecyclerViewAdapterNews );
 
-
-        TextView textView = rootView.findViewById(R.id.textView2);
         mArticleViewModel.getArticleLiveData().observe(getViewLifecycleOwner(), articleList -> {
 
             mArticle.clear();
@@ -72,35 +68,16 @@ public class FragmentNews extends Fragment {
                 mArticle.add(null);
             mRecyclerViewAdapterNews.notifyDataSetChanged();
             mArticleViewModel.setLoading(false);
+            mSwipe.setRefreshing(false);
             Log.d("FragmentNews", "test");
         });
-
-        mArticleViewModel.getReportLiveData().observe(getViewLifecycleOwner(), reportList -> {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Article report : reportList) {
-                stringBuilder.append(report.getTitle()).append("\n");
-            }
-            textView.append(stringBuilder.toString());
-            Log.d("ReportObserver", "test");
-        });
-
-        mArticleViewModel.getBlogPostLiveData().observe(getViewLifecycleOwner(), blogPostList -> {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Article blogPost : blogPostList) {
-                stringBuilder.append(blogPost.getTitle()).append("\n");
-            }
-            textView.append(stringBuilder.toString());
-            Log.d("BlogPostObserver", "test");
-        });
         mArticleViewModel.getArticles(isConnected());
-        mArticleViewModel.getReports(isConnected());
-        mArticleViewModel.getBlogPosts(isConnected());
-        Button button = rootView.findViewById(R.id.button);
-        button.setOnClickListener(view -> {
 
-            textView.setText("");
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mArticleViewModel.refreshArticles();
+            }
             mArticleViewModel.refreshArticles(isConnected());
         });
 
