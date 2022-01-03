@@ -6,24 +6,41 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesProvider {
 
-    private final Application mApplication;
+    private final SharedPreferences sharedPreferences;
 
     public SharedPreferencesProvider(Application application) {
-        this.mApplication = application;
+
+        this.sharedPreferences = application
+                .getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
     }
+
     public long getLastUpdate(String type) {
-        SharedPreferences sharedPref =
-                mApplication.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
-        return sharedPref.getLong(type, 0);
+
+        return sharedPreferences.getLong(type, 0);
     }
 
     public void setLastUpdate(long lastUpdate, String type) {
-        SharedPreferences sharedPref = mApplication.getSharedPreferences(Constants.SHARED_PREFERENCES_FILE_NAME,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(type, lastUpdate);
         editor.apply();
     }
 
+    public void setAuthenticationToken(String token) {
 
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.AUTHENTICATION_TOKEN, token);
+        editor.apply();
+    }
+
+    public void setUserId(String userId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.USER_ID, userId);
+        editor.apply();
+    }
+
+    public void deleteAll() {
+
+        sharedPreferences.edit().clear().apply();
+    }
 }

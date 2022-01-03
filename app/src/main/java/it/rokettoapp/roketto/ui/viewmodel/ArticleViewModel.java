@@ -52,26 +52,28 @@ public class ArticleViewModel extends AndroidViewModel {
         return mBlogPostListLiveData;
     }
 
-    public void getArticles() {
-        fetchArticles();
+    public void getArticles(Boolean isConnected) {
+
+        fetchArticles(isConnected);
     }
 
     public void getNewArticles() {
+
         fetchNewArticles();
     }
 
-    public void getReports() {
+    public void getReports(Boolean isConnected) {
 
-        fetchReports();
+        fetchReports(isConnected);
     }
 
-    public void getBlogPosts() {
+    public void getBlogPosts(Boolean isConnected) {
 
-        fetchBlogPosts();
+        fetchBlogPosts(isConnected);
     }
 
-    private void fetchArticles() {
-        mArticleRepository.getArticleList();
+    private void fetchArticles(Boolean isConnected) {
+        mArticleRepository.getArticleList(isConnected);
     }
 
     private void fetchNewArticles() {
@@ -79,18 +81,18 @@ public class ArticleViewModel extends AndroidViewModel {
     }
 
 
-    private void fetchReports() {
-        mArticleRepository.getReportList();
+    private void fetchReports(Boolean isConnected) {
+        mArticleRepository.getReportList(isConnected);
     }
 
-    private void fetchBlogPosts() {
+    private void fetchBlogPosts(Boolean isConnected) {
 
-        mArticleRepository.getBlogPostList();
+        mArticleRepository.getBlogPostList(isConnected);
     }
 
-    public void refreshArticles() {
+    public void refreshArticles(Boolean isConnected) {
 
-        mArticleRepository.refreshAll();
+        mArticleRepository.refreshAll(isConnected);
     }
 
     public boolean isLoading() {

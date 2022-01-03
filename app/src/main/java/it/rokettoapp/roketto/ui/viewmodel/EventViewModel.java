@@ -29,9 +29,9 @@ public class EventViewModel extends AndroidViewModel {
         return mEventMutableLiveData;
     }
 
-    public void getEvents() {
+    public void getEvents(Boolean isConnected) {
 
-        mEventRepository.getEventList();
+        mEventRepository.getEventList(isConnected);
     }
 
     public void getNewEvents(){

@@ -28,9 +28,9 @@ public class SpacecraftFlightViewModel extends AndroidViewModel {
         return mSpacecraftListLivedata;
     }
 
-    public void getSpacecraftFlights() {
+    public void getSpacecraftFlights(Boolean isConnected) {
 
-        mSpacecraftFlightRepository.getSpacecraftFlightList();
+        mSpacecraftFlightRepository.getSpacecraftFlightList(isConnected);
     }
 
     public void getSpacecraftFlightById(int id) {

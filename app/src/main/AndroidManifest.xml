@@ -16,6 +16,9 @@
             android:name=".ui.SeeAllEventsActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.AuthenticationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.AstroDetailActivity"
             android:exported="false" />
         <activity

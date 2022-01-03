@@ -28,9 +28,9 @@ public class LocationViewModel extends AndroidViewModel {
         return mLocationListLivedata;
     }
 
-    public void getLocations() {
+    public void getLocations(Boolean isConnected) {
 
-        mLocationRepository.getLocationList();
+        mLocationRepository.getLocationList(isConnected);
     }
 
     public void getLocationById(int id) {

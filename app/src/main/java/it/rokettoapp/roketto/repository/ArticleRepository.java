@@ -60,11 +60,10 @@ public class ArticleRepository {
         return mBlogPostListLiveData;
     }
 
-    public void getArticleList() {
+    public void getArticleList(Boolean isConnected) {
 
-        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE) < Constants.HOUR) {
-            refreshAll();
+        if(isConnected) {
+            refreshAll(true);
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
         }
         else
@@ -75,10 +74,11 @@ public class ArticleRepository {
         fetchNewArticles();
     }
 
-    public void getReportList() {
+    public void getReportList(Boolean isConnected) {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT) > Constants.HOUR) {
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT) > Constants.HOUR &&
+                isConnected) {
             fetchReports();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT);
         }
@@ -86,10 +86,11 @@ public class ArticleRepository {
             getReportsFromDatabase();
     }
 
-    public void getBlogPostList() {
+    public void getBlogPostList(Boolean isConnected) {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST) > Constants.HOUR) {
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST) > Constants.HOUR &&
+                        isConnected) {
             fetchBlogPosts();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST);
         }
@@ -97,14 +98,16 @@ public class ArticleRepository {
             getBlogPostsFromDatabase();
     }
 
-    public void refreshAll() {
-        new Thread(() -> {
-            mArticleDao.deleteAll();
-            count = 0;
-            fetchArticles();
-            fetchReports();
-            fetchBlogPosts();
-        }).start();
+    public void refreshAll(Boolean isConnected) {
+        if(isConnected) {
+            new Thread(() -> {
+                mArticleDao.deleteAll();
+                count = 0;
+                fetchArticles();
+                fetchReports();
+                fetchBlogPosts();
+            }).start();
+        }
     }
 
     private void fetchArticles() {

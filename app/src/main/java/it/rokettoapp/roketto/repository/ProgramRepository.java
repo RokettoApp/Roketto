@@ -47,7 +47,7 @@ public class ProgramRepository {
         return mProgramListLiveData;
     }
 
-    public void getProgramList() {
+    public void getProgramList(Boolean isConnected) {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM)==0 ||
                 System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM) > Constants.HOUR) {

@@ -8,3 +8,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+google-services.json
+bfg-1.14.0.jar
+secrets.txt

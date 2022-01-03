@@ -41,7 +41,7 @@ public class DockingEventRepository {
         return mDockingEventListLiveData;
     }
 
-    public void getDockingEventList() {
+    public void getDockingEventList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mDockingEventListLiveData);

@@ -41,7 +41,7 @@ public class SpaceStationRepository {
         return mSpaceStationListLiveData;
     }
 
-    public void getSpaceStationList() {
+    public void getSpaceStationList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mSpaceStationListLiveData);
