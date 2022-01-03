@@ -47,9 +47,9 @@ public class AgencyRepository {
         return mAgencyListLiveData;
     }
 
-    public void getAgencyList() {
+    public void getAgencyList(Boolean isConnected) {
 
-        if(System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) < Constants.HOUR) {
+        if(System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY) < Constants.HOUR && isConnected) {
             databaseOperations.getListFromDatabase(mAgencyListLiveData);
         }
         else{

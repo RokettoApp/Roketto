@@ -43,7 +43,7 @@ public class LaunchRepository {
         return mLaunchListLiveData;
     }
 
-    public void getLaunchList() {
+    public void getLaunchList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mLaunchListLiveData);

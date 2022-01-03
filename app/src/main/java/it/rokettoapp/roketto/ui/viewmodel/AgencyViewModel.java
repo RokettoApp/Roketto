@@ -28,9 +28,9 @@ public class AgencyViewModel extends AndroidViewModel {
         return mAgencyListLivedata;
     }
 
-    public void getAgencies() {
+    public void getAgencies(Boolean isConnected) {
 
-        mAgencyRepository.getAgencyList();
+        mAgencyRepository.getAgencyList(isConnected);
     }
 
     public void getAgencyById(int id) {

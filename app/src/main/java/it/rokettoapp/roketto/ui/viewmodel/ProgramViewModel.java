@@ -28,9 +28,9 @@ public class ProgramViewModel extends AndroidViewModel {
         return mProgramListLivedata;
     }
 
-    public void getPrograms() {
+    public void getPrograms(Boolean isConnected) {
         
-        mProgramRepository.getProgramList();
+        mProgramRepository.getProgramList(isConnected);
     }
 
     public void getProgramById(int id) {

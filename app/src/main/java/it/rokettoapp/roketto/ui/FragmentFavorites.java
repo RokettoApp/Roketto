@@ -1,5 +1,8 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +43,6 @@ public class FragmentFavorites extends Fragment {
                 .inflate(R.layout.fragment_favorites, container, false);
 
         TextView textView4 = rootView.findViewById(R.id.textView4);
-
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             mFavouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
@@ -56,5 +58,13 @@ public class FragmentFavorites extends Fragment {
         }
 
         return rootView;
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager)requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

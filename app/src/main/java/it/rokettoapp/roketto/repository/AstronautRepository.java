@@ -46,15 +46,15 @@ public class AstronautRepository {
         return mAstronautListLiveData;
     }
 
-    public void getAstronautList() {
-
+    public void getAstronautList(Boolean isConnected) {
+        if(isConnected)
 //        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT)==0 ||
 //                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT) > Constants.HOUR) {
             fetchAstronauts();
 //            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
 //        }
-//        else
-//            databaseOperations.getListFromDatabase(mAstronautListLiveData);
+        else
+            databaseOperations.getListFromDatabase(mAstronautListLiveData);
     }
 
     public void getAstronautById(int id) {

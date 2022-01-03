@@ -46,15 +46,15 @@ public class EventRepository {
         return mEventListLiveData;
     }
 
-    public void getEventList() {
-
+    public void getEventList(Boolean isConnected) {
+        if (isConnected)
 //        if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT)==0 ||
 //                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT) > Constants.HOUR) {
             fetchEvents();
 //            mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
 //        }
-//        else
-//            databaseOperations.getListFromDatabase(mEventListLiveData);
+        else
+            databaseOperations.getListFromDatabase(mEventListLiveData);
     }
 
     public void getEventById(int id) {

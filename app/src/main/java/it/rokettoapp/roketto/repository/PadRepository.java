@@ -41,7 +41,7 @@ public class PadRepository {
         return mPadListLiveData;
     }
 
-    public void getPadList() {
+    public void getPadList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mPadListLiveData);

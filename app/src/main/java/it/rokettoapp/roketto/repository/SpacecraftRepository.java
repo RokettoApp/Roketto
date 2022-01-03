@@ -47,10 +47,11 @@ public class SpacecraftRepository {
         return mSpacecraftListLiveData;
     }
 
-    public void getSpacecraftList() {
+    public void getSpacecraftList(Boolean isConnected) {
 
         if(mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT)==0 ||
-                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT) > Constants.HOUR) {
+                System.currentTimeMillis()- mSharedPreferencesProvider.getLastUpdate(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT) > Constants.HOUR &&
+            isConnected) {
             fetchSpacecrafts();
             mSharedPreferencesProvider.setLastUpdate(System.currentTimeMillis(), Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
         }

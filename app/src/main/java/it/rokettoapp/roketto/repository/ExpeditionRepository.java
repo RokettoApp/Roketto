@@ -41,7 +41,7 @@ public class ExpeditionRepository {
         return mExpeditionListLiveData;
     }
 
-    public void getExpeditionList() {
+    public void getExpeditionList(Boolean isConnected) {
 
         // TODO: Aggiungere un controllo sulla data dell'ultima richiesta alle API
         databaseOperations.getListFromDatabase(mExpeditionListLiveData);

@@ -28,9 +28,9 @@ public class AstronautViewModel extends AndroidViewModel {
         return mAstronautListLivedata;
     }
 
-    public void getAstronauts() {
+    public void getAstronauts(Boolean isConnected) {
 
-        mAstronautRepository.getAstronautList();
+        mAstronautRepository.getAstronautList(isConnected);
     }
 
     public void getAstronautById(int id) {
