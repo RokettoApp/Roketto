@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -59,7 +62,7 @@ public class SeeAllEventsActivity extends AppCompatActivity {
             mEventViewModel.setLoading(false);
             mSwipe.setRefreshing(false);
         });
-        mEventViewModel.getEvents();
+        mEventViewModel.getEvents(isConnected());
 
         mRecyclerViewEvents.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -86,5 +89,13 @@ public class SeeAllEventsActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

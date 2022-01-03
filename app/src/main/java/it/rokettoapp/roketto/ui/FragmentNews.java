@@ -76,9 +76,8 @@ public class FragmentNews extends Fragment {
         mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mArticleViewModel.refreshArticles();
+                mArticleViewModel.refreshArticles(isConnected());
             }
-            mArticleViewModel.refreshArticles(isConnected());
         });
 
         mRecyclerNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -95,7 +94,7 @@ public class FragmentNews extends Fragment {
                         } else {
                             if (!isConnected()) {
                                 Context context = getContext();
-                                CharSequence text = "Nessuna connesione";
+                                CharSequence text = "Nessuna connessione";
                                 int duration = Toast.LENGTH_SHORT;
 
                                 Toast toast = Toast.makeText(context, text, duration);

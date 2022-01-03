@@ -116,7 +116,7 @@ public class FragmentHome extends Fragment {
         Button button = rootView.findViewById(R.id.astronauts_see_all);
         Button seeAllEvents = rootView.findViewById(R.id.events_see_all);
         button.setOnClickListener(view -> {
-            mEventViewModel.getEvents();
+            mEventViewModel.getEvents(isConnected());
             mAstroViewModel.refreshAstronauts();
         });
         seeAllEvents.setOnClickListener(v -> {
