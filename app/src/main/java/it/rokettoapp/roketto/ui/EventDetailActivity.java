@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +29,22 @@ import it.rokettoapp.roketto.model.Expedition;
 import it.rokettoapp.roketto.model.Launch;
 import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.SpaceStation;
+import it.rokettoapp.roketto.model.User;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.ExpeditionViewModel;
+import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
 
 public class EventDetailActivity extends AppCompatActivity {
 
     private ActivityEventDetailBinding binding;
+    private int eventId;
     private List<Launch> mLaunchList;
     private List<SpaceStation> mSpaceStationList;
     private List<Astronaut> mAstronautList;
     private List<Program> mProgramList;
+    private FavouritesViewModel mFavouritesViewModel;
+    private User user;
+    int favourite = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +56,11 @@ public class EventDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.hide();
 
-        int eventId = (int) getIntent().getSerializableExtra("EventId");
+        mFavouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+
+        eventId = (int) getIntent().getSerializableExtra("EventId");
 
         EventViewModel eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
         eventViewModel.getLiveData().observe(this, eventList -> {
@@ -124,7 +136,7 @@ public class EventDetailActivity extends AppCompatActivity {
             }
 
             if (mEvent.getProgramList().size() > 0) {
-                RecyclerView programRecyclerView = (RecyclerView)  findViewById(R.id.recyclerViewProgram);
+                RecyclerView programRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewProgram);
                 LinearLayoutManager programLinearLayoutManager = new LinearLayoutManager(this,
                         LinearLayoutManager.VERTICAL, false);
                 programRecyclerView.setLayoutManager(programLinearLayoutManager);
@@ -137,5 +149,49 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         });
         eventViewModel.getEventById(eventId);
+
+        if (firebaseUser != null) {
+            mFavouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
+                    .observe(this, user -> {
+
+                        this.user = user;
+                        if (this.user == null) {
+                            this.user = new User(firebaseUser.getUid(), firebaseUser.getEmail());
+                        }
+
+                        if (this.user.getFavouriteEvents().contains(eventId)) {
+                            favourite = 1;
+                            updateSetFavouriteButtonColour();
+                        } else {
+                            favourite = 0;
+                        }
+                    });
+        }
+
+        binding.setFavouriteButton.setOnClickListener(v -> {
+
+            if (favourite == -1) return;
+
+            if (favourite == 0) {
+                favourite = 1;
+                updateSetFavouriteButtonColour();
+                user.addFavouriteEvent(eventId);
+            } else if (favourite == 1) {
+                favourite = 0;
+                updateSetFavouriteButtonColour();
+                user.removeFavouriteEvent(eventId);
+            }
+
+            mFavouritesViewModel.saveFavouriteEvents(user);
+        });
+    }
+
+    public void updateSetFavouriteButtonColour() {
+
+        if (favourite == 1) {
+            binding.setFavouriteButton.setColorFilter(getResources().getColor(R.color.red));
+        } else if (favourite == 0) {
+            binding.setFavouriteButton.clearColorFilter();
+        }
     }
 }
