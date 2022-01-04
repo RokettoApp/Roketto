@@ -1,29 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/logout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/settingsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:layout_marginTop="15sp"
+            android:layout_marginEnd="15sp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/settings"
+            android:textColor="@color/black"
+            android:textSize="32sp" />
+
+        <ImageView
+            android:id="@+id/appIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingsTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5sp"
+            android:contentDescription="@string/app_icon_description"
+            app:srcCompat="@drawable/ic_u1f680" />
+
+        <TextView
+            android:id="@+id/appNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appIconImageView"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appNameTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="35sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginEnd="35sp"
+            android:text="@string/app_description"
+            android:textColor="@color/black" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/aboutUsTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appDescriptionTextView"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="15sp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about_us"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/aboutUsImageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/aboutUsTitleTextView"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="5sp"
+            app:srcCompat="@drawable/circle_shape"
+            android:contentDescription="@string/about_us_image_description_1" />
+
+        <TextView
+            android:id="@+id/aboutUsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/aboutUsImageView"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@id/aboutUsImageView"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about_us_name_1"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/aboutUsImageView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/aboutUsImageView"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="5sp"
+            app:srcCompat="@drawable/circle_shape"
+            android:contentDescription="@string/about_us_image_description_2" />
+
+        <TextView
+            android:id="@+id/aboutUsTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutUsImageView"
+            android:layout_alignStart="@id/aboutUsTextView"
+            android:layout_alignTop="@id/aboutUsImageView2"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about_us_name_2"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/aboutUsImageView3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/aboutUsImageView2"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="5sp"
+            app:srcCompat="@drawable/circle_shape"
+            android:contentDescription="@string/about_us_image_description_3" />
+
+        <TextView
+            android:id="@+id/aboutUsTextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/aboutUsTextView"
+            android:layout_alignTop="@id/aboutUsImageView3"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about_us_name_3"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/aboutUsImageView4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/aboutUsImageView3"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="5sp"
+            app:srcCompat="@drawable/circle_shape"
+            android:contentDescription="@string/about_us_image_description_4" />
+
+        <TextView
+            android:id="@+id/aboutUsTextView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/aboutUsTextView"
+            android:layout_alignTop="@id/aboutUsImageView4"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about_us_name_4"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/aboutApiTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutUsImageView4"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="15sp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/about_api_text"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/aboutLaunchApiButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutApiTextView"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginEnd="15sp"
+            android:text="@string/about_launch_api"
+            app:icon="@drawable/ic_external_link"
+            app:iconGravity="textEnd"
+            app:iconSize="25sp" />
+
+        <Button
+            android:id="@+id/aboutNewsApiButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutLaunchApiButton"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_alignEnd="@id/aboutLaunchApiButton"
+            android:text="@string/about_news_api"
+            app:icon="@drawable/ic_external_link"
+            app:iconGravity="textEnd"
+            app:iconSize="25sp" />
+
+        <TextView
+            android:id="@+id/clearCacheTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutNewsApiButton"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_alignEnd="@id/aboutLaunchApiButton"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/clear_cache_text"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/clearCacheButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/clearCacheTextView"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_alignEnd="@id/aboutLaunchApiButton"
+            android:text="@string/clear_cache"
+            app:icon="@drawable/ic_baseline_chevron_right_24"
+            app:iconGravity="textEnd"
+            app:iconPadding="0dp"
+            app:iconSize="30sp" />
+
+        <TextView
+            android:id="@+id/logoutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/clearCacheButton"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_marginTop="15sp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/logout_text"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logoutTextView"
+            android:layout_alignStart="@id/settingsTextView"
+            android:layout_alignEnd="@id/aboutLaunchApiButton"
+            android:layout_marginBottom="15sp"
+            android:text="@string/logout"
+            app:icon="@drawable/ic_baseline_login_24"
+            app:iconGravity="textEnd" />
+
+    </RelativeLayout>
+</ScrollView>
