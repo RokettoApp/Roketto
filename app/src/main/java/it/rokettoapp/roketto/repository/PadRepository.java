@@ -26,7 +26,7 @@ public class PadRepository {
     private final PadApiService mPadApiService;
     private final PadDao padDao;
     private final DatabaseOperations<Integer, Pad> databaseOperations;
-    private final MutableLiveData<List<Pad>> mPadListLiveData;
+    private final MutableLiveData<ResponseList<Pad>> mPadListLiveData;
 
     public PadRepository(Application application) {
 
@@ -36,7 +36,7 @@ public class PadRepository {
         mPadListLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<Pad>> getLiveData() {
+    public MutableLiveData<ResponseList<Pad>> getLiveData() {
 
         return mPadListLiveData;
     }
@@ -54,9 +54,11 @@ public class PadRepository {
         new Thread(() -> {
             Pad pad = padDao.getById(id);
             if (pad != null) {
+                ResponseList<Pad> responseList = new ResponseList<>();
                 List<Pad> padList = new ArrayList<>();
                 padList.add(pad);
-                mPadListLiveData.postValue(padList);
+                responseList.setResults(padList);
+                mPadListLiveData.postValue(responseList);
             } else
                 fetchPadById(id);
         }).start();
@@ -79,9 +81,13 @@ public class PadRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Pad> padList = response.body().getResults();
                     databaseOperations.saveList(padList);
-                    mPadListLiveData.postValue(padList);
+                    mPadListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + padList.size() + " pads.");
                 } else {
+                    ResponseList<Pad> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mPadListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -89,6 +95,10 @@ public class PadRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Pad>> call, @NonNull Throwable t) {
 
+                ResponseList<Pad> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mPadListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -104,13 +114,19 @@ public class PadRepository {
                                    @NonNull Response<Pad> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Pad> responseList = new ResponseList<>();
                     Pad pad = response.body();
                     databaseOperations.saveValue(pad);
                     List<Pad> padList = new ArrayList<>();
                     padList.add(pad);
-                    mPadListLiveData.postValue(padList);
+                    responseList.setResults(padList);
+                    mPadListLiveData.postValue(responseList);
                     Log.d(TAG, pad.getName());
                 } else {
+                    ResponseList<Pad> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mPadListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -118,6 +134,10 @@ public class PadRepository {
             @Override
             public void onFailure(@NonNull Call<Pad> call, @NonNull Throwable t) {
 
+                ResponseList<Pad> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mPadListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

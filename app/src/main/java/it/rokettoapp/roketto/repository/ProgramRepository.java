@@ -28,7 +28,7 @@ public class ProgramRepository {
     private final ProgramApiService mProgramApiService;
     private final ProgramDao mProgramDao;
     private final DatabaseOperations<Integer, Program> databaseOperations;
-    private final MutableLiveData<List<Program>> mProgramListLiveData;
+    private final MutableLiveData<ResponseList<Program>> mProgramListLiveData;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
@@ -42,7 +42,7 @@ public class ProgramRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Program>> getLiveData() {
+    public MutableLiveData<ResponseList<Program>> getLiveData() {
 
         return mProgramListLiveData;
     }
@@ -64,9 +64,11 @@ public class ProgramRepository {
         new Thread(() -> {
             Program program = mProgramDao.getById(id);
             if (program != null) {
+                ResponseList<Program> responseList = new ResponseList<>();
                 List<Program> programList = new ArrayList<>();
                 programList.add(program);
-                mProgramListLiveData.postValue(programList);
+                responseList.setResults(programList);
+                mProgramListLiveData.postValue(responseList);
             } else
                 fetchProgramById(id);
         }).start();
@@ -95,9 +97,13 @@ public class ProgramRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Program> programList = response.body().getResults();
                     databaseOperations.saveList(programList);
-                    mProgramListLiveData.postValue(programList);
+                    mProgramListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + programList.size() + " programs.");
                 } else {
+                    ResponseList<Program> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mProgramListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -105,6 +111,10 @@ public class ProgramRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Program>> call, @NonNull Throwable t) {
 
+                ResponseList<Program> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mProgramListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -121,13 +131,19 @@ public class ProgramRepository {
                                    @NonNull Response<Program> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Program> responseList = new ResponseList<>();
                     Program program = response.body();
                     databaseOperations.saveValue(program);
                     List<Program> programList = new ArrayList<>();
                     programList.add(program);
-                    mProgramListLiveData.postValue(programList);
+                    responseList.setResults(programList);
+                    mProgramListLiveData.postValue(responseList);
                     Log.d(TAG, program.getName());
                 } else {
+                    ResponseList<Program> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mProgramListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -135,6 +151,10 @@ public class ProgramRepository {
             @Override
             public void onFailure(@NonNull Call<Program> call, @NonNull Throwable t) {
 
+                ResponseList<Program> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mProgramListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

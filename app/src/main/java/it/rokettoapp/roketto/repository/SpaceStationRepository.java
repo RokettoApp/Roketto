@@ -26,7 +26,7 @@ public class SpaceStationRepository {
     private final SpaceStationApiService mSpaceStationApiService;
     private final SpaceStationDao mSpaceStationDao;
     private final DatabaseOperations<Integer, SpaceStation> databaseOperations;
-    private final MutableLiveData<List<SpaceStation>> mSpaceStationListLiveData;
+    private final MutableLiveData<ResponseList<SpaceStation>> mSpaceStationListLiveData;
 
     public SpaceStationRepository(Application application) {
 
@@ -36,7 +36,7 @@ public class SpaceStationRepository {
         mSpaceStationListLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<SpaceStation>> getLiveData() {
+    public MutableLiveData<ResponseList<SpaceStation>> getLiveData() {
 
         return mSpaceStationListLiveData;
     }
@@ -54,9 +54,11 @@ public class SpaceStationRepository {
         new Thread(() -> {
             SpaceStation spaceStation = mSpaceStationDao.getById(id);
             if (spaceStation != null) {
+                ResponseList<SpaceStation> responseList = new ResponseList<>();
                 List<SpaceStation> spaceStationList = new ArrayList<>();
                 spaceStationList.add(spaceStation);
-                mSpaceStationListLiveData.postValue(spaceStationList);
+                responseList.setResults(spaceStationList);
+                mSpaceStationListLiveData.postValue(responseList);
             } else
                 fetchSpaceStationById(id);
         }).start();
@@ -80,9 +82,13 @@ public class SpaceStationRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<SpaceStation> spaceStationList = response.body().getResults();
                     databaseOperations.saveList(spaceStationList);
-                    mSpaceStationListLiveData.postValue(spaceStationList);
+                    mSpaceStationListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + spaceStationList.size() + " space stations.");
                 } else {
+                    ResponseList<SpaceStation> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mSpaceStationListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -91,6 +97,10 @@ public class SpaceStationRepository {
             public void onFailure(@NonNull Call<ResponseList<SpaceStation>> call,
                                   @NonNull Throwable t) {
 
+                ResponseList<SpaceStation> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mSpaceStationListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -106,13 +116,19 @@ public class SpaceStationRepository {
                                    @NonNull Response<SpaceStation> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<SpaceStation> responseList = new ResponseList<>();
                     SpaceStation spaceStation = response.body();
                     databaseOperations.saveValue(spaceStation);
                     List<SpaceStation> spaceStationList = new ArrayList<>();
                     spaceStationList.add(spaceStation);
-                    mSpaceStationListLiveData.postValue(spaceStationList);
+                    responseList.setResults(spaceStationList);
+                    mSpaceStationListLiveData.postValue(responseList);
                     Log.d(TAG, spaceStation.getName());
                 } else {
+                    ResponseList<SpaceStation> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mSpaceStationListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed: " + response.message());
                 }
             }
@@ -120,6 +136,10 @@ public class SpaceStationRepository {
             @Override
             public void onFailure(@NonNull Call<SpaceStation> call, @NonNull Throwable t) {
 
+                ResponseList<SpaceStation> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mSpaceStationListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

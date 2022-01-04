@@ -27,7 +27,7 @@ public class EventRepository {
     private final EventApiService mEventApiService;
     private final EventDao mEventDao;
     private final DatabaseOperations<Integer, Event> databaseOperations;
-    private final MutableLiveData<List<Event>> mEventListLiveData;
+    private final MutableLiveData<ResponseList<Event>> mEventListLiveData;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
@@ -41,7 +41,7 @@ public class EventRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Event>> getLiveData() {
+    public MutableLiveData<ResponseList<Event>> getLiveData() {
 
         return mEventListLiveData;
     }
@@ -63,9 +63,11 @@ public class EventRepository {
         new Thread(() -> {
             Event event = mEventDao.getById(id);
             if (event != null) {
+                ResponseList<Event> responseList = new ResponseList<>();
                 List<Event> eventList = new ArrayList<>();
                 eventList.add(event);
-                mEventListLiveData.postValue(eventList);
+                responseList.setResults(eventList);
+                mEventListLiveData.postValue(responseList);
             } else
                 fetchEventById(id);
         }).start();
@@ -96,11 +98,17 @@ public class EventRepository {
                                    @NonNull Response<ResponseList<Event>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     List<Event> eventList = response.body().getResults();
 //                    databaseOperations.saveList(eventList);
-                    mEventListLiveData.postValue(eventList);
+                    responseList.setResults(eventList);
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -108,6 +116,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Event>> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -123,13 +135,21 @@ public class EventRepository {
                                    @NonNull Response<ResponseList<Event>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     List<Event> eventList = response.body().getResults();
 //                    databaseOperations.saveList(eventList);
-                    List<Event> mCurrentEventList = mEventListLiveData.getValue();
-                    mCurrentEventList.addAll(eventList);
-                    mEventListLiveData.postValue(mCurrentEventList);
+                    if (mEventListLiveData.getValue() != null) {
+                        List<Event> mCurrentEventList = mEventListLiveData.getValue().getResults();
+                        mCurrentEventList.addAll(eventList);
+                        responseList.setResults(mCurrentEventList);
+                    }
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + eventList.size() + " current events.");
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -137,6 +157,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Event>> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -153,13 +177,19 @@ public class EventRepository {
                                    @NonNull Response<Event> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     Event event = response.body();
                     databaseOperations.saveValue(event);
                     List<Event> eventList = new ArrayList<>();
                     eventList.add(event);
-                    mEventListLiveData.postValue(eventList);
+                    responseList.setResults(eventList);
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, event.getName());
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -167,6 +197,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<Event> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -182,11 +216,17 @@ public class EventRepository {
                                    @NonNull Response<ResponseList<Event>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     List<Event> eventList = response.body().getResults();
                     databaseOperations.saveList(eventList);
-                    mEventListLiveData.postValue(eventList);
+                    responseList.setResults(eventList);
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -194,6 +234,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Event>> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -209,13 +253,19 @@ public class EventRepository {
                                    @NonNull Response<Event> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     Event event = response.body();
                     databaseOperations.saveValue(event);
                     List<Event> eventList = new ArrayList<>();
                     eventList.add(event);
-                    mEventListLiveData.postValue(eventList);
+                    responseList.setResults(eventList);
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, event.getName());
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -223,6 +273,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<Event> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -238,11 +292,17 @@ public class EventRepository {
                                    @NonNull Response<ResponseList<Event>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     List<Event> eventList = response.body().getResults();
                     databaseOperations.saveList(eventList);
-                    mEventListLiveData.postValue(eventList);
+                    responseList.setResults(eventList);
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + eventList.size() + " events.");
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -250,6 +310,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Event>> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -265,13 +329,19 @@ public class EventRepository {
                                    @NonNull Response<Event> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Event> responseList = new ResponseList<>();
                     Event event = response.body();
                     databaseOperations.saveValue(event);
                     List<Event> eventList = new ArrayList<>();
                     eventList.add(event);
-                    mEventListLiveData.postValue(eventList);
+                    responseList.setResults(eventList);
+                    mEventListLiveData.postValue(responseList);
                     Log.d(TAG, event.getName());
                 } else {
+                    ResponseList<Event> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -279,6 +349,10 @@ public class EventRepository {
             @Override
             public void onFailure(@NonNull Call<Event> call, @NonNull Throwable t) {
 
+                ResponseList<Event> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

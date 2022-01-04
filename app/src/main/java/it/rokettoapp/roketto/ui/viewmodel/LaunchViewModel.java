@@ -9,12 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Launch;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.LaunchRepository;
 
 public class LaunchViewModel extends AndroidViewModel {
 
     private final LaunchRepository mLaunchRepository;
-    private MutableLiveData<List<Launch>> mLaunchListLivedata;
+    private MutableLiveData<ResponseList<Launch>> mLaunchListLivedata;
 
     public LaunchViewModel(@NonNull Application application) {
 
@@ -23,7 +24,7 @@ public class LaunchViewModel extends AndroidViewModel {
         mLaunchListLivedata = mLaunchRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Launch>> getLiveData() {
+    public MutableLiveData<ResponseList<Launch>> getLiveData() {
 
         return mLaunchListLivedata;
     }

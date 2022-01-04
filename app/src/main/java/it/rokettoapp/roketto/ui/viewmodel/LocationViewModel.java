@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
 import it.rokettoapp.roketto.model.Location;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.LocationRepository;
 
 public class LocationViewModel extends AndroidViewModel {
 
     private final LocationRepository mLocationRepository;
-    private MutableLiveData<List<Location>> mLocationListLivedata;
+    private MutableLiveData<ResponseList<Location>> mLocationListLivedata;
 
     public LocationViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class LocationViewModel extends AndroidViewModel {
         mLocationListLivedata = mLocationRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Location>> getLiveData() {
+    public MutableLiveData<ResponseList<Location>> getLiveData() {
 
         return mLocationListLivedata;
     }

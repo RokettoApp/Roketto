@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
 import it.rokettoapp.roketto.model.Expedition;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.ExpeditionRepository;
 
 public class ExpeditionViewModel extends AndroidViewModel {
 
     private final ExpeditionRepository mExpeditionRepository;
-    private MutableLiveData<List<Expedition>> mExpeditionListLiveData;
+    private MutableLiveData<ResponseList<Expedition>> mExpeditionListLiveData;
 
     public ExpeditionViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class ExpeditionViewModel extends AndroidViewModel {
         mExpeditionListLiveData = mExpeditionRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Expedition>> getLiveData() {
+    public MutableLiveData<ResponseList<Expedition>> getLiveData() {
 
         return mExpeditionListLiveData;
     }

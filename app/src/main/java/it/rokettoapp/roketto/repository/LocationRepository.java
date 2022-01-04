@@ -26,7 +26,7 @@ public class LocationRepository {
     private final LocationApiService mLocationApiService;
     private final LocationDao mLocationDao;
     private final DatabaseOperations<Integer, Location> databaseOperations;
-    private final MutableLiveData<List<Location>> mLocationListLiveData;
+    private final MutableLiveData<ResponseList<Location>> mLocationListLiveData;
 
     public LocationRepository(Application application) {
 
@@ -35,7 +35,7 @@ public class LocationRepository {
         databaseOperations = new DatabaseOperations<>(mLocationDao);
         mLocationListLiveData = new MutableLiveData<>();
     }
-    public MutableLiveData<List<Location>> getLiveData() {
+    public MutableLiveData<ResponseList<Location>> getLiveData() {
 
         return mLocationListLiveData;
     }
@@ -53,9 +53,11 @@ public class LocationRepository {
         new Thread(() -> {
             Location location = mLocationDao.getById(id);
             if (location != null) {
+                ResponseList<Location> responseList = new ResponseList<>();
                 List<Location> locationList = new ArrayList<>();
                 locationList.add(location);
-                mLocationListLiveData.postValue(locationList);
+                responseList.setResults(locationList);
+                mLocationListLiveData.postValue(responseList);
             } else
                 fetchLocationById(id);
         }).start();
@@ -78,9 +80,13 @@ public class LocationRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Location> locationList = response.body().getResults();
                     databaseOperations.saveList(locationList);
-                    mLocationListLiveData.postValue(locationList);
+                    mLocationListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + locationList.size() + " locations.");
                 } else {
+                    ResponseList<Location> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLocationListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -88,6 +94,10 @@ public class LocationRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Location>> call, @NonNull Throwable t) {
 
+                ResponseList<Location> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLocationListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -103,13 +113,19 @@ public class LocationRepository {
                                    @NonNull Response<Location> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Location> responseList = new ResponseList<>();
                     Location location = response.body();
                     databaseOperations.saveValue(location);
                     List<Location> locationList = new ArrayList<>();
                     locationList.add(location);
-                    mLocationListLiveData.postValue(locationList);
+                    responseList.setResults(locationList);
+                    mLocationListLiveData.postValue(responseList);
                     Log.d(TAG, location.getName());
                 } else {
+                    ResponseList<Location> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLocationListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -117,6 +133,10 @@ public class LocationRepository {
             @Override
             public void onFailure(@NonNull Call<Location> call, @NonNull Throwable t) {
 
+                ResponseList<Location> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLocationListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

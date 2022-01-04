@@ -69,4 +69,5 @@
     <string name="about_us_image_description_2">About us image 2</string>
     <string name="about_us_image_description_3">About us image 3</string>
     <string name="about_us_image_description_4">About us image 4</string>
+    <string name="connection_error">Connection error.</string>
 </resources>

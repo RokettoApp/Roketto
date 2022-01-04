@@ -28,7 +28,7 @@ public class AgencyRepository {
     private final AgencyApiService mAgencyApiService;
     private final AgencyDao mAgencyDao;
     private final DatabaseOperations<Integer, Agency> databaseOperations;
-    private final MutableLiveData<List<Agency>> mAgencyListLiveData;
+    private final MutableLiveData<ResponseList<Agency>> mAgencyListLiveData;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
@@ -42,7 +42,7 @@ public class AgencyRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Agency>> getLiveData() {
+    public MutableLiveData<ResponseList<Agency>> getLiveData() {
 
         return mAgencyListLiveData;
     }
@@ -65,10 +65,12 @@ public class AgencyRepository {
         new Thread(() -> {
             Agency agency = mAgencyDao.getById(id);
             if (agency != null) {
+                ResponseList<Agency> responseList = new ResponseList<>();
                 List<Agency> agencyList = new ArrayList<>();
                 agencyList.add(agency);
                 Log.d("dbagency","recupero dati database lancio: " );
-                mAgencyListLiveData.postValue(agencyList);
+                responseList.setResults(agencyList);
+                mAgencyListLiveData.postValue(responseList);
             } else
                 fetchAgencyById(id);
 
@@ -79,7 +81,11 @@ public class AgencyRepository {
 
         new Thread(() -> {
             List<Agency> agencyList = mAgencyDao.getAllInRange(lastId, lastId + 5);
-            if (agencyList.size() == 5) mAgencyListLiveData.postValue(agencyList);
+            if (agencyList.size() == 5) {
+                ResponseList<Agency> responseList = new ResponseList<>();
+                responseList.setResults(agencyList);
+                mAgencyListLiveData.postValue(responseList);
+            }
             else fetchAgencies(lastId);
         }).start();
     }
@@ -107,9 +113,13 @@ public class AgencyRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     List<Agency> agencyList = response.body().getResults();
                     databaseOperations.saveList(agencyList);
-                    mAgencyListLiveData.postValue(agencyList);
+                    mAgencyListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + agencyList.size() + " agencies.");
                 } else {
+                    ResponseList<Agency> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mAgencyListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -117,6 +127,10 @@ public class AgencyRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Agency>> call, @NonNull Throwable t) {
 
+                ResponseList<Agency> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mAgencyListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -135,12 +149,18 @@ public class AgencyRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     Agency agency = response.body();
                     databaseOperations.saveValue(agency);
+                    ResponseList<Agency> responseList = new ResponseList<>();
                     List<Agency> agencyList = new ArrayList<>();
                     agencyList.add(agency);
-                    mAgencyListLiveData.postValue(agencyList);
+                    responseList.setResults(agencyList);
+                    mAgencyListLiveData.postValue(responseList);
                     Log.d(TAG, agency.getName());
                     Log.d("dbagency","recupero dati api lancio: " );
                 } else {
+                    ResponseList<Agency> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mAgencyListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -148,6 +168,10 @@ public class AgencyRepository {
             @Override
             public void onFailure(@NonNull Call<Agency> call, @NonNull Throwable t) {
 
+                ResponseList<Agency> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mAgencyListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

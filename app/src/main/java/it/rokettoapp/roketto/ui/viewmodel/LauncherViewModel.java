@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
 import it.rokettoapp.roketto.model.Launcher;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.LauncherRepository;
 
 public class LauncherViewModel extends AndroidViewModel {
 
     private final LauncherRepository mLauncherRepository;
-    private MutableLiveData<List<Launcher>> mLauncherListLivedata;
+    private MutableLiveData<ResponseList<Launcher>> mLauncherListLivedata;
 
     public LauncherViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class LauncherViewModel extends AndroidViewModel {
         mLauncherListLivedata = mLauncherRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Launcher>> getLiveData() {
+    public MutableLiveData<ResponseList<Launcher>> getLiveData() {
 
         return mLauncherListLivedata;
     }
