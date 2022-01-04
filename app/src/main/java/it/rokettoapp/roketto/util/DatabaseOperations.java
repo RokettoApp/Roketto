@@ -32,4 +32,8 @@ public class DatabaseOperations<K, V> {
         new Thread(() -> liveData.postValue(dao.getAll())).start();
     }
 
+    public void deleteAll() {
+
+        RokettoDatabase.databaseWriteExecutor.execute(() -> dao.deleteAll());
+    }
 }

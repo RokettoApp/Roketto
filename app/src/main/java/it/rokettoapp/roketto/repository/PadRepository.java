@@ -62,6 +62,11 @@ public class PadRepository {
         }).start();
     }
 
+    public void clearPads() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchPads() {
 
         Call<ResponseList<Pad>> padResponseCall = mPadApiService.getPads(5);

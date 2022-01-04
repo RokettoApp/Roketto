@@ -13,8 +13,8 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.ArticleType;
 import it.rokettoapp.roketto.service.ArticleApiService;
-import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.Constants;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
@@ -108,6 +108,11 @@ public class ArticleRepository {
                 fetchBlogPosts();
             }).start();
         }
+    }
+
+    public void clearArticles() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchArticles() {

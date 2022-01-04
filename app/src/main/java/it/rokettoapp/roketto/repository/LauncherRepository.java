@@ -62,6 +62,11 @@ public class LauncherRepository {
         }).start();
     }
 
+    public void clearLaunchers() {
+
+        databaseOperations.deleteAll();
+    }
+
     public void fetchLaunchers() {
 
         Call<ResponseList<Launcher>> launcherResponseCall = mLauncherApiService.getLaunchers(5);

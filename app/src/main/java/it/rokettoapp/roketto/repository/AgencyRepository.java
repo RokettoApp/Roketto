@@ -89,6 +89,11 @@ public class AgencyRepository {
         fetchAgencies(0);
     }
 
+    public void clearAgencies() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchAgencies(int offset) {
 
         Call<ResponseList<Agency>> agencyResponseCall =

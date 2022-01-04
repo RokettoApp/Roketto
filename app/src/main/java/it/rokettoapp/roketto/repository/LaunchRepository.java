@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.LaunchDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
@@ -80,6 +78,11 @@ public class LaunchRepository {
             }
             mLaunchListLiveData.postValue(launchList);
         }).start();
+    }
+
+    public void clearLaunches() {
+
+        databaseOperations.deleteAll();
     }
 
     public void fetchLaunches() {

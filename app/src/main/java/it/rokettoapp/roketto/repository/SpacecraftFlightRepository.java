@@ -65,6 +65,11 @@ public class SpacecraftFlightRepository {
         }).start();
     }
 
+    public void clearSpacecraftFlight() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchSpacecraftFlights() {
 
         Call<ResponseList<SpacecraftFlight>> spacecraftResponseCall =

@@ -14,8 +14,8 @@ import it.rokettoapp.roketto.database.RokettoDatabase;
 import it.rokettoapp.roketto.model.Program;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.ProgramApiService;
-import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.Constants;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
@@ -75,6 +75,11 @@ public class ProgramRepository {
     public void refreshPrograms() {
 
         fetchPrograms();
+    }
+
+    public void clearPrograms() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchPrograms() {

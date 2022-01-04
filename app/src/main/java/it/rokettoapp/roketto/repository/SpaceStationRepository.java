@@ -62,6 +62,11 @@ public class SpaceStationRepository {
         }).start();
     }
 
+    public void clearSpaceStations() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchSpaceStations() {
 
         Call<ResponseList<SpaceStation>> spaceStationResponseCall =

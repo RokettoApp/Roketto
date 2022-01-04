@@ -62,6 +62,11 @@ public class ExpeditionRepository {
         }).start();
     }
 
+    public void clearExpeditions() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchExpeditions() {
 
         Call<ResponseList<Expedition>> expeditionResponseCall =

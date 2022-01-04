@@ -62,6 +62,11 @@ public class DockingEventRepository {
         }).start();
     }
 
+    public void clearDockingEvents() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchDockingEvents() {
 
         Call<ResponseList<DockingEvent>> astronautResponseCall =

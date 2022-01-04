@@ -14,8 +14,8 @@ import it.rokettoapp.roketto.database.SpacecraftDao;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.Spacecraft;
 import it.rokettoapp.roketto.service.SpacecraftApiService;
-import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.Constants;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
@@ -76,6 +76,11 @@ public class SpacecraftRepository {
     public void refreshSpacecrafts() {
 
         fetchSpacecrafts();
+    }
+
+    public void clearSpacecrafts() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchSpacecrafts() {

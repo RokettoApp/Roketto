@@ -61,6 +61,11 @@ public class LocationRepository {
         }).start();
     }
 
+    public void clearLocations() {
+
+        databaseOperations.deleteAll();
+    }
+
     private void fetchLocations() {
 
         Call<ResponseList<Location>> locationResponseCall = mLocationApiService.getLocations(5);

@@ -85,6 +85,11 @@ public class AstronautRepository {
         }).start();
     }
 
+    public void clearAstronauts() {
+
+        databaseOperations.deleteAll();
+    }
+
     public void fetchAstronautByIds(Integer id, List<Astronaut> astronautList){
         Call<Astronaut> astronautResponseCall = mAstronautApiService.getAstronaut(id);
         astronautResponseCall.enqueue(new Callback<Astronaut>() {

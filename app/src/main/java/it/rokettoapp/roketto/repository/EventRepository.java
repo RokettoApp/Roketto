@@ -80,6 +80,12 @@ public class EventRepository {
         }).start();
     }
 
+    public void clearEvents() {
+
+        databaseOperations.deleteAll();
+    }
+
+
     private void fetchEvents() {
 
         Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(4, count);
