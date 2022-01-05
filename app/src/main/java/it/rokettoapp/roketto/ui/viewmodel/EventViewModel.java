@@ -34,14 +34,6 @@ public class EventViewModel extends AndroidViewModel {
         mEventRepository.getEventList(isConnected);
     }
 
-    public void updateFavouriteEvent(Event event){
-        mEventRepository.updateFavouriteEvent(event);
-    }
-
-    public void getFavoritesEvents(){
-        mEventRepository.getFavoritesEvent();
-    }
-
     public void getNewEvents(){
         mEventRepository.fetchNewEvents();
     }

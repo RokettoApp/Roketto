@@ -46,11 +46,7 @@ public class FragmentHome extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
-
-
-
 
         mEventViewModel = new ViewModelProvider(requireActivity()).get(EventViewModel.class);
         mAstroViewModel = new ViewModelProvider(requireActivity()).get(AstronautViewModel.class);

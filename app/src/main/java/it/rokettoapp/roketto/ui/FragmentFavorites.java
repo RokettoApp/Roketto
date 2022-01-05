@@ -31,7 +31,7 @@ import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
 
 public class FragmentFavorites extends Fragment {
 
-    private EventViewModel mEventViewModel;
+    private FavouritesViewModel mFavViewModel;
     private List<Event> mEvents;
     private RecyclerViewAdapterEvents mAdapterEvents;
 
@@ -40,7 +40,7 @@ public class FragmentFavorites extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        mEventViewModel = new ViewModelProvider(requireActivity()).get(EventViewModel.class);
+        mFavViewModel = new ViewModelProvider(requireActivity()).get(FavouritesViewModel.class);
         if (mEvents == null) mEvents = new ArrayList<>();
     }
 
@@ -60,12 +60,12 @@ public class FragmentFavorites extends Fragment {
         mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents, false);
         mRecyclerViewEvents.setAdapter(mAdapterEvents);
 
-        mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
+        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
             mEvents.clear();
             mEvents.addAll(events);
             mAdapterEvents.notifyDataSetChanged();
         });
-        mEventViewModel.getFavoritesEvents();
+        mFavViewModel.getFavoritesEvents();
 
         return rootView;
     }
@@ -74,12 +74,12 @@ public class FragmentFavorites extends Fragment {
     public void onResume() {
         super.onResume();
 
-        mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
+        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
             mEvents.clear();
             mEvents.addAll(events);
             mAdapterEvents.notifyDataSetChanged();
         });
-        mEventViewModel.getFavoritesEvents();
+        mFavViewModel.getFavoritesEvents();
     }
 
     private boolean isConnected() {

@@ -148,9 +148,6 @@ public class EventDetailActivity extends AppCompatActivity {
                 findViewById(R.id.recyclerViewProgram).setVisibility(View.VISIBLE);
             }
 
-            if(mEvent.getFavourite() == 1)
-
-
             binding.setFavouriteButton.setOnClickListener(v -> {
 
                 if (favourite == -1) return;
@@ -160,13 +157,13 @@ public class EventDetailActivity extends AppCompatActivity {
                     updateSetFavouriteButtonColour();
                     user.addFavouriteEvent(eventId);
                     mEvent.setFavourite(favourite);
-                    eventViewModel.updateFavouriteEvent(mEvent);
+                   mFavouritesViewModel.updateFavouriteEvent(mEvent);
                 } else if (favourite == 1) {
                     favourite = 0;
                     updateSetFavouriteButtonColour();
                     mEvent.setFavourite(favourite);
                     user.removeFavouriteEvent(eventId);
-                    eventViewModel.updateFavouriteEvent(mEvent);
+                    mFavouritesViewModel.updateFavouriteEvent(mEvent);
                 }
 
                 mFavouritesViewModel.saveFavouriteEvents(user);

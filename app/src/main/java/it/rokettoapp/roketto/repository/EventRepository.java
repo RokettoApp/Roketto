@@ -71,19 +71,6 @@ public class EventRepository {
         }).start();
     }
 
-    public void updateFavouriteEvent(Event event){
-        new Thread(() -> {
-            mEventDao.update(event);
-        }).start();
-    }
-
-    public void getFavoritesEvent(){
-        new Thread(() -> {
-            List<Event> favoritesEvent = mEventDao.getFavorites();
-            mEventListLiveData.postValue(favoritesEvent);
-        }).start();
-    }
-
     public void refreshEvents() {
 
         new Thread(() -> {
