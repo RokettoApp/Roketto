@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,7 +81,7 @@ public class FragmentHome extends Fragment {
         RecyclerViewAdapterEvents mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents, true);
         mRecyclerViewEvents.setAdapter(mAdapterEvents);
 
-        RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros, true);
+        RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros, false);
         mRecyclerViewAstro.setAdapter(mAdapterAstro);
 
         mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), eventList -> {
@@ -94,6 +95,8 @@ public class FragmentHome extends Fragment {
         mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), astronauts -> {
             mAstros.clear();
             mAstros.addAll(astronauts);
+            mAstros.add(null);
+            mAstroViewModel.setLoading(false);
             mAdapterAstro.notifyDataSetChanged();
         });
         mAstroViewModel.getAstronauts(isConnected());
@@ -121,6 +124,31 @@ public class FragmentHome extends Fragment {
         });
         seeAllEvents.setOnClickListener(v -> {
             requireActivity().startActivity(new Intent(requireActivity(), SeeAllEventsActivity.class));
+        });
+
+        mRecyclerViewAstro.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (mAstros.size() < 100) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (!recyclerView.canScrollHorizontally(1) && !mAstroViewModel.isLoading()) {
+                        if (mAstroViewModel.getLiveData().getValue() != null && isConnected()) {
+                            Log.d("BlogPostObserver", "test3");
+                            mAstroViewModel.setLoading(true);
+                            mAstroViewModel.getNewAstronauts();
+                        } else {
+                            if (!isConnected()) {
+                                Context context = getContext();
+                                CharSequence text = "Nessuna connesione";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+                            }
+                        }
+                    }
+                }
+            }
         });
 
         return rootView;
