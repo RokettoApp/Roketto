@@ -1,11 +1,15 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -57,6 +61,7 @@ public class LaunchDetailActivity extends AppCompatActivity {
         TextView mDay = (TextView) findViewById(R.id.txtGiorno);
         TextView mMonth = (TextView) findViewById(R.id.txtMese);
         TextView mYear = (TextView) findViewById(R.id.txtAnno);
+        ImageButton playButton = (ImageButton) findViewById(R.id.playButton);
 
         String[] dateLaunch = mLaunch.getNet().toString().split("\\s+");
         mDay.setText(dateLaunch[2]);
@@ -83,13 +88,31 @@ public class LaunchDetailActivity extends AppCompatActivity {
             }
         }
 
+
+
         RecyclerView rvCrew = (RecyclerView) findViewById(R.id.rvCrew);
+
+        if(mAstro.size()==0){
+            findViewById(R.id.crewTitle).setVisibility(View.GONE);
+            rvCrew.setVisibility(View.GONE);
+        }
 
         LinearLayoutManager mLineaLayoutAstro = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvCrew.setLayoutManager(mLineaLayoutAstro);
 
         RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(this, mAstro, false);
         rvCrew.setAdapter(mAdapterAstro);
+
+        playButton.setOnClickListener(v -> {
+            if(mLaunch.getVideoUrl() != null && mLaunch.getVideoUrl().size()>0){
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(mLaunch.getVideoUrl().get(0).getUrl()));
+                startActivity(intent);
+            }else{
+                Toast.makeText(this, "Video not found",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
 
         //Implementazione backbutton
         ImageButton back = (ImageButton)findViewById(R.id.backButtonLaunch);
