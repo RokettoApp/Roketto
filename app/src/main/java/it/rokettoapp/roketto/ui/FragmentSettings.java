@@ -30,10 +30,9 @@ public class FragmentSettings extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        FirebaseAuth.getInstance().signOut();
         Button button = view.findViewById(R.id.logoutButton);
         button.setOnClickListener(view1 -> {
-
+            FirebaseAuth.getInstance().signOut();
             SharedPreferencesProvider sharedPreferencesProvider =
                     new SharedPreferencesProvider(requireActivity().getApplication());
             sharedPreferencesProvider.deleteAll();

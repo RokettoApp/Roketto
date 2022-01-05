@@ -147,6 +147,30 @@ public class EventDetailActivity extends AppCompatActivity {
                 findViewById(R.id.programTitle).setVisibility(View.VISIBLE);
                 findViewById(R.id.recyclerViewProgram).setVisibility(View.VISIBLE);
             }
+
+            if(mEvent.getFavourite() == 1)
+
+
+            binding.setFavouriteButton.setOnClickListener(v -> {
+
+                if (favourite == -1) return;
+
+                if (favourite == 0) {
+                    favourite = 1;
+                    updateSetFavouriteButtonColour();
+                    user.addFavouriteEvent(eventId);
+                    mEvent.setFavourite(favourite);
+                    eventViewModel.updateFavouriteEvent(mEvent);
+                } else if (favourite == 1) {
+                    favourite = 0;
+                    updateSetFavouriteButtonColour();
+                    mEvent.setFavourite(favourite);
+                    user.removeFavouriteEvent(eventId);
+                    eventViewModel.updateFavouriteEvent(mEvent);
+                }
+
+                mFavouritesViewModel.saveFavouriteEvents(user);
+            });
         });
         eventViewModel.getEventById(eventId);
 
@@ -168,22 +192,7 @@ public class EventDetailActivity extends AppCompatActivity {
                     });
         }
 
-        binding.setFavouriteButton.setOnClickListener(v -> {
 
-            if (favourite == -1) return;
-
-            if (favourite == 0) {
-                favourite = 1;
-                updateSetFavouriteButtonColour();
-                user.addFavouriteEvent(eventId);
-            } else if (favourite == 1) {
-                favourite = 0;
-                updateSetFavouriteButtonColour();
-                user.removeFavouriteEvent(eventId);
-            }
-
-            mFavouritesViewModel.saveFavouriteEvents(user);
-        });
     }
 
     public void updateSetFavouriteButtonColour() {

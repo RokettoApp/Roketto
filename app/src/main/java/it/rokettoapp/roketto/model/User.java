@@ -10,8 +10,8 @@ public class User {
     private List<Integer> favouriteEvents;
 
     public User() {
-
         // Required by Firebase
+        favouriteEvents = new ArrayList<>();
     }
 
     public User(String id, String email) {
