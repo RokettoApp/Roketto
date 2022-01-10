@@ -26,7 +26,7 @@ public class ExpeditionRepository {
     private final ExpeditionApiService mExpeditionApiService;
     private final ExpeditionDao mExpeditionDao;
     private final DatabaseOperations<Integer, Expedition> databaseOperations;
-    private final MutableLiveData<List<Expedition>> mExpeditionListLiveData;
+    private final MutableLiveData<ResponseList<Expedition>> mExpeditionListLiveData;
 
     public ExpeditionRepository(Application application) {
 
@@ -36,7 +36,7 @@ public class ExpeditionRepository {
         this.mExpeditionListLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<Expedition>> getLiveData() {
+    public MutableLiveData<ResponseList<Expedition>> getLiveData() {
 
         return mExpeditionListLiveData;
     }
@@ -54,12 +54,19 @@ public class ExpeditionRepository {
         new Thread(() -> {
             Expedition expedition = mExpeditionDao.getById(id);
             if (expedition != null) {
+                ResponseList<Expedition> responseList = new ResponseList<>();
                 List<Expedition> expeditionList = new ArrayList<>();
                 expeditionList.add(expedition);
-                mExpeditionListLiveData.postValue(expeditionList);
+                responseList.setResults(expeditionList);
+                mExpeditionListLiveData.postValue(responseList);
             } else
                 fetchExpeditionById(id);
         }).start();
+    }
+
+    public void clearExpeditions() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchExpeditions() {
@@ -73,11 +80,17 @@ public class ExpeditionRepository {
                                    @NonNull Response<ResponseList<Expedition>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Expedition> responseList = new ResponseList<>();
                     List<Expedition> expeditionList = response.body().getResults();
                     databaseOperations.saveList(expeditionList);
-                    mExpeditionListLiveData.postValue(expeditionList);
+                    responseList.setResults(expeditionList);
+                    mExpeditionListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + expeditionList.size() + " expeditions.");
                 } else {
+                    ResponseList<Expedition> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mExpeditionListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -86,6 +99,10 @@ public class ExpeditionRepository {
             public void onFailure(@NonNull Call<ResponseList<Expedition>> call,
                                   @NonNull Throwable t) {
 
+                ResponseList<Expedition> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mExpeditionListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -101,13 +118,19 @@ public class ExpeditionRepository {
                                    @NonNull Response<Expedition> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Expedition> responseList = new ResponseList<>();
                     Expedition expedition = response.body();
                     databaseOperations.saveValue(expedition);
                     List<Expedition> expeditionList = new ArrayList<>();
                     expeditionList.add(expedition);
-                    mExpeditionListLiveData.postValue(expeditionList);
+                    responseList.setResults(expeditionList);
+                    mExpeditionListLiveData.postValue(responseList);
                     Log.d(TAG, expedition.getName());
                 } else {
+                    ResponseList<Expedition> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mExpeditionListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -115,6 +138,10 @@ public class ExpeditionRepository {
             @Override
             public void onFailure(@NonNull Call<Expedition> call, @NonNull Throwable t) {
 
+                ResponseList<Expedition> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mExpeditionListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

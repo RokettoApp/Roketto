@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.rokettoapp.roketto.database.LaunchDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
@@ -28,7 +26,7 @@ public class LaunchRepository {
     private final LaunchApiService mLaunchApiService;
     private final LaunchDao mLaunchDao;
     private final DatabaseOperations<String, Launch> databaseOperations;
-    private final MutableLiveData<List<Launch>> mLaunchListLiveData;
+    private final MutableLiveData<ResponseList<Launch>> mLaunchListLiveData;
 
     public LaunchRepository(Application application) {
 
@@ -38,7 +36,7 @@ public class LaunchRepository {
         mLaunchListLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<Launch>> getLiveData() {
+    public MutableLiveData<ResponseList<Launch>> getLiveData() {
 
         return mLaunchListLiveData;
     }
@@ -56,10 +54,12 @@ public class LaunchRepository {
         new Thread(() -> {
             Launch launch = mLaunchDao.getById(id);
             if (launch != null) {
+                ResponseList<Launch> responseList = new ResponseList<>();
                 List<Launch> launchList = new ArrayList<>();
                 launchList.add(launch);
                 Log.d(TAG, launch.getName());
-                mLaunchListLiveData.postValue(launchList);
+                responseList.setResults(launchList);
+                mLaunchListLiveData.postValue(responseList);
             } else
                 fetchLaunchById(id);
         }).start();
@@ -67,6 +67,7 @@ public class LaunchRepository {
 
     public void getLaunchesByIds(List<String> ids){
         new Thread(() -> {
+            ResponseList<Launch> responseList = new ResponseList<>();
             List<Launch> launchList = new ArrayList<>();
             for (String id : ids) {
                 Launch launch = mLaunchDao.getById(id);
@@ -78,8 +79,14 @@ public class LaunchRepository {
                 } else
                     fetchLaunchById(id);
             }
-            mLaunchListLiveData.postValue(launchList);
+            responseList.setResults(launchList);
+            mLaunchListLiveData.postValue(responseList);
         }).start();
+    }
+
+    public void clearLaunches() {
+
+        databaseOperations.deleteAll();
     }
 
     public void fetchLaunches() {
@@ -92,11 +99,17 @@ public class LaunchRepository {
                                    @NonNull Response<ResponseList<Launch>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launch> responseList = new ResponseList<>();
                     List<Launch> launchList = response.body().getResults();
                     databaseOperations.saveList(launchList);
-                    mLaunchListLiveData.postValue(launchList);
+                    responseList.setResults(launchList);
+                    mLaunchListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + launchList.size() + " launches.");
                 } else {
+                    ResponseList<Launch> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLaunchListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -104,6 +117,10 @@ public class LaunchRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Launch>> call, @NonNull Throwable t) {
 
+                ResponseList<Launch> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLaunchListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -119,13 +136,19 @@ public class LaunchRepository {
                                    @NonNull Response<Launch> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launch> responseList = new ResponseList<>();
                     Launch launch = response.body();
                     databaseOperations.saveValue(launch);
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
-                    mLaunchListLiveData.postValue(launchList);
+                    responseList.setResults(launchList);
+                    mLaunchListLiveData.postValue(responseList);
                     Log.d(TAG, launch.getName() + " API");
                 } else {
+                    ResponseList<Launch> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLaunchListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -133,6 +156,10 @@ public class LaunchRepository {
             @Override
             public void onFailure(@NonNull Call<Launch> call, @NonNull Throwable t) {
 
+                ResponseList<Launch> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLaunchListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -148,11 +175,17 @@ public class LaunchRepository {
                                    @NonNull Response<ResponseList<Launch>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launch> responseList = new ResponseList<>();
                     List<Launch> launchList = response.body().getResults();
                     databaseOperations.saveList(launchList);
-                    mLaunchListLiveData.postValue(launchList);
+                    responseList.setResults(launchList);
+                    mLaunchListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + launchList.size() + " launches.");
                 } else {
+                    ResponseList<Launch> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLaunchListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -160,6 +193,10 @@ public class LaunchRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Launch>> call, @NonNull Throwable t) {
 
+                ResponseList<Launch> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLaunchListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -175,13 +212,19 @@ public class LaunchRepository {
                                    @NonNull Response<Launch> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launch> responseList = new ResponseList<>();
                     Launch launch = response.body();
                     databaseOperations.saveValue(launch);
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
-                    mLaunchListLiveData.postValue(launchList);
+                    responseList.setResults(launchList);
+                    mLaunchListLiveData.postValue(responseList);
                     Log.d(TAG, launch.getName());
                 } else {
+                    ResponseList<Launch> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLaunchListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -189,6 +232,10 @@ public class LaunchRepository {
             @Override
             public void onFailure(@NonNull Call<Launch> call, @NonNull Throwable t) {
 
+                ResponseList<Launch> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLaunchListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -203,11 +250,17 @@ public class LaunchRepository {
                                    @NonNull Response<ResponseList<Launch>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launch> responseList = new ResponseList<>();
                     List<Launch> launchList = response.body().getResults();
                     databaseOperations.saveList(launchList);
-                    mLaunchListLiveData.postValue(launchList);
+                    responseList.setResults(launchList);
+                    mLaunchListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + launchList.size() + " launches.");
                 } else {
+                    ResponseList<Launch> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLaunchListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -215,6 +268,10 @@ public class LaunchRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Launch>> call, @NonNull Throwable t) {
 
+                ResponseList<Launch> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLaunchListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -230,13 +287,19 @@ public class LaunchRepository {
                                    @NonNull Response<Launch> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launch> responseList = new ResponseList<>();
                     Launch launch = response.body();
                     databaseOperations.saveValue(launch);
                     List<Launch> launchList = new ArrayList<>();
                     launchList.add(launch);
-                    mLaunchListLiveData.postValue(launchList);
+                    responseList.setResults(launchList);
+                    mLaunchListLiveData.postValue(responseList);
                     Log.d(TAG, launch.getName());
                 } else {
+                    ResponseList<Launch> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLaunchListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -244,6 +307,10 @@ public class LaunchRepository {
             @Override
             public void onFailure(@NonNull Call<Launch> call, @NonNull Throwable t) {
 
+                ResponseList<Launch> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLaunchListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

@@ -26,7 +26,7 @@ public class DockingEventRepository {
     private final DockingEventApiService mEockingEventApiService;
     private final DockingEventDao mDockingEventDao;
     private final DatabaseOperations<Integer, DockingEvent> databaseOperations;
-    private final MutableLiveData<List<DockingEvent>> mDockingEventListLiveData;
+    private final MutableLiveData<ResponseList<DockingEvent>> mDockingEventListLiveData;
 
     public DockingEventRepository(Application application) {
 
@@ -36,7 +36,7 @@ public class DockingEventRepository {
         mDockingEventListLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<DockingEvent>> getLiveData() {
+    public MutableLiveData<ResponseList<DockingEvent>> getLiveData() {
 
         return mDockingEventListLiveData;
     }
@@ -54,12 +54,19 @@ public class DockingEventRepository {
         new Thread(() -> {
             DockingEvent dockingEvent = mDockingEventDao.getById(id);
             if (dockingEvent != null) {
+                ResponseList<DockingEvent> responseList = new ResponseList<>();
                 List<DockingEvent> dockingEventList = new ArrayList<>();
                 dockingEventList.add(dockingEvent);
-                mDockingEventListLiveData.postValue(dockingEventList);
+                responseList.setResults(dockingEventList);
+                mDockingEventListLiveData.postValue(responseList);
             } else
                 fetchDockingEventById(id);
         }).start();
+    }
+
+    public void clearDockingEvents() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchDockingEvents() {
@@ -73,11 +80,17 @@ public class DockingEventRepository {
                                    @NonNull Response<ResponseList<DockingEvent>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<DockingEvent> responseList = new ResponseList<>();
                     List<DockingEvent> dockingEventList = response.body().getResults();
                     databaseOperations.saveList(dockingEventList);
-                    mDockingEventListLiveData.postValue(dockingEventList);
+                    responseList.setResults(dockingEventList);
+                    mDockingEventListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + dockingEventList.size() + " docking events.<");
                 } else {
+                    ResponseList<DockingEvent> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mDockingEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -86,6 +99,10 @@ public class DockingEventRepository {
             public void onFailure(@NonNull Call<ResponseList<DockingEvent>> call,
                                   @NonNull Throwable t) {
 
+                ResponseList<DockingEvent> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mDockingEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -101,13 +118,19 @@ public class DockingEventRepository {
                                    @NonNull Response<DockingEvent> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<DockingEvent> responseList = new ResponseList<>();
                     DockingEvent dockingEvent = response.body();
                     databaseOperations.saveValue(dockingEvent);
                     List<DockingEvent> dockingEventList = new ArrayList<>();
                     dockingEventList.add(dockingEvent);
-                    mDockingEventListLiveData.postValue(dockingEventList);
+                    responseList.setResults(dockingEventList);
+                    mDockingEventListLiveData.postValue(responseList);
                     Log.d(TAG, dockingEvent.getDockingLocation().getName());
                 } else {
+                    ResponseList<DockingEvent> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mDockingEventListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -115,6 +138,10 @@ public class DockingEventRepository {
             @Override
             public void onFailure(@NonNull Call<DockingEvent> call, @NonNull Throwable t) {
 
+                ResponseList<DockingEvent> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mDockingEventListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

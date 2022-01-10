@@ -26,7 +26,7 @@ public class LauncherRepository {
     private final LauncherApiService mLauncherApiService;
     private final LauncherDao mLauncherDao;
     private final DatabaseOperations<Integer, Launcher> databaseOperations;
-    private final MutableLiveData<List<Launcher>> mLauncherListLiveData;
+    private final MutableLiveData<ResponseList<Launcher>> mLauncherListLiveData;
 
     public LauncherRepository(Application application) {
 
@@ -36,7 +36,7 @@ public class LauncherRepository {
         mLauncherListLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<Launcher>> getLiveData() {
+    public MutableLiveData<ResponseList<Launcher>> getLiveData() {
 
         return mLauncherListLiveData;
     }
@@ -54,12 +54,19 @@ public class LauncherRepository {
         new Thread(() -> {
             Launcher program = mLauncherDao.getById(id);
             if (program != null) {
-                List<Launcher> programList = new ArrayList<>();
-                programList.add(program);
-                mLauncherListLiveData.postValue(programList);
+                ResponseList<Launcher> responseList = new ResponseList<>();
+                List<Launcher> launcherList = new ArrayList<>();
+                launcherList.add(program);
+                responseList.setResults(launcherList);
+                mLauncherListLiveData.postValue(responseList);
             } else
                 fetchLauncherById(id);
         }).start();
+    }
+
+    public void clearLaunchers() {
+
+        databaseOperations.deleteAll();
     }
 
     public void fetchLaunchers() {
@@ -72,9 +79,16 @@ public class LauncherRepository {
                                    @NonNull Response<ResponseList<Launcher>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launcher> responseList = new ResponseList<>();
                     List<Launcher> launcherList = response.body().getResults();
+                    responseList.setResults(launcherList);
+                    mLauncherListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + launcherList + " launchers.");
                 } else {
+                    ResponseList<Launcher> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLauncherListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -82,6 +96,10 @@ public class LauncherRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Launcher>> call, @NonNull Throwable t) {
 
+                ResponseList<Launcher> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLauncherListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -97,9 +115,18 @@ public class LauncherRepository {
                                    @NonNull Response<Launcher> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Launcher> responseList = new ResponseList<>();
+                    List<Launcher> launcherList = new ArrayList<>();
                     Launcher launcher = response.body();
+                    launcherList.add(launcher);
+                    responseList.setResults(launcherList);
+                    mLauncherListLiveData.postValue(responseList);
                     Log.d(TAG, launcher.getSerialNumber());
                 } else {
+                    ResponseList<Launcher> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mLauncherListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -107,6 +134,10 @@ public class LauncherRepository {
             @Override
             public void onFailure(@NonNull Call<Launcher> call, @NonNull Throwable t) {
 
+                ResponseList<Launcher> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mLauncherListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

@@ -17,7 +17,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.AuthenticationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name=".ui.AstroDetailActivity"
             android:exported="false" />

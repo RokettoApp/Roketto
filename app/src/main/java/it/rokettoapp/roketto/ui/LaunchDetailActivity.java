@@ -3,7 +3,6 @@ package it.rokettoapp.roketto.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,15 +12,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.chip.Chip;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +24,9 @@ import java.util.List;
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterAstro;
 import it.rokettoapp.roketto.databinding.ActivityLaunchDetailBinding;
-import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.AstronautFlight;
 import it.rokettoapp.roketto.model.Launch;
-import it.rokettoapp.roketto.ui.viewmodel.LaunchViewModel;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class LaunchDetailActivity extends AppCompatActivity {
@@ -48,7 +41,6 @@ public class LaunchDetailActivity extends AppCompatActivity {
         ActivityLaunchDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_launch_detail);
 
         mAstro = new ArrayList<>();
-
 
         //Mi prendo i dati passati da Astronauta
         Launch mLaunch = (Launch) getIntent().getSerializableExtra("LaunchId");
@@ -73,8 +65,7 @@ public class LaunchDetailActivity extends AppCompatActivity {
 
 
         String mLogo = mLaunch.getLaunchServiceProvider().getLogoUrl();
-        if(mLogo != null)
-        {
+        if(mLogo != null) {
             mImageAgency.setVisibility(View.VISIBLE);
             Glide.with(this).load(mLogo).into(mImageAgency);
         }

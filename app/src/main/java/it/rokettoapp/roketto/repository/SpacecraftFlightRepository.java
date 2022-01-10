@@ -26,7 +26,7 @@ public class SpacecraftFlightRepository {
     private final SpacecraftFlightApiService mSpacecraftFlightApiService;
     private final SpacecraftFlightDao mSpacecraftFlightDao;
     private final DatabaseOperations<Integer, SpacecraftFlight> databaseOperations;
-    private final MutableLiveData<List<SpacecraftFlight>> mSpacecraftFlightListLiveData;
+    private final MutableLiveData<ResponseList<SpacecraftFlight>> mSpacecraftFlightListLiveData;
     int count;
 
     public SpacecraftFlightRepository(Application application) {
@@ -39,7 +39,7 @@ public class SpacecraftFlightRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<SpacecraftFlight>> getLiveData() {
+    public MutableLiveData<ResponseList<SpacecraftFlight>> getLiveData() {
 
         return mSpacecraftFlightListLiveData;
     }
@@ -57,12 +57,19 @@ public class SpacecraftFlightRepository {
         new Thread(() -> {
             SpacecraftFlight spacecraftFlight = mSpacecraftFlightDao.getById(id);
             if (spacecraftFlight != null) {
+                ResponseList<SpacecraftFlight> responseList = new ResponseList<>();
                 List<SpacecraftFlight> spacecraftFlightList = new ArrayList<>();
                 spacecraftFlightList.add(spacecraftFlight);
-                mSpacecraftFlightListLiveData.postValue(spacecraftFlightList);
+                responseList.setResults(spacecraftFlightList);
+                mSpacecraftFlightListLiveData.postValue(responseList);
             } else
                 fetchSpacecraftFlightById(id);
         }).start();
+    }
+
+    public void clearSpacecraftFlight() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchSpacecraftFlights() {
@@ -77,11 +84,15 @@ public class SpacecraftFlightRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<SpacecraftFlight> spacecraftFlightList = response.body().getResults();
-                    mSpacecraftFlightListLiveData.postValue(spacecraftFlightList);
                     databaseOperations.saveList(spacecraftFlightList);
+                    mSpacecraftFlightListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + spacecraftFlightList.size()
                             + " spacecraft flights.");
                 } else {
+                    ResponseList<SpacecraftFlight> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mSpacecraftFlightListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -90,6 +101,10 @@ public class SpacecraftFlightRepository {
             public void onFailure(@NonNull Call<ResponseList<SpacecraftFlight>> call,
                                   @NonNull Throwable t) {
 
+                ResponseList<SpacecraftFlight> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mSpacecraftFlightListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -106,13 +121,19 @@ public class SpacecraftFlightRepository {
                                    @NonNull Response<SpacecraftFlight> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<SpacecraftFlight> responseList = new ResponseList<>();
                     SpacecraftFlight spacecraftFlight = response.body();
                     databaseOperations.saveValue(spacecraftFlight);
                     List<SpacecraftFlight> spacecraftFlightList = new ArrayList<>();
                     spacecraftFlightList.add(spacecraftFlight);
-                    mSpacecraftFlightListLiveData.postValue(spacecraftFlightList);
+                    responseList.setResults(spacecraftFlightList);
+                    mSpacecraftFlightListLiveData.postValue(responseList);
                     Log.d(TAG, spacecraftFlight.getDestination());
                 } else {
+                    ResponseList<SpacecraftFlight> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mSpacecraftFlightListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -120,6 +141,10 @@ public class SpacecraftFlightRepository {
             @Override
             public void onFailure(@NonNull Call<SpacecraftFlight> call, @NonNull Throwable t) {
 
+                ResponseList<SpacecraftFlight> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mSpacecraftFlightListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

@@ -9,16 +9,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.chip.Chip;
 import com.jwang123.flagkit.FlagKit;
 
 import java.util.ArrayList;
@@ -67,18 +66,13 @@ public class AstroDetailActivity extends AppCompatActivity {
         Button mLaunchesSeeAll = (Button) findViewById(R.id.launches_see_all);
         mCSVCountries = CSVCountries.getInstanceCountry();
 
-
-
         if(mAstroLaunches == null)
             mAstroLaunches = new ArrayList<>();
-
-
 
         ViewModelProvider viewModelProvider = new ViewModelProvider(this);
         mAstroViewModel = viewModelProvider.get(AstronautViewModel.class);
         mAgencyViewModel = viewModelProvider.get(AgencyViewModel.class);
         mLaunchViewModel = viewModelProvider.get(LaunchViewModel.class);
-
 
         //Inizializzazione RecyclerView
         RecyclerView mRecyclerLaunches = (RecyclerView) findViewById(R.id.launchesAstrorv);
@@ -88,17 +82,14 @@ public class AstroDetailActivity extends AppCompatActivity {
         RecyclerViewAdapterLaunches mAdapterLaunches = new RecyclerViewAdapterLaunches(this, mAstroLaunches, false);
         mRecyclerLaunches.setAdapter(mAdapterLaunches);
 
-
         //Implementazione backbutton
         ImageButton back = (ImageButton)findViewById(R.id.backButtonAstro);
         back.setOnClickListener(v -> onBackPressed());
 
 
-        //Recupero dati lanci dell'astronauta
-
         //Recupero dati astronauta
         mAstroViewModel.getLiveData().observe(this, astronauts -> {
-            mAstro = astronauts.get(0);
+            mAstro = astronauts.getResults().get(0);
             binding.setAstro(mAstro);
             String urlWiki = mAstro.getWikipedia();
             mWiki.setOnClickListener(v -> clicke_btn(urlWiki));
@@ -134,22 +125,32 @@ public class AstroDetailActivity extends AppCompatActivity {
         mAstroViewModel.getAstronautById(mAstroId);
 
         //Recupero dati agenzia dell'astronauta
-        mAgencyViewModel.getLiveData().observe(this, agencies -> {
-            mAgency = agencies.get(0);
-            binding.setAgency(mAgency);
-            String mLogo = mAgency.getLogoUrl();
+        mAgencyViewModel.getLiveData().observe(this, response -> {
 
-            if(mLogo != null)
-            {
-                mAgencyAstro.setVisibility(View.VISIBLE);
-                Glide.with(this).load(mLogo).into(mAgencyAstro);
+            if (!response.isError()) {
+                mAgency = response.getResults().get(0);
+                binding.setAgency(mAgency);
+                String mLogo = mAgency.getLogoUrl();
+
+                if(mLogo != null) {
+                    mAgencyAstro.setVisibility(View.VISIBLE);
+                    Glide.with(this).load(mLogo).into(mAgencyAstro);
+                }
+            } else {
+                showError(response.getMessage());
             }
         });
 
-        mLaunchViewModel.getLiveData().observe(this, launches -> {
-            mAstroLaunches.addAll(launches);
-            Log.d("aggobs" , "Observer aggiornato " + mAstroLaunches.size());
-            mAdapterLaunches.notifyDataSetChanged();
+        //Recupero dati lanci dell'astronauta
+        mLaunchViewModel.getLiveData().observe(this, response -> {
+
+            if (!response.isError()) {
+                mAstroLaunches.addAll(response.getResults());
+                Log.d("AstroDetailActivity" , "Observer aggiornato " + mAstroLaunches.size());
+                mAdapterLaunches.notifyDataSetChanged();
+            } else {
+                showError(response.getMessage());
+            }
         });
     }
 
@@ -159,5 +160,11 @@ public class AstroDetailActivity extends AppCompatActivity {
             intent.setData(Uri.parse(url));
             startActivity(intent);
         }
+    }
+
+    private void showError(String errorMessage) {
+
+        Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

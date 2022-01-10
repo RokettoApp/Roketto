@@ -9,12 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Astronaut;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.AstronautRepository;
 
 public class AstronautViewModel extends AndroidViewModel {
 
     private final AstronautRepository mAstronautRepository;
-    private MutableLiveData<List<Astronaut>> mAstronautListLivedata;
+    private MutableLiveData<ResponseList<Astronaut>> mAstronautListLivedata;
 
     public AstronautViewModel(@NonNull Application application) {
 
@@ -23,7 +24,7 @@ public class AstronautViewModel extends AndroidViewModel {
         mAstronautListLivedata = mAstronautRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Astronaut>> getLiveData() {
+    public MutableLiveData<ResponseList<Astronaut>> getLiveData() {
 
         return mAstronautListLivedata;
     }

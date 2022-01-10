@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
 import it.rokettoapp.roketto.model.DockingEvent;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.DockingEventRepository;
 
 public class DockingEventViewModel extends AndroidViewModel {
 
     private final DockingEventRepository mDockingEventRepository;
-    private final MutableLiveData<List<DockingEvent>> mDockingEventListLiveData;
+    private final MutableLiveData<ResponseList<DockingEvent>> mDockingEventListLiveData;
 
     public DockingEventViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class DockingEventViewModel extends AndroidViewModel {
         mDockingEventListLiveData = mDockingEventRepository.getLiveData();
     }
 
-    public MutableLiveData<List<DockingEvent>> getLiveData() {
+    public MutableLiveData<ResponseList<DockingEvent>> getLiveData() {
 
         return mDockingEventListLiveData;
     }
