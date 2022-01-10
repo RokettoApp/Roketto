@@ -1,24 +1,22 @@
 package it.rokettoapp.roketto.ui;
 
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,6 @@ import java.util.List;
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterAstro;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
-import it.rokettoapp.roketto.model.Agency;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.ui.viewmodel.AstronautViewModel;
@@ -48,9 +45,6 @@ public class FragmentHome extends Fragment {
 
 
         super.onCreate(savedInstanceState);
-
-
-
 
         mEventViewModel = new ViewModelProvider(requireActivity()).get(EventViewModel.class);
         mAstroViewModel = new ViewModelProvider(requireActivity()).get(AstronautViewModel.class);
@@ -83,18 +77,26 @@ public class FragmentHome extends Fragment {
         RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros, true);
         mRecyclerViewAstro.setAdapter(mAdapterAstro);
 
-        mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), eventList -> {
+        mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), response -> {
 
             mEvents.clear();
-            mEvents.addAll(eventList);
-            mAdapterEvents.notifyDataSetChanged();
+            if (!response.isError()) {
+                mEvents.addAll(response.getResults());
+                mAdapterEvents.notifyDataSetChanged();
+            } else {
+                showError(response.getMessage());
+            }
         });
         mEventViewModel.getEvents(isConnected());
 
-        mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), astronauts -> {
+        mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), response -> {
             mAstros.clear();
-            mAstros.addAll(astronauts);
-            mAdapterAstro.notifyDataSetChanged();
+            if (!response.isError()) {
+                mAstros.addAll(response.getResults());
+                mAdapterAstro.notifyDataSetChanged();
+            } else {
+                showError(response.getMessage());
+            }
         });
         mAstroViewModel.getAstronauts(isConnected());
         /*
@@ -119,9 +121,9 @@ public class FragmentHome extends Fragment {
             mEventViewModel.getEvents(isConnected());
             mAstroViewModel.refreshAstronauts();
         });
-        seeAllEvents.setOnClickListener(v -> {
-            requireActivity().startActivity(new Intent(requireActivity(), SeeAllEventsActivity.class));
-        });
+        seeAllEvents.setOnClickListener(v ->
+                requireActivity().startActivity(
+                        new Intent(requireActivity(),SeeAllEventsActivity.class)));
 
         return rootView;
     }
@@ -132,5 +134,11 @@ public class FragmentHome extends Fragment {
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void showError(String errorMessage) {
+
+        Toast toast = Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

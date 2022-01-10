@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.SpaceStation;
 import it.rokettoapp.roketto.repository.SpaceStationRepository;
 
 public class SpaceStationViewModel extends AndroidViewModel {
 
     private final SpaceStationRepository mSpaceStationRepository;
-    private final MutableLiveData<List<SpaceStation>> mSpaceStationListLivedata;
+    private final MutableLiveData<ResponseList<SpaceStation>> mSpaceStationListLivedata;
 
     public SpaceStationViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class SpaceStationViewModel extends AndroidViewModel {
         mSpaceStationListLivedata = mSpaceStationRepository.getLiveData();
     }
 
-    public MutableLiveData<List<SpaceStation>> getLiveData() {
+    public MutableLiveData<ResponseList<SpaceStation>> getLiveData() {
 
         return mSpaceStationListLivedata;
     }

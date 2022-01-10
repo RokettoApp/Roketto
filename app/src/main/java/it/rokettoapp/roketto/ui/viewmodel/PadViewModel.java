@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
 import it.rokettoapp.roketto.model.Pad;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.PadRepository;
 
 public class PadViewModel extends AndroidViewModel {
 
     private final PadRepository mPadRepository;
-    private MutableLiveData<List<Pad>> mPadListLiveData;
+    private MutableLiveData<ResponseList<Pad>> mPadListLiveData;
 
     public PadViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class PadViewModel extends AndroidViewModel {
         mPadListLiveData = mPadRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Pad>> getLiveData() {
+    public MutableLiveData<ResponseList<Pad>> getLiveData() {
 
         return mPadListLiveData;
     }

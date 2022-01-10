@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.SFNInfo;
 import it.rokettoapp.roketto.service.SFNInfoApiService;
 import it.rokettoapp.roketto.util.ServiceLocator;
@@ -23,8 +24,8 @@ public class SFNInfoRepository {
 
     public void fetchInfo() {
 
-        Call<SFNInfo> agencyResponseCall = mSfnInfoApiService.getInfo();
-        agencyResponseCall.enqueue(new Callback<SFNInfo>() {
+        Call<SFNInfo> sfnInfoResponseCall = mSfnInfoApiService.getInfo();
+        sfnInfoResponseCall.enqueue(new Callback<SFNInfo>() {
 
             @Override
             public void onResponse(@NonNull Call<SFNInfo> call,
@@ -34,6 +35,9 @@ public class SFNInfoRepository {
                     SFNInfo sfnInfo = response.body();
                     Log.d(TAG, sfnInfo.getApiVersion());
                 } else {
+                    ResponseList<SFNInfo> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -41,6 +45,9 @@ public class SFNInfoRepository {
             @Override
             public void onFailure(@NonNull Call<SFNInfo> call, @NonNull Throwable t) {
 
+                ResponseList<SFNInfo> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
                 Log.e(TAG, t.getMessage());
             }
         });

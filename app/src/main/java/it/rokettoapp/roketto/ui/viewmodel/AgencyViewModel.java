@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
 import it.rokettoapp.roketto.model.Agency;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.repository.AgencyRepository;
 
 public class AgencyViewModel extends AndroidViewModel {
 
     private final AgencyRepository mAgencyRepository;
-    private MutableLiveData<List<Agency>> mAgencyListLivedata;
+    private MutableLiveData<ResponseList<Agency>> mAgencyListLivedata;
 
     public AgencyViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class AgencyViewModel extends AndroidViewModel {
         mAgencyListLivedata = mAgencyRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Agency>> getLiveData() {
+    public MutableLiveData<ResponseList<Agency>> getLiveData() {
 
         return mAgencyListLivedata;
     }
