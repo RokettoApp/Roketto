@@ -60,6 +60,8 @@ public class Event implements Serializable {
     @SerializedName("program")
     private List<Program> mProgramList;
 
+    private int favourite;
+
     public Event(int id, String slug, String name, List<Update> updates, EventType eventType,
                  String description, String location, String newsUrl, String videoUrl,
                  String featureImage, Date date, List<Launch> launchList,
@@ -81,6 +83,7 @@ public class Event implements Serializable {
         this.mExpeditionList = expeditionList;
         this.mSpaceStationList = spaceStationList;
         this.mProgramList = programList;
+        this.favourite = 0;
     }
 
     public int getId() {
@@ -231,5 +234,13 @@ public class Event implements Serializable {
     public void setProgramList(List<Program> programList) {
 
         this.mProgramList = programList;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }

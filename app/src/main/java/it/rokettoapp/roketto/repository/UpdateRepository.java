@@ -37,6 +37,9 @@ public class UpdateRepository {
                     List<Update> updateList = response.body().getResults();
                     Log.d(TAG, "Retrieved " + updateList.size() + " updates.");
                 } else {
+                    ResponseList<Update> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -44,6 +47,9 @@ public class UpdateRepository {
             @Override
             public void onFailure(@NonNull Call<ResponseList<Update>> call, @NonNull Throwable t) {
 
+                ResponseList<Update> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -62,6 +68,9 @@ public class UpdateRepository {
                     Update update = response.body();
                     Log.d(TAG, update.getCreatedBy());
                 } else {
+                    ResponseList<Update> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -69,6 +78,9 @@ public class UpdateRepository {
             @Override
             public void onFailure(@NonNull Call<Update> call, @NonNull Throwable t) {
 
+                ResponseList<Update> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
                 Log.e(TAG, t.getMessage());
             }
         });

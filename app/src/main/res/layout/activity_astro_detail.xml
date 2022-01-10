@@ -68,75 +68,86 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/iconCake"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginLeft="16dp"
-            android:layout_toEndOf="@id/cardImageAstro"
-            android:layout_alignTop="@id/cardImageAstro"
-            android:src="@drawable/ic_cake" />
-
-        <TextView
-            android:id="@+id/txtBirthDate"
+        <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/cardImageAstro"
-            android:layout_alignBottom="@id/iconCake"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="36dp"
-            android:layout_toEndOf="@+id/iconCake"
-            android:text="@{date}"
-            android:textSize="16dp">
-
-        </TextView>
-
-        <ImageView
-            android:id="@+id/iconRocket"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_below="@id/iconCake"
-            android:layout_toEndOf="@id/cardImageAstro"
-            android:src="@drawable/ic_rocket" />
+            android:layout_toEndOf="@id/cardImageAstro">
 
-        <TextView
-            android:id="@+id/txtStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtBirthDate"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@+id/iconCake"
-            android:text="@{astro.status.name}"
-            android:textSize="16dp">
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="24dp">
 
-        </TextView>
+                <ImageView
+                    android:id="@+id/iconCake"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_cake" />
 
-        <ImageView
-            android:id="@+id/iconFlag"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_below="@id/iconRocket"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_toEndOf="@id/cardImageAstro"
-            android:src="@drawable/ic_rocket" />
+                <TextView
+                    android:id="@+id/txtBirthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@{date}"
+                    android:textSize="16dp">
 
-        <TextView
-            android:id="@+id/txtNationality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtStatus"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="16dp"
-            android:layout_toEndOf="@+id/iconCake"
-            android:text="@{astro.nationality}"
-            android:textSize="16dp">
+                </TextView>
+            </TableRow>
 
-        </TextView>
+            <TableRow
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/iconRocket"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_rocket" />
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@{astro.status.name}"
+                    android:textSize="16dp">
+
+                </TextView>
+            </TableRow>
+
+            <TableRow
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/iconFlag"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_rocket" />
+
+                <TextView
+                    android:id="@+id/txtNationality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@{astro.nationality}"
+                    android:textSize="16dp">
+
+                </TextView>
+            </TableRow>
+        </TableLayout>
+
+
+
+
+
 
         <TextView
             android:id="@+id/astroDescription"

@@ -28,7 +28,7 @@ public class AstronautRepository {
     private final AstronautApiService mAstronautApiService;
     private final AstronautDao mAstronautDao;
     private final DatabaseOperations<Integer, Astronaut> databaseOperations;
-    private final MutableLiveData<List<Astronaut>> mAstronautListLiveData;
+    private final MutableLiveData<ResponseList<Astronaut>> mAstronautListLiveData;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
@@ -42,7 +42,7 @@ public class AstronautRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Astronaut>> getLiveData() {
+    public MutableLiveData<ResponseList<Astronaut>> getLiveData() {
 
         return mAstronautListLiveData;
     }
@@ -68,9 +68,11 @@ public class AstronautRepository {
         new Thread(() -> {
             Astronaut astronaut = mAstronautDao.getById(id);
             if (astronaut != null) {
+                ResponseList<Astronaut> responseList = new ResponseList<>();
                 List<Astronaut> astronautList = new ArrayList<>();
                 astronautList.add(astronaut);
-                mAstronautListLiveData.postValue(astronautList);
+                responseList.setResults(astronautList);
+                mAstronautListLiveData.postValue(responseList);
             } else
                 fetchAstronautById(id);
         }).start();
@@ -78,6 +80,7 @@ public class AstronautRepository {
 
     public void getAstronautsByIds(List <Integer> ids){
         new Thread(() -> {
+            ResponseList<Astronaut> responseList = new ResponseList<>();
             List<Astronaut> astronautList = new ArrayList<>();
             for (Integer id : ids) {
                 Astronaut astronaut = mAstronautDao.getById(id);
@@ -86,8 +89,14 @@ public class AstronautRepository {
                 } else
                     fetchAstronautById(id);
             }
-            mAstronautListLiveData.postValue(astronautList);
+            responseList.setResults(astronautList);
+            mAstronautListLiveData.postValue(responseList);
         }).start();
+    }
+
+    public void clearAstronauts() {
+
+        databaseOperations.deleteAll();
     }
 
     public void fetchAstronautByIds(Integer id, List<Astronaut> astronautList){
@@ -99,10 +108,19 @@ public class AstronautRepository {
                                    @NonNull Response<Astronaut> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Astronaut> responseList = new ResponseList<>();
+                    List<Astronaut> astronautList = new ArrayList<>();
                     Astronaut astronaut = response.body();
                     databaseOperations.saveValue(astronaut);
                     astronautList.add(astronaut);
+                    responseList.setResults(astronautList);
+                    mAstronautListLiveData.postValue(responseList);
+                    astronautList.add(astronaut);
                 } else {
+                    ResponseList<Astronaut> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mAstronautListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -110,6 +128,10 @@ public class AstronautRepository {
             @Override
             public void onFailure(@NonNull Call<Astronaut> call, @NonNull Throwable t) {
 
+                ResponseList<Astronaut> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mAstronautListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -131,11 +153,17 @@ public class AstronautRepository {
                                    @NonNull Response<ResponseList<Astronaut>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Astronaut> responseList = new ResponseList<>();
                     List<Astronaut> astronautList = response.body().getResults();
                     //databaseOperations.saveList(astronautList);
-                    mAstronautListLiveData.postValue(astronautList);
+                    responseList.setResults(astronautList);
+                    mAstronautListLiveData.postValue(responseList);
                     Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {
+                    ResponseList<Astronaut> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mAstronautListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -144,6 +172,10 @@ public class AstronautRepository {
             public void onFailure(@NonNull Call<ResponseList<Astronaut>> call,
                                   @NonNull Throwable t) {
 
+                ResponseList<Astronaut> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mAstronautListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -192,13 +224,19 @@ public class AstronautRepository {
                                    @NonNull Response<Astronaut> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Astronaut> responseList = new ResponseList<>();
                     Astronaut astronaut = response.body();
                     databaseOperations.saveValue(astronaut);
                     List<Astronaut> astronautList = new ArrayList<>();
                     astronautList.add(astronaut);
-                    mAstronautListLiveData.postValue(astronautList);
+                    responseList.setResults(astronautList);
+                    mAstronautListLiveData.postValue(responseList);
                     Log.d(TAG, astronaut.getName());
                 } else {
+                    ResponseList<Astronaut> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mAstronautListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -206,6 +244,10 @@ public class AstronautRepository {
             @Override
             public void onFailure(@NonNull Call<Astronaut> call, @NonNull Throwable t) {
 
+                ResponseList<Astronaut> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mAstronautListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

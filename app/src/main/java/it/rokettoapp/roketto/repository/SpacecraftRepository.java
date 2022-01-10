@@ -14,8 +14,8 @@ import it.rokettoapp.roketto.database.SpacecraftDao;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.Spacecraft;
 import it.rokettoapp.roketto.service.SpacecraftApiService;
-import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.Constants;
+import it.rokettoapp.roketto.util.DatabaseOperations;
 import it.rokettoapp.roketto.util.ServiceLocator;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 import retrofit2.Call;
@@ -28,7 +28,7 @@ public class SpacecraftRepository {
     private final SpacecraftApiService mSpacecraftApiService;
     private final SpacecraftDao mSpacecraftDao;
     private final DatabaseOperations<Integer, Spacecraft> databaseOperations;
-    private final MutableLiveData<List<Spacecraft>> mSpacecraftListLiveData;
+    private final MutableLiveData<ResponseList<Spacecraft>> mSpacecraftListLiveData;
     private final SharedPreferencesProvider mSharedPreferencesProvider;
     int count;
 
@@ -42,7 +42,7 @@ public class SpacecraftRepository {
         count = 0;
     }
 
-    public MutableLiveData<List<Spacecraft>> getLiveData() {
+    public MutableLiveData<ResponseList<Spacecraft>> getLiveData() {
 
         return mSpacecraftListLiveData;
     }
@@ -65,9 +65,11 @@ public class SpacecraftRepository {
         new Thread(() -> {
             Spacecraft spacecraft = mSpacecraftDao.getById(id);
             if (spacecraft != null) {
+                ResponseList<Spacecraft> responseList = new ResponseList<>();
                 List<Spacecraft> spacecraftList = new ArrayList<>();
                 spacecraftList.add(spacecraft);
-                mSpacecraftListLiveData.postValue(spacecraftList);
+                responseList.setResults(spacecraftList);
+                mSpacecraftListLiveData.postValue(responseList);
             } else
                 fetchSpacecraftById(id);
         }).start();
@@ -76,6 +78,11 @@ public class SpacecraftRepository {
     public void refreshSpacecrafts() {
 
         fetchSpacecrafts();
+    }
+
+    public void clearSpacecrafts() {
+
+        databaseOperations.deleteAll();
     }
 
     private void fetchSpacecrafts() {
@@ -90,10 +97,14 @@ public class SpacecraftRepository {
 
                 if (response.body() != null && response.isSuccessful()) {
                     List<Spacecraft> spacecraftList = response.body().getResults();
-                    mSpacecraftListLiveData.postValue(spacecraftList);
                     databaseOperations.saveList(spacecraftList);
+                    mSpacecraftListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + spacecraftList.size() + " spacecrafts.");
                 } else {
+                    ResponseList<Spacecraft> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
+                    mSpacecraftListLiveData.postValue(errorResponse);
                     Log.e(TAG, "Request failed.");
                 }
             }
@@ -102,6 +113,10 @@ public class SpacecraftRepository {
             public void onFailure(@NonNull Call<ResponseList<Spacecraft>> call,
                                   @NonNull Throwable t) {
 
+                ResponseList<Spacecraft> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mSpacecraftListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });
@@ -118,20 +133,30 @@ public class SpacecraftRepository {
                                    @NonNull Response<Spacecraft> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Spacecraft> responseList = new ResponseList<>();
                     Spacecraft spacecraft = response.body();
                     databaseOperations.saveValue(spacecraft);
                     List<Spacecraft> spacecraftList = new ArrayList<>();
                     spacecraftList.add(spacecraft);
-                    mSpacecraftListLiveData.postValue(spacecraftList);
+                    responseList.setResults(spacecraftList);
+                    mSpacecraftListLiveData.postValue(responseList);
                     Log.d(TAG, spacecraft.getName());
                 } else {
+                    ResponseList<Spacecraft> errorResponse = new ResponseList<>();
+                    errorResponse.setError(true);
+                    errorResponse.setMessage(response.message());
                     Log.e(TAG, "Request failed.");
+                    mSpacecraftListLiveData.postValue(errorResponse);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Spacecraft> call, @NonNull Throwable t) {
 
+                ResponseList<Spacecraft> errorResponse = new ResponseList<>();
+                errorResponse.setError(true);
+                errorResponse.setMessage(t.getMessage());
+                mSpacecraftListLiveData.postValue(errorResponse);
                 Log.e(TAG, t.getMessage());
             }
         });

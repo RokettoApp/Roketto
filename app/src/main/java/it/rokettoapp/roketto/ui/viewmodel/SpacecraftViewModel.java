@@ -6,15 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.Spacecraft;
 import it.rokettoapp.roketto.repository.SpacecraftRepository;
 
 public class SpacecraftViewModel extends AndroidViewModel {
 
     private final SpacecraftRepository mSpacecraftRepository;
-    private MutableLiveData<List<Spacecraft>> mSpacecraftListLivedata;
+    private MutableLiveData<ResponseList<Spacecraft>> mSpacecraftListLivedata;
 
     public SpacecraftViewModel(@NonNull Application application) {
 
@@ -23,7 +22,7 @@ public class SpacecraftViewModel extends AndroidViewModel {
         mSpacecraftListLivedata = mSpacecraftRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Spacecraft>> getLiveData() {
+    public MutableLiveData<ResponseList<Spacecraft>> getLiveData() {
 
         return mSpacecraftListLivedata;
     }

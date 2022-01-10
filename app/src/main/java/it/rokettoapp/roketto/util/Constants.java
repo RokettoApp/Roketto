@@ -70,4 +70,7 @@ public class Constants {
     public static final String DEFAULT_WEB_CLIENT_ID = "";
     public static final String FIREBASE_DATABASE_URL = "";
     public static final String USER_COLLECTION = "users";
+
+    public static final String TSD_URL = "https://thespacedevs.com/llapi";
+    public static final String SFN_URL = "https://thespacedevs.com/snapi";
 }

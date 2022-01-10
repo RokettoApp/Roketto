@@ -1,5 +1,13 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,19 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
-import it.rokettoapp.roketto.adapter.RecyclerViewAdapterNews;
 import it.rokettoapp.roketto.model.Event;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 
@@ -27,7 +27,6 @@ public class SeeAllEventsActivity extends AppCompatActivity {
 
     private EventViewModel mEventViewModel;
     private List<Event> mEvents;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +51,19 @@ public class SeeAllEventsActivity extends AppCompatActivity {
         ImageButton back = (ImageButton)findViewById(R.id.backSeeAllEvents);
         back.setOnClickListener(v -> onBackPressed());
 
-        mEventViewModel.getLiveData().observe(this, events -> {
-            mEvents.clear();
-            mEvents.addAll(events);
+        mEventViewModel.getLiveData().observe(this, response -> {
 
-            if(mEvents.size() < 100)
-                mEvents.add(null);
-            mAdapterEvents.notifyDataSetChanged();
-            mEventViewModel.setLoading(false);
-            mSwipe.setRefreshing(false);
+            mEvents.clear();
+            if (!response.isError()) {
+                mEvents.addAll(response.getResults());
+                if(mEvents.size() < 100)
+                    mEvents.add(null);
+                mAdapterEvents.notifyDataSetChanged();
+                mEventViewModel.setLoading(false);
+                mSwipe.setRefreshing(false);
+            } else {
+                showError(response.getMessage());
+            }
         });
         mEventViewModel.getEvents(isConnected());
 
@@ -81,14 +84,7 @@ public class SeeAllEventsActivity extends AppCompatActivity {
             }
         });
 
-        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mEventViewModel.refreshEvents();
-            }
-        });
-
-
+        mSwipe.setOnRefreshListener(() -> mEventViewModel.refreshEvents());
     }
 
     private boolean isConnected() {
@@ -97,5 +93,11 @@ public class SeeAllEventsActivity extends AppCompatActivity {
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void showError(String errorMessage) {
+
+        Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

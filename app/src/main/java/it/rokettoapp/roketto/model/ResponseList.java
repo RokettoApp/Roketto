@@ -16,6 +16,10 @@ public class ResponseList<T> implements Serializable {
     @SerializedName("results")
     private List<T> mResults;
 
+    private String message;
+
+    private boolean isError;
+
     public ResponseList() { }
 
     public ResponseList(int count, String next, List<T> results) {
@@ -23,6 +27,8 @@ public class ResponseList<T> implements Serializable {
         this.mCount = count;
         this.mNext = next;
         this.mResults = results;
+        this.message = "";
+        isError = false;
     }
 
     public int getCount() {
@@ -50,8 +56,28 @@ public class ResponseList<T> implements Serializable {
         return mResults;
     }
 
-    public void setAgencies(List<T> results) {
+    public void setResults(List<T> results) {
 
         this.mResults = results;
+    }
+
+    public String getMessage() {
+
+        return message;
+    }
+
+    public void setMessage(String message) {
+
+        this.message = message;
+    }
+
+    public boolean isError() {
+
+        return isError;
+    }
+
+    public void setError(boolean error) {
+
+        isError = error;
     }
 }

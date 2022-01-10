@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
@@ -60,25 +57,24 @@ public class FragmentNews extends Fragment {
         mRecyclerNews.setLayoutManager(llm);
         mRecyclerNews.setAdapter( mRecyclerViewAdapterNews );
 
-        mArticleViewModel.getArticleLiveData().observe(getViewLifecycleOwner(), articleList -> {
+        mArticleViewModel.getArticleLiveData().observe(getViewLifecycleOwner(), response -> {
 
             mArticle.clear();
-            mArticle.addAll(articleList);
-            if(mArticle.size()<100)
-                mArticle.add(null);
-            mRecyclerViewAdapterNews.notifyDataSetChanged();
-            mArticleViewModel.setLoading(false);
-            mSwipe.setRefreshing(false);
-            Log.d("FragmentNews", "test");
+            if (!response.isError()) {
+                mArticle.addAll(response.getResults());
+                if(mArticle.size()<100)
+                    mArticle.add(null);
+                mRecyclerViewAdapterNews.notifyDataSetChanged();
+                mArticleViewModel.setLoading(false);
+                mSwipe.setRefreshing(false);
+                Log.d("FragmentNews", "test");
+            } else {
+                showError(response.getMessage());
+            }
         });
         mArticleViewModel.getArticles(isConnected());
 
-        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mArticleViewModel.refreshArticles(isConnected());
-            }
-        });
+        mSwipe.setOnRefreshListener(() -> mArticleViewModel.refreshArticles(isConnected()));
 
         mRecyclerNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -93,12 +89,7 @@ public class FragmentNews extends Fragment {
                             mArticleViewModel.getNewArticles();
                         } else {
                             if (!isConnected()) {
-                                Context context = getContext();
-                                CharSequence text = "Nessuna connessione";
-                                int duration = Toast.LENGTH_SHORT;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
+                                showError(getString(R.string.connection_error));
                             }
                         }
                     }
@@ -115,5 +106,11 @@ public class FragmentNews extends Fragment {
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void showError(String errorMessage) {
+
+        Toast toast = Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
