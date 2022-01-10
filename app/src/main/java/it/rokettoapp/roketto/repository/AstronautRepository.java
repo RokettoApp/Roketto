@@ -11,6 +11,7 @@ import java.util.List;
 
 import it.rokettoapp.roketto.database.AstronautDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
+import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
@@ -55,6 +56,10 @@ public class AstronautRepository {
 //        }
         else
             databaseOperations.getListFromDatabase(mAstronautListLiveData);
+    }
+
+    public void getNewAstronautList () {
+        fetchNewAstronauts();
     }
 
     public void getAstronautById(int id) {
@@ -171,6 +176,38 @@ public class AstronautRepository {
                 errorResponse.setError(true);
                 errorResponse.setMessage(t.getMessage());
                 mAstronautListLiveData.postValue(errorResponse);
+                Log.e(TAG, t.getMessage());
+            }
+        });
+        count += 5;
+    }
+
+    private void fetchNewAstronauts() {
+
+        Call<ResponseList<Astronaut>> astronautResponseCall =
+                mAstronautApiService.getAstronauts(5, count);
+        astronautResponseCall.enqueue(new Callback<ResponseList<Astronaut>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<ResponseList<Astronaut>> call,
+                                   @NonNull Response<ResponseList<Astronaut>> response) {
+
+                if (response.body() != null && response.isSuccessful()) {
+                    List<Astronaut> astronautList = response.body().getResults();
+                    List<Astronaut> currentAstronautList = mAstronautListLiveData.getValue();
+                    //databaseOperations.saveList(astronautList);
+                    currentAstronautList.addAll(astronautList);
+                    mAstronautListLiveData.postValue(currentAstronautList);
+                    Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
+                } else {
+                    Log.e(TAG, "Request failed.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseList<Astronaut>> call,
+                                  @NonNull Throwable t) {
+
                 Log.e(TAG, t.getMessage());
             }
         });

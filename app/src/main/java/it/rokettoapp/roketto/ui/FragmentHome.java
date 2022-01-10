@@ -73,7 +73,7 @@ public class FragmentHome extends Fragment {
         RecyclerViewAdapterEvents mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents, true);
         mRecyclerViewEvents.setAdapter(mAdapterEvents);
 
-        RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros, true);
+        RecyclerViewAdapterAstro mAdapterAstro = new RecyclerViewAdapterAstro(getContext(), mAstros, false);
         mRecyclerViewAstro.setAdapter(mAdapterAstro);
 
         mEventViewModel.getLiveData().observe(getViewLifecycleOwner(), response -> {
@@ -91,8 +91,10 @@ public class FragmentHome extends Fragment {
         mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), response -> {
             mAstros.clear();
             if (!response.isError()) {
-                mAstros.addAll(response.getResults());
-                mAdapterAstro.notifyDataSetChanged();
+              mAstros.addAll(astronauts);
+              mAstros.add(null);
+              mAstroViewModel.setLoading(false);
+              mAdapterAstro.notifyDataSetChanged();
             } else {
                 showError(response.getMessage());
             }
@@ -123,6 +125,31 @@ public class FragmentHome extends Fragment {
         seeAllEvents.setOnClickListener(v ->
                 requireActivity().startActivity(
                         new Intent(requireActivity(),SeeAllEventsActivity.class)));
+
+        mRecyclerViewAstro.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (mAstros.size() < 100) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (!recyclerView.canScrollHorizontally(1) && !mAstroViewModel.isLoading()) {
+                        if (mAstroViewModel.getLiveData().getValue() != null && isConnected()) {
+                            Log.d("BlogPostObserver", "test3");
+                            mAstroViewModel.setLoading(true);
+                            mAstroViewModel.getNewAstronauts();
+                        } else {
+                            if (!isConnected()) {
+                                Context context = getContext();
+                                CharSequence text = "Nessuna connesione";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         return rootView;
     }

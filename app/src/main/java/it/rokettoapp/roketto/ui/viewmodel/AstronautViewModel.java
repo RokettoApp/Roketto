@@ -17,6 +17,9 @@ public class AstronautViewModel extends AndroidViewModel {
     private final AstronautRepository mAstronautRepository;
     private MutableLiveData<ResponseList<Astronaut>> mAstronautListLivedata;
 
+    private boolean isLoading;
+
+
     public AstronautViewModel(@NonNull Application application) {
 
         super(application);
@@ -34,6 +37,11 @@ public class AstronautViewModel extends AndroidViewModel {
         mAstronautRepository.getAstronautList(isConnected);
     }
 
+    public void getNewAstronauts() {
+
+        mAstronautRepository.getNewAstronautList();
+    }
+
     public void getAstronautById(int id) {
 
         mAstronautRepository.getAstronautById(id);
@@ -46,5 +54,13 @@ public class AstronautViewModel extends AndroidViewModel {
     public void refreshAstronauts() {
 
         mAstronautRepository.refreshAstronauts();
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
     }
 }
