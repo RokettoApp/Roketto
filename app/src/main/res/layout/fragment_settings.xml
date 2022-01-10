@@ -54,9 +54,8 @@
             android:text="@string/app_description"
             android:textColor="@color/black" />
 
-
         <TextView
-            android:id="@+id/aboutUsTitleTextView"
+            android:id="@+id/aboutUsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/appDescriptionTextView"
@@ -66,18 +65,21 @@
             android:text="@string/about_us"
             android:textColor="@color/black" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/aboutUsImageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@id/aboutUsTitleTextView"
+            android:layout_below="@id/aboutUsTextView"
             android:layout_alignStart="@id/settingsTextView"
             android:layout_marginTop="5sp"
-            app:srcCompat="@drawable/circle_shape"
-            android:contentDescription="@string/about_us_image_description_1" />
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/about_us_image_description_1"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:srcCompat="@drawable/about_us_image_1"
+            app:strokeWidth="1dp" />
 
         <TextView
-            android:id="@+id/aboutUsTextView"
+            android:id="@+id/aboutUsNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/aboutUsImageView"
@@ -87,66 +89,111 @@
             android:text="@string/about_us_name_1"
             android:textColor="@color/black" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/aboutUsMatricolaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutUsNameTextView"
+            android:layout_alignStart="@id/aboutUsNameTextView"
+            android:layout_marginTop="2sp"
+            android:text="@string/about_us_matricola_1" />
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/aboutUsImageView2"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_below="@id/aboutUsImageView"
             android:layout_alignStart="@id/settingsTextView"
             android:layout_marginTop="5sp"
-            app:srcCompat="@drawable/circle_shape"
-            android:contentDescription="@string/about_us_image_description_2" />
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/about_us_image_description_2"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:srcCompat="@drawable/about_us_image_2"
+            app:strokeWidth="1dp" />
 
         <TextView
-            android:id="@+id/aboutUsTextView2"
+            android:id="@+id/aboutUsNameTextView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/aboutUsImageView"
-            android:layout_alignStart="@id/aboutUsTextView"
+            android:layout_alignStart="@id/aboutUsNameTextView"
             android:layout_alignTop="@id/aboutUsImageView2"
             android:fontFamily="@font/montserrat"
             android:text="@string/about_us_name_2"
             android:textColor="@color/black" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/aboutUsMatricolaTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutUsNameTextView2"
+            android:layout_alignStart="@id/aboutUsNameTextView"
+            android:layout_marginTop="2sp"
+            android:text="@string/about_us_matricola_2" />
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/aboutUsImageView3"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_below="@id/aboutUsImageView2"
             android:layout_alignStart="@id/settingsTextView"
             android:layout_marginTop="5sp"
-            app:srcCompat="@drawable/circle_shape"
-            android:contentDescription="@string/about_us_image_description_3" />
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/about_us_image_description_3"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:srcCompat="@drawable/about_us_image_3"
+            app:strokeWidth="1dp" />
 
         <TextView
-            android:id="@+id/aboutUsTextView3"
+            android:id="@+id/aboutUsNameTextView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/aboutUsTextView"
+            android:layout_alignStart="@id/aboutUsNameTextView"
             android:layout_alignTop="@id/aboutUsImageView3"
             android:fontFamily="@font/montserrat"
             android:text="@string/about_us_name_3"
             android:textColor="@color/black" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/aboutUsMatricolaTextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutUsNameTextView3"
+            android:layout_alignStart="@id/aboutUsNameTextView"
+            android:layout_marginTop="2sp"
+            android:text="@string/about_us_matricola_3" />
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/aboutUsImageView4"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_below="@id/aboutUsImageView3"
             android:layout_alignStart="@id/settingsTextView"
             android:layout_marginTop="5sp"
-            app:srcCompat="@drawable/circle_shape"
-            android:contentDescription="@string/about_us_image_description_4" />
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/about_us_image_description_4"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:srcCompat="@drawable/about_us_image_4"
+            app:strokeWidth="1dp" />
 
         <TextView
-            android:id="@+id/aboutUsTextView4"
+            android:id="@+id/aboutUsNameTextView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/aboutUsTextView"
+            android:layout_alignStart="@id/aboutUsNameTextView"
             android:layout_alignTop="@id/aboutUsImageView4"
             android:fontFamily="@font/montserrat"
             android:text="@string/about_us_name_4"
             android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/aboutUsMatricolaTextView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aboutUsNameTextView4"
+            android:layout_alignStart="@id/aboutUsNameTextView"
+            android:layout_marginTop="2sp"
+            android:text="@string/about_us_matricola_4" />
 
         <TextView
             android:id="@+id/aboutApiTextView"
