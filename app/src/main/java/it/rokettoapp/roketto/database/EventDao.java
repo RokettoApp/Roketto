@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -23,6 +24,11 @@ public interface EventDao extends GenericDao<Integer, Event> {
            "WHERE mId = :id")
     Event getById(Integer id);
 
+    @Query("SELECT *" +
+            "FROM event " +
+            "WHERE favourite = 1")
+    List<Event> getFavorites();
+
     @Override
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertList(List<Event> eventList);
@@ -34,6 +40,9 @@ public interface EventDao extends GenericDao<Integer, Event> {
     @Override
     @Delete
     void delete(Event event);
+
+    @Update
+    void update(Event event);
 
     @Override
     @Query("DELETE FROM event")

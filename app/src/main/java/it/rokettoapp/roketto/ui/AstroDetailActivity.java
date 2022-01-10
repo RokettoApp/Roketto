@@ -114,7 +114,12 @@ public class AstroDetailActivity extends AppCompatActivity {
             for (Launch l: mAstro.getFlightList())
                 idsLaunches.add(l.getId());
 
-            mLaunchViewModel.getLaunchesByIds(idsLaunches);
+            if(idsLaunches.size()>0)
+                mLaunchViewModel.getLaunchesByIds(idsLaunches);
+            else {
+                findViewById(R.id.astroLaunchTitle).setVisibility(View.GONE);
+                mRecyclerLaunches.setVisibility(View.GONE);
+            }
 
         });
         mAstroViewModel.getAstronautById(mAstroId);

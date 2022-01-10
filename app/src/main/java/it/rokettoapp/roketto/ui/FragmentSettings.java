@@ -41,7 +41,6 @@ public class FragmentSettings extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         Button logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(view1 -> {
-
             FirebaseAuth.getInstance().signOut();
             SharedPreferencesProvider sharedPreferencesProvider =
                     new SharedPreferencesProvider(requireActivity().getApplication());

@@ -155,8 +155,40 @@ public class EventDetailActivity extends AppCompatActivity {
             } else {
                 showError(response.getMessage());
             }
+          
+            if (mEvent.getProgramList().size() > 0) {
+                RecyclerView programRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewProgram);
+                LinearLayoutManager programLinearLayoutManager = new LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL, false);
+                programRecyclerView.setLayoutManager(programLinearLayoutManager);
+                ProgramRecyclerViewAdapter programRecyclerViewAdapter =
+                        new ProgramRecyclerViewAdapter(this, mProgramList);
+                programRecyclerView.setAdapter(programRecyclerViewAdapter);
 
+                findViewById(R.id.programTitle).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclerViewProgram).setVisibility(View.VISIBLE);
+            }
 
+            binding.setFavouriteButton.setOnClickListener(v -> {
+
+                if (favourite == -1) return;
+
+                if (favourite == 0) {
+                    favourite = 1;
+                    updateSetFavouriteButtonColour();
+                    user.addFavouriteEvent(eventId);
+                    mEvent.setFavourite(favourite);
+                   mFavouritesViewModel.updateFavouriteEvent(mEvent);
+                } else if (favourite == 1) {
+                    favourite = 0;
+                    updateSetFavouriteButtonColour();
+                    mEvent.setFavourite(favourite);
+                    user.removeFavouriteEvent(eventId);
+                    mFavouritesViewModel.updateFavouriteEvent(mEvent);
+                }
+
+                mFavouritesViewModel.saveFavouriteEvents(user);
+            });
         });
         eventViewModel.getEventById(eventId);
 
@@ -178,22 +210,7 @@ public class EventDetailActivity extends AppCompatActivity {
                     });
         }
 
-        binding.setFavouriteButton.setOnClickListener(v -> {
 
-            if (favourite == -1) return;
-
-            if (favourite == 0) {
-                favourite = 1;
-                updateSetFavouriteButtonColour();
-                user.addFavouriteEvent(eventId);
-            } else if (favourite == 1) {
-                favourite = 0;
-                updateSetFavouriteButtonColour();
-                user.removeFavouriteEvent(eventId);
-            }
-
-            mFavouritesViewModel.saveFavouriteEvents(user);
-        });
     }
 
     public void updateSetFavouriteButtonColour() {
