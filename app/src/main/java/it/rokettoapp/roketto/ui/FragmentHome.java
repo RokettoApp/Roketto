@@ -91,7 +91,7 @@ public class FragmentHome extends Fragment {
         mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), response -> {
             mAstros.clear();
             if (!response.isError()) {
-              mAstros.addAll(astronauts);
+              mAstros.addAll(response.getResults());
               mAstros.add(null);
               mAstroViewModel.setLoading(false);
               mAdapterAstro.notifyDataSetChanged();
@@ -133,13 +133,12 @@ public class FragmentHome extends Fragment {
                     super.onScrolled(recyclerView, dx, dy);
                     if (!recyclerView.canScrollHorizontally(1) && !mAstroViewModel.isLoading()) {
                         if (mAstroViewModel.getLiveData().getValue() != null && isConnected()) {
-                            Log.d("BlogPostObserver", "test3");
                             mAstroViewModel.setLoading(true);
                             mAstroViewModel.getNewAstronauts();
                         } else {
                             if (!isConnected()) {
                                 Context context = getContext();
-                                CharSequence text = "Nessuna connesione";
+                                CharSequence text = getString(R.string.connection_error);
                                 int duration = Toast.LENGTH_SHORT;
 
                                 Toast toast = Toast.makeText(context, text, duration);

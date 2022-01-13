@@ -11,7 +11,6 @@ import java.util.List;
 
 import it.rokettoapp.roketto.database.AstronautDao;
 import it.rokettoapp.roketto.database.RokettoDatabase;
-import it.rokettoapp.roketto.model.Article;
 import it.rokettoapp.roketto.model.Astronaut;
 import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.service.AstronautApiService;
@@ -153,11 +152,9 @@ public class AstronautRepository {
                                    @NonNull Response<ResponseList<Astronaut>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
-                    ResponseList<Astronaut> responseList = new ResponseList<>();
                     List<Astronaut> astronautList = response.body().getResults();
                     //databaseOperations.saveList(astronautList);
-                    responseList.setResults(astronautList);
-                    mAstronautListLiveData.postValue(responseList);
+                    mAstronautListLiveData.postValue(response.body());
                     Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {
                     ResponseList<Astronaut> errorResponse = new ResponseList<>();
@@ -193,11 +190,15 @@ public class AstronautRepository {
                                    @NonNull Response<ResponseList<Astronaut>> response) {
 
                 if (response.body() != null && response.isSuccessful()) {
+                    ResponseList<Astronaut> responseList = new ResponseList<>();
                     List<Astronaut> astronautList = response.body().getResults();
-                    List<Astronaut> currentAstronautList = mAstronautListLiveData.getValue();
+                    if (mAstronautListLiveData.getValue() != null) {
+                        List<Astronaut> currentAstronautList = mAstronautListLiveData.getValue().getResults();
+                        currentAstronautList.addAll(astronautList);
+                        responseList.setResults(currentAstronautList);
+                    }
+                    mAstronautListLiveData.postValue(responseList);
                     //databaseOperations.saveList(astronautList);
-                    currentAstronautList.addAll(astronautList);
-                    mAstronautListLiveData.postValue(currentAstronautList);
                     Log.d(TAG, "Retrieved " + astronautList.size() + " astronauts.");
                 } else {
                     Log.e(TAG, "Request failed.");
