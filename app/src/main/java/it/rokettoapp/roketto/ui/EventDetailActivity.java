@@ -203,7 +203,7 @@ public class EventDetailActivity extends AppCompatActivity {
     public void updateSetFavouriteButtonColour() {
 
         if (favourite == 1) {
-            binding.setFavouriteButton.setColorFilter(getResources().getColor(R.color.red));
+            binding.setFavouriteButton.setColorFilter(getResources().getColor(R.color.accent_color));
         } else if (favourite == 0) {
             binding.setFavouriteButton.clearColorFilter();
         }
