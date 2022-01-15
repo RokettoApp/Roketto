@@ -1,4 +1,5 @@
 # Roketto
+Progetto di Programmazione di Dispositivi Mobili, A.A. 2021/2022
 
 ### Nome gruppo:
 Tirappmisù
