@@ -41,21 +41,21 @@
 
             <!-- Chips can be declared here, or added dynamically. -->
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipCategory"
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignRight="@id/event_title"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                android:textColor="@color/white"
-                android:textSize="8sp"
-                android:backgroundTint="@color/pastel_green"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/human_exp"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipCategory"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignRight="@id/event_title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="@color/pastel_green"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/human_exp"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone" />
 
 
         <TextView
@@ -71,14 +71,14 @@
             android:textSize="16sp" />
 
         <TextView
-            android:layout_width="wrap_content"
             android:id="@+id/datetime"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/event_title"
-            android:text="15/12/2021"
+            android:layout_marginTop="2dp"
             android:layout_marginLeft="16dp"
-            android:visibility="gone"
-            android:textSize="6sp">
+            android:textSize="10sp"
+            android:visibility="gone">
 
         </TextView>
 
@@ -87,38 +87,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_title"
+            android:layout_marginTop="2dp"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/datetime"
-            android:text="07:48 AM"
-            android:textSize="6sp"
+            android:textSize="10sp"
             android:visibility="gone">
 
         </TextView>
 
-        <ImageView
-            android:id="@+id/statusCircle"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_below="@id/event_title"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/hours"
-            android:visibility="gone"
-            android:src="@drawable/circle_shape">
-        </ImageView>
-
-        <TextView
-            android:id="@+id/statusText"
+        <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_below="@+id/event_title"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@+id/statusCircle"
-            android:text="LAUNCH SUCCESSFUL"
-            android:textColor="@color/status_green"
-            android:textSize="6sp"
-            android:fontFamily="sans-serif-medium"
-            android:visibility="gone">
-        </TextView>
+            android:layout_toEndOf="@id/hours">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp">
+
+                <ImageView
+                    android:id="@+id/statusCircle"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/circle_shape"
+                    android:visibility="gone"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/status_green"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp" />
+
+            </TableRow>
+        </TableLayout>
 
         <TextView
             android:id="@+id/event_d"
@@ -135,7 +144,7 @@
             android:paddingRight="20dp"
             android:text="Descrizione"
 
-            android:textSize="8sp" />
+            android:textSize="12sp" />
 
 
         <Button
