@@ -56,6 +56,12 @@ android {
         viewBinding true
         dataBinding true
     }
+	
+	configurations {
+		all {
+			exclude module: 'commons-logging'
+		}
+	}
 }
 
 dependencies {
