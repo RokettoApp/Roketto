@@ -4,19 +4,36 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         debug {
-            storeFile file('')
+            storeFile file('/')
             storePassword ''
             keyAlias ''
             keyPassword ''
         }
+
+        release {
+            storeFile = file("roketto.keystore")
+            storePassword System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+        }
     }
 
+    flavorDimensions "release"
+    productFlavors {
+        signed {
+            dimension "release"
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileSdkVersion 31
     compileSdk 31
 
     defaultConfig {
         applicationId "it.rokettoapp.roketto"
         minSdk 21
         targetSdk 31
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
