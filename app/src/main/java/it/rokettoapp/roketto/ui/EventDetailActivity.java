@@ -1,5 +1,8 @@
 package it.rokettoapp.roketto.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -159,7 +162,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
                 mSharedPreferencesProvider =
                         new SharedPreferencesProvider(getApplication());
-                if (mSharedPreferencesProvider.isLoginSkipped()) {
+                if (mSharedPreferencesProvider.isLoginSkipped() || !isConnected()) {
                     mFavourite = mEvent.getFavourite();
                     updateSetFavouriteButtonColour();
                 } else if (firebaseUser != null) {
@@ -184,6 +187,11 @@ public class EventDetailActivity extends AppCompatActivity {
                 binding.setFavouriteButton.setOnClickListener(v -> {
 
                     if (mFavourite == -1) return;
+
+                    if (!isConnected()) {
+                        showError(getString(R.string.connection_error));
+                        return;
+                    }
 
                     if (mFavourite == 0) {
                         mFavourite = 1;
@@ -217,6 +225,14 @@ public class EventDetailActivity extends AppCompatActivity {
         } else if (mFavourite == 0) {
             binding.setFavouriteButton.clearColorFilter();
         }
+    }
+
+    private boolean isConnected() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private void showError(String errorMessage) {
