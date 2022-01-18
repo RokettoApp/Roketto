@@ -34,9 +34,22 @@ public class SharedPreferencesProvider {
     }
 
     public void setUserId(String userId) {
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.USER_ID, userId);
         editor.apply();
+    }
+
+    public void setLoginSkipped() {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.SHARED_PREFERENCES_LOGIN_SKIPPED, true);
+        editor.apply();
+    }
+
+    public boolean isLoginSkipped() {
+
+        return sharedPreferences.getBoolean(Constants.SHARED_PREFERENCES_LOGIN_SKIPPED, false);
     }
 
     public void deleteAll() {

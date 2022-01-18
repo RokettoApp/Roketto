@@ -64,6 +64,7 @@ public class Constants {
     public static final String SHARED_PREFERENCES_LAST_UPDATE_EVENT = "LAST_UPDATE_EVENT";
     public static final String SHARED_PREFERENCES_LAST_UPDATE_PROGRAM = "LAST_UPDATE_PROGRAM";
     public static final String SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT = "LAST_UPDATE_SPACECRAFT";
+    public static final String SHARED_PREFERENCES_LOGIN_SKIPPED = "LOGIN_SKIPPED";
 
     public static final String AUTHENTICATION_TOKEN = "AUTHENTICATION_TOKEN";
     public static final String USER_ID = "USER_ID";

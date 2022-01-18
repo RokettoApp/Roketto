@@ -34,6 +34,7 @@ import it.rokettoapp.roketto.model.User;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.ExpeditionViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -44,8 +45,9 @@ public class EventDetailActivity extends AppCompatActivity {
     private List<Astronaut> mAstronautList;
     private List<Program> mProgramList;
     private FavouritesViewModel mFavouritesViewModel;
-    private User user;
-    int favourite = -1;
+    private User mUser;
+    private SharedPreferencesProvider mSharedPreferencesProvider;
+    private int mFavourite = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,15 @@ public class EventDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.hide();
 
-        mFavouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+
+        mFavouritesViewModel = viewModelProvider.get(FavouritesViewModel.class);
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
 
         eventId = (int) getIntent().getSerializableExtra("EventId");
 
-        EventViewModel eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+        EventViewModel eventViewModel = viewModelProvider.get(EventViewModel.class);
         eventViewModel.getLiveData().observe(this, response -> {
 
             if (!response.isError()) {
@@ -120,7 +124,7 @@ public class EventDetailActivity extends AppCompatActivity {
                     findViewById(R.id.recyclerViewExpedition).setVisibility(View.VISIBLE);
 
                     ExpeditionViewModel expeditionViewModel =
-                            new ViewModelProvider(this).get(ExpeditionViewModel.class);
+                            viewModelProvider.get(ExpeditionViewModel.class);
 
                     expeditionViewModel.getLiveData().observe(this, response1 -> {
 
@@ -153,58 +157,64 @@ public class EventDetailActivity extends AppCompatActivity {
                     findViewById(R.id.recyclerViewProgram).setVisibility(View.VISIBLE);
                 }
 
+                mSharedPreferencesProvider =
+                        new SharedPreferencesProvider(getApplication());
+                if (mSharedPreferencesProvider.isLoginSkipped()) {
+                    mFavourite = mEvent.getFavourite();
+                    updateSetFavouriteButtonColour();
+                } else if (firebaseUser != null) {
+                    mFavouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
+                            .observe(this, user -> {
+
+                                this.mUser = user;
+                                if (this.mUser == null) {
+                                    this.mUser =
+                                            new User(firebaseUser.getUid(),firebaseUser.getEmail());
+                                }
+
+                                if (this.mUser.getFavouriteEvents().contains(eventId)) {
+                                    mFavourite = 1;
+                                    updateSetFavouriteButtonColour();
+                                } else {
+                                    mFavourite = 0;
+                                }
+                            });
+                }
+
                 binding.setFavouriteButton.setOnClickListener(v -> {
 
-                    if (favourite == -1) return;
+                    if (mFavourite == -1) return;
 
-                    if (favourite == 0) {
-                        favourite = 1;
+                    if (mFavourite == 0) {
+                        mFavourite = 1;
                         updateSetFavouriteButtonColour();
-                        user.addFavouriteEvent(eventId);
-                        mEvent.setFavourite(favourite);
+                        if (!mSharedPreferencesProvider.isLoginSkipped())
+                            mUser.addFavouriteEvent(eventId);
+                        mEvent.setFavourite(mFavourite);
                         mFavouritesViewModel.updateFavouriteEvent(mEvent);
-                    } else if (favourite == 1) {
-                        favourite = 0;
+                    } else if (mFavourite == 1) {
+                        mFavourite = 0;
                         updateSetFavouriteButtonColour();
-                        mEvent.setFavourite(favourite);
-                        user.removeFavouriteEvent(eventId);
+                        if (!mSharedPreferencesProvider.isLoginSkipped())
+                            mUser.removeFavouriteEvent(eventId);
+                        mEvent.setFavourite(mFavourite);
                         mFavouritesViewModel.updateFavouriteEvent(mEvent);
                     }
 
-                    mFavouritesViewModel.saveFavouriteEvents(user);
+                    mFavouritesViewModel.saveFavouriteEvents(mUser);
                 });
             } else {
                 showError(response.getMessage());
             }
         });
         eventViewModel.getEventById(eventId);
-
-        if (firebaseUser != null) {
-            mFavouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
-                    .observe(this, user -> {
-
-                        this.user = user;
-                        if (this.user == null) {
-                            this.user = new User(firebaseUser.getUid(), firebaseUser.getEmail());
-                        }
-
-                        if (this.user.getFavouriteEvents().contains(eventId)) {
-                            favourite = 1;
-                            updateSetFavouriteButtonColour();
-                        } else {
-                            favourite = 0;
-                        }
-                    });
-        }
-
-
     }
 
     public void updateSetFavouriteButtonColour() {
 
-        if (favourite == 1) {
+        if (mFavourite == 1) {
             binding.setFavouriteButton.setColorFilter(getResources().getColor(R.color.accent_color));
-        } else if (favourite == 0) {
+        } else if (mFavourite == 0) {
             binding.setFavouriteButton.clearColorFilter();
         }
     }

@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.ui.viewmodel.UserViewModel;
 import it.rokettoapp.roketto.util.Constants;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 
 public class LoginFragment extends Fragment {
 
@@ -110,6 +111,15 @@ public class LoginFragment extends Fragment {
         textViewCreateAccount.setOnClickListener(v ->
                 Navigation.findNavController(v)
                         .navigate(R.id.action_loginFragment_to_registerFragment));
+
+        final TextView skipLoginTextView = view.findViewById(R.id.skipLoginTextView);
+        skipLoginTextView.setOnClickListener(v -> {
+            SharedPreferencesProvider sharedPreferencesProvider =
+                    new SharedPreferencesProvider(requireActivity().getApplication());
+            sharedPreferencesProvider.setLoginSkipped();
+            Navigation.findNavController(v)
+                    .navigate(R.id.action_loginFragment_to_mainActivity);
+        });
 
         return view;
     }
