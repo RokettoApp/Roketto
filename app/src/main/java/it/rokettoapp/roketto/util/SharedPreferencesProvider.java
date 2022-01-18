@@ -26,6 +26,20 @@ public class SharedPreferencesProvider {
         editor.apply();
     }
 
+    public void clearAllLastUpdates() {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
+        editor.apply();
+    }
+
     public void setAuthenticationToken(String token) {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();

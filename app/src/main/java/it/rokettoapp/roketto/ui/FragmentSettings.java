@@ -42,6 +42,7 @@ public class FragmentSettings extends Fragment {
         Button logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(view1 -> {
             FirebaseAuth.getInstance().signOut();
+            clearCache();
             SharedPreferencesProvider sharedPreferencesProvider =
                     new SharedPreferencesProvider(requireActivity().getApplication());
             sharedPreferencesProvider.deleteAll();
@@ -52,36 +53,10 @@ public class FragmentSettings extends Fragment {
         Button clearCacheButton = view.findViewById(R.id.clearCacheButton);
         clearCacheButton.setOnClickListener(view1 -> {
 
-            Application application = requireActivity().getApplication();
-            AgencyRepository agencyRepository = new AgencyRepository(application);
-            agencyRepository.clearAgencies();
-            ArticleRepository articleRepository = new ArticleRepository(application);
-            articleRepository.clearArticles();
-            AstronautRepository astronautRepository = new AstronautRepository(application);
-            astronautRepository.clearAstronauts();
-//            DockingEventRepository dockingEventRepository = new DockingEventRepository(application);
-//            dockingEventRepository.clearDockingEvents();
-            EventRepository eventRepository = new EventRepository(application);
-            eventRepository.clearEvents();
-            ExpeditionRepository expeditionRepository = new ExpeditionRepository(application);
-            expeditionRepository.clearExpeditions();
-            LaunchRepository launchRepository = new LaunchRepository(application);
-            launchRepository.clearLaunches();
-//            LauncherRepository launcherRepository = new LauncherRepository(application);
-//            launcherRepository.clearLaunchers();
-//            LocationRepository locationRepository = new LocationRepository(application);
-//            locationRepository.clearLocations();
-//            PadRepository padRepository = new PadRepository(application);
-//            padRepository.clearPads();
-//            ProgramRepository programRepository = new ProgramRepository(application);
-//            programRepository.clearPrograms();
-//            SpacecraftFlightRepository spacecraftFlightRepository =
-//                    new SpacecraftFlightRepository(application);
-//            spacecraftFlightRepository.clearSpacecraftFlight();
-//            SpacecraftRepository spacecraftRepository = new SpacecraftRepository(application);
-//            spacecraftRepository.clearSpacecrafts();
-//            SpaceStationRepository spaceStationRepository = new SpaceStationRepository(application);
-//            spaceStationRepository.clearSpaceStations();
+            clearCache();
+            SharedPreferencesProvider sharedPreferencesProvider =
+                    new SharedPreferencesProvider(requireActivity().getApplication());
+            sharedPreferencesProvider.clearAllLastUpdates();
         });
 
         Button aboutLaunchApiButton = view.findViewById(R.id.aboutLaunchApiButton);
@@ -101,5 +76,39 @@ public class FragmentSettings extends Fragment {
         });
 
         return view;
+    }
+
+    public void clearCache() {
+
+        Application application = requireActivity().getApplication();
+        AgencyRepository agencyRepository = new AgencyRepository(application);
+        agencyRepository.clearAgencies();
+        ArticleRepository articleRepository = new ArticleRepository(application);
+        articleRepository.clearArticles();
+        AstronautRepository astronautRepository = new AstronautRepository(application);
+        astronautRepository.clearAstronauts();
+//            DockingEventRepository dockingEventRepository = new DockingEventRepository(application);
+//            dockingEventRepository.clearDockingEvents();
+        EventRepository eventRepository = new EventRepository(application);
+        eventRepository.clearEvents();
+        ExpeditionRepository expeditionRepository = new ExpeditionRepository(application);
+        expeditionRepository.clearExpeditions();
+        LaunchRepository launchRepository = new LaunchRepository(application);
+        launchRepository.clearLaunches();
+//            LauncherRepository launcherRepository = new LauncherRepository(application);
+//            launcherRepository.clearLaunchers();
+//            LocationRepository locationRepository = new LocationRepository(application);
+//            locationRepository.clearLocations();
+//            PadRepository padRepository = new PadRepository(application);
+//            padRepository.clearPads();
+//            ProgramRepository programRepository = new ProgramRepository(application);
+//            programRepository.clearPrograms();
+//            SpacecraftFlightRepository spacecraftFlightRepository =
+//                    new SpacecraftFlightRepository(application);
+//            spacecraftFlightRepository.clearSpacecraftFlight();
+//            SpacecraftRepository spacecraftRepository = new SpacecraftRepository(application);
+//            spacecraftRepository.clearSpacecrafts();
+//            SpaceStationRepository spaceStationRepository = new SpaceStationRepository(application);
+//            spaceStationRepository.clearSpaceStations();
     }
 }
