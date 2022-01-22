@@ -30,6 +30,7 @@
     <string name="roketto">Roketto</string>
     <string name="signin_txt">Sign in</string>
     <string name="signup_txt">Sign up</string>
+    <string name="loginasguest">Continue as a guest</string>
     <string name="rokettogiappo">ロケット</string>
     <string name="rokettotag">Space at your fingertips</string>
     <string name="email_hint">Email</string>
