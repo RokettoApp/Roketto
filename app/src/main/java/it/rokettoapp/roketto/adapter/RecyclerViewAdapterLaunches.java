@@ -106,7 +106,7 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         return new MyViewHolderLaunches(view, p -> {
 
             Intent intent = new Intent(mContext, LaunchDetailActivity.class);
-            intent.putExtra("LaunchId", mLaunches.get(p));
+            intent.putExtra("Launch", mLaunches.get(p));
             mContext.startActivity(intent);
         });
     }

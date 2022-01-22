@@ -1,13 +1,9 @@
 package it.rokettoapp.roketto.ui;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,17 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.adapter.RecyclerViewAdapterEvents;
 import it.rokettoapp.roketto.model.Event;
-import it.rokettoapp.roketto.ui.viewmodel.AstronautViewModel;
-import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
 
 public class FragmentFavorites extends Fragment {
@@ -60,9 +51,9 @@ public class FragmentFavorites extends Fragment {
         mAdapterEvents = new RecyclerViewAdapterEvents(getContext(), mEvents, false);
         mRecyclerViewEvents.setAdapter(mAdapterEvents);
 
-        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
+        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), responseList -> {
             mEvents.clear();
-            mEvents.addAll(events);
+            mEvents.addAll(responseList.getResults());
             mAdapterEvents.notifyDataSetChanged();
         });
         mFavViewModel.getFavoritesEvents();
@@ -75,11 +66,10 @@ public class FragmentFavorites extends Fragment {
 
         super.onResume();
 
-        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
+        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), responseList -> {
             mEvents.clear();
-            mEvents.addAll(events);
+            mEvents.addAll(responseList.getResults());
             mAdapterEvents.notifyDataSetChanged();
         });
-        mFavViewModel.getFavoritesEvents();
     }
 }

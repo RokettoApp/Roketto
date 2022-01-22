@@ -34,7 +34,7 @@ public interface EventDao extends GenericDao<Integer, Event> {
     void insertList(List<Event> eventList);
 
     @Override
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Event event);
 
     @Override
@@ -47,4 +47,9 @@ public interface EventDao extends GenericDao<Integer, Event> {
     @Override
     @Query("DELETE FROM event")
     void deleteAll();
+
+    @Query("UPDATE event " +
+           "SET favourite = 0 " +
+           "WHERE favourite = 1")
+    void clearfavourites();
 }
