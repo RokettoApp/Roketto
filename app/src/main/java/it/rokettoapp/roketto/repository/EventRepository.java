@@ -90,7 +90,7 @@ public class EventRepository {
 
     private void fetchEvents() {
 
-        Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(4, count);
+        Call<ResponseList<Event>> eventResponseCall = mEventApiService.getEvents(4, 0);
         eventResponseCall.enqueue(new Callback<ResponseList<Event>>() {
 
             @Override
@@ -123,7 +123,7 @@ public class EventRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-        count += 4;
+        count = 4;
     }
 
     public void fetchNewEvents(){
