@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import it.rokettoapp.roketto.model.Event;
+import it.rokettoapp.roketto.model.ResponseList;
 import it.rokettoapp.roketto.model.User;
 import it.rokettoapp.roketto.repository.FavouriteRepository;
 
@@ -16,7 +17,7 @@ public class FavouritesViewModel extends AndroidViewModel {
 
     private MutableLiveData<Boolean> mResponseLiveData;
     private MutableLiveData<User> mUserLiveData;
-    private MutableLiveData<List<Event>> mEventMutableLiveData;
+    private MutableLiveData<ResponseList<Event>> mEventMutableLiveData;
     private final FavouriteRepository mFavouriteRepository;
 
     public FavouritesViewModel(@NonNull Application application) {
@@ -26,7 +27,7 @@ public class FavouritesViewModel extends AndroidViewModel {
         mEventMutableLiveData = mFavouriteRepository.getLiveData();
     }
 
-    public MutableLiveData<List<Event>> getLiveData() {
+    public MutableLiveData<ResponseList<Event>> getLiveData() {
 
         return mEventMutableLiveData;
     }
@@ -48,6 +49,12 @@ public class FavouritesViewModel extends AndroidViewModel {
     }
 
     public void getFavoritesEvents(){
+
         mFavouriteRepository.getFavoritesEvent();
+    }
+
+    public void refreshFavouriteEvents(List<Integer> idList){
+
+        mFavouriteRepository.refreshFavoriteEvents(idList);
     }
 }

@@ -6,12 +6,14 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import it.rokettoapp.roketto.R;
+import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
 import it.rokettoapp.roketto.util.CSVCountries;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 
@@ -70,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AuthenticationActivity.class);
                 startActivity(intent);
             }
+        } else {
+            FavouritesViewModel favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
+            favouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
+                    .observe(this, user -> {
+                        if (user != null) {
+                            favouritesViewModel.refreshFavouriteEvents(user.getFavouriteEvents());
+                        }
+                    });
         }
     }
 }
