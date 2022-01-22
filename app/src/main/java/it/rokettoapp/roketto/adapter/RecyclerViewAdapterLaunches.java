@@ -50,14 +50,29 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         holder.mChip.setVisibility(View.VISIBLE);
         holder.mChip.setText(mLaunches.get(position).getMission().getType());
 
-        holder.mStatusLaunch.setVisibility(View.VISIBLE);
-        holder.mStatusLaunch.setText(mLaunches.get(position).getLaunchStatus().getName());
+        if(mLaunches.get(position).getLaunchStatus().getId()==3) {
+            holder.mStatusLaunch.setVisibility(View.VISIBLE);
+            holder.mStatusLaunch.setText(mLaunches.get(position).getLaunchStatus().getName());
+            holder.mStatusLaunch.setTextColor(mContext.getResources().getColor(R.color.status_green));
+            holder.mStatusCircle.setVisibility(View.VISIBLE);
+            holder.mStatusCircle.setColorFilter(mContext.getResources().getColor(R.color.status_green));
+        } else if (mLaunches.get(position).getLaunchStatus().getId()==4) {
+            holder.mStatusLaunch.setVisibility(View.VISIBLE);
+            holder.mStatusLaunch.setText(mLaunches.get(position).getLaunchStatus().getName());
+            holder.mStatusLaunch.setTextColor(mContext.getResources().getColor(R.color.red));
+            holder.mStatusCircle.setVisibility(View.VISIBLE);
+            holder.mStatusCircle.setColorFilter(mContext.getResources().getColor(R.color.red));
+        } else {
+            holder.mStatusLaunch.setVisibility(View.VISIBLE);
+            holder.mStatusLaunch.setText(mLaunches.get(position).getLaunchStatus().getName());
+            holder.mStatusLaunch.setTextColor(mContext.getResources().getColor(R.color.status_yellow));
+            holder.mStatusCircle.setVisibility(View.VISIBLE);
+            holder.mStatusCircle.setColorFilter(mContext.getResources().getColor(R.color.status_yellow));
+        }
 
         holder.mLaunchImage.setVisibility(View.VISIBLE);
         holder.mImage.setVisibility(View.VISIBLE);
         Glide.with(mContext).load(mLaunches.get(position).getImage()).into(holder.mLaunchImage);
-
-        holder.mStatusCircle.setVisibility(View.VISIBLE);
 
         holder.mHours.setVisibility(View.VISIBLE);
         holder.mHours.setText(mLaunches.get(position).getNet().getHours() + ":" + mLaunches.get(position).getNet().getMinutes());
@@ -102,11 +117,15 @@ public class RecyclerViewAdapterLaunches extends RecyclerView.Adapter<RecyclerVi
         public TextView launch_d;
         public Button launch_button;
         public TextView mStatusLaunch;
+        public TextView mStatusRedLaunch;
+        public TextView mStatusYellowLaunch;
         public TextView mDateTime;
         public Chip mChip;
         public ViewGroup mDate;
         public ImageView mLaunchImage;
         public ImageView mStatusCircle;
+        public ImageView mStatusRedCircle;
+        public ImageView mStatusYellowCircle;
         public TextView mHours;
         public CardView mImage;
 
