@@ -188,7 +188,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
                     if (mFavourite == -1) return;
 
-                    if (!isConnected()) {
+                    if (!isConnected() && !mSharedPreferencesProvider.isLoginSkipped()) {
                         showError(getString(R.string.connection_error));
                         return;
                     }
