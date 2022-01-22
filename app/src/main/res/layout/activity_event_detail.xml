@@ -32,7 +32,11 @@
                     android:src="@drawable/testsfondo"
                     android:scaleType="fitXY"
                     android:contentDescription="@string/event_image_description" />
+                <include
+                    layout="@layout/gradient_layout_bar"
+                    >
 
+                </include>
                 <ImageButton
                     android:id="@+id/backButtonEvent"
                     android:layout_width="wrap_content"

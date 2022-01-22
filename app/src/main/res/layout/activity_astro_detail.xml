@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.AstroDetailActivity">
 
+
         <ImageButton
             android:id="@+id/backButtonAstro"
             android:layout_width="wrap_content"

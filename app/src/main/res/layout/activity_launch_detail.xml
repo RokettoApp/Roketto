@@ -48,6 +48,9 @@
                     android:src="@drawable/testsfondo"
                     android:scaleType="fitXY"
                     />
+                <include
+                    layout="@layout/gradient_layout_bar"
+                    ></include>
 
                 <ImageButton
                     android:id="@+id/backButtonLaunch"
