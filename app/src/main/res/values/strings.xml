@@ -76,7 +76,7 @@
     <string name="about_news_api">Spaceflight News</string>
     <string name="about_news">News sites:</string>
     <string name="about_us">About us:</string>
-    <string name="app_description">Roketto is the first application to keep track of space events and to check information about astronauts, agencies, and much more!</string>
+    <string name="app_description">Roketto is an application to keep track of space events and to check information about astronauts, agencies, and much more!</string>
     <string name="app_icon_description">Application icon</string>
     <string name="about_us_name_1">Davide Costantini</string>
     <string name="about_us_name_2">Samuele Simone</string>
@@ -91,4 +91,8 @@
     <string name="about_us_matricola_3">844960</string>
     <string name="about_us_matricola_4">852259</string>
     <string name="connection_error">Connection error.</string>
+    <string name="password_error">Passwords do not match.</string>
+    <string name="password_icon">Password icon</string>
+    <string name="email_icon">Email icon</string>
+    <string name="background_image">Background image</string>
 </resources>
