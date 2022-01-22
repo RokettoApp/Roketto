@@ -25,6 +25,10 @@
     <string name="length">Length:</string>
     <string name="diameter">Diameter:</string>
     <string name="fairing_diameter">Fairing diameter:</string>
+    <string name="signin">Sign in with Google</string>
+    <string name="roketto">Roketto</string>
+    <string name="rokettogiappo">ロケット</string>
+    <string name="rokettotag">Space at your fingertips</string>
     <string name="launch_mass">Launch mass:</string>
     <string name="thrust">Thrust:</string>
     <string name="family_title">Family</string>
