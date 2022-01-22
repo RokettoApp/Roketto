@@ -12,16 +12,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.model.Article;
-import it.rokettoapp.roketto.ui.AstroDetailActivity;
 
 public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Article> mArticle;
@@ -117,9 +117,12 @@ public class RecyclerViewAdapterNews extends RecyclerView.Adapter<RecyclerView.V
         }
 
         public void bind (Article article, Context context) {
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+
             news_title.setText(article.getTitle());
             news_description.setText(article.getSummary());
-            news_date.setText(article.getPublishedAt().toString());
+            news_date.setText(simpleDateFormat.format(article.getPublishedAt()));
             news_publisher.setText(article.getSource());
 
             Glide.with(context).load(article.getImageUrl()).into(news_image);
