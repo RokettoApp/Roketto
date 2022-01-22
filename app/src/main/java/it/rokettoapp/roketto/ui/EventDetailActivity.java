@@ -37,6 +37,7 @@ import it.rokettoapp.roketto.model.User;
 import it.rokettoapp.roketto.ui.viewmodel.EventViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.ExpeditionViewModel;
 import it.rokettoapp.roketto.ui.viewmodel.FavouritesViewModel;
+import it.rokettoapp.roketto.ui.viewmodel.LaunchViewModel;
 import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 
 public class EventDetailActivity extends AppCompatActivity {
@@ -68,6 +69,8 @@ public class EventDetailActivity extends AppCompatActivity {
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
 
+        LaunchViewModel launchViewModel = viewModelProvider.get(LaunchViewModel.class);
+
         eventId = (int) getIntent().getSerializableExtra("EventId");
 
         EventViewModel eventViewModel = viewModelProvider.get(EventViewModel.class);
@@ -76,7 +79,7 @@ public class EventDetailActivity extends AppCompatActivity {
             if (!response.isError()) {
                 Event mEvent = response.getResults().get(0);
 
-                mLaunchList = mEvent.getLaunchList();
+                mLaunchList = new ArrayList<>();
                 mSpaceStationList = mEvent.getSpaceStationList();
                 mAstronautList = new ArrayList<>();
                 mProgramList = mEvent.getProgramList();
@@ -94,6 +97,22 @@ public class EventDetailActivity extends AppCompatActivity {
                     RecyclerViewAdapterLaunches recyclerViewAdapterLaunches =
                             new RecyclerViewAdapterLaunches(this, mLaunchList, false);
                     launchRecyclerView.setAdapter(recyclerViewAdapterLaunches);
+
+                    List<String> launchIdList = new ArrayList<>();
+                    for (Launch launch : mEvent.getLaunchList()) {
+                        launchIdList.add(launch.getId());
+                    }
+
+                    launchViewModel.getLiveData().observe(this, responseList -> {
+
+                        if (!responseList.isError()) {
+                            mLaunchList.addAll(responseList.getResults());
+                            recyclerViewAdapterLaunches.notifyDataSetChanged();
+                        } else {
+                            showError(responseList.getMessage());
+                        }
+                    });
+                    launchViewModel.getLaunchesByIds(launchIdList);
 
                     findViewById(R.id.launchTitle).setVisibility(View.VISIBLE);
                     findViewById(R.id.recyclerViewLaunch).setVisibility(View.VISIBLE);

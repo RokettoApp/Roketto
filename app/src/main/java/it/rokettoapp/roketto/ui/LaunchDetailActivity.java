@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 public class LaunchDetailActivity extends AppCompatActivity {
 
     private List<Astronaut> mAstro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class LaunchDetailActivity extends AppCompatActivity {
         mAstro = new ArrayList<>();
 
         //Mi prendo i dati passati da Astronauta
-        Launch mLaunch = (Launch) getIntent().getSerializableExtra("LaunchId");
+        Launch mLaunch = (Launch) getIntent().getSerializableExtra("Launch");
         binding.setLaunch(mLaunch);
         binding.setDefaultString("--");
         binding.setEmptyString("");
