@@ -3,6 +3,12 @@ package it.rokettoapp.roketto.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -11,18 +17,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import it.rokettoapp.roketto.R;
@@ -36,8 +33,6 @@ public class LoginFragment extends Fragment {
     private UserViewModel mUserViewModel;
     private GoogleSignInClient mGoogleSignInClient;
     private ActivityResultLauncher<Intent> mGoogleSignUpActivityResult;
-    private String mEmail;
-    private String mPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,33 +62,13 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        final EditText editTextEmail = view.findViewById(R.id.email);
-        final EditText editTextPassword = view.findViewById(R.id.password);
+        final Button buttonLoginWithEmail = view.findViewById(R.id.btnSigninEmail);
+        buttonLoginWithEmail.setOnClickListener(v -> Navigation.findNavController(v)
+                .navigate(R.id.action_loginFragment_to_loginEmailFragment));
 
-        mUserViewModel.signInWithEmail(mEmail, mPassword)
-                .observe(getViewLifecycleOwner(), authenticationResponse -> {
-
-            if (authenticationResponse != null) {
-                if (authenticationResponse.isSuccess()) {
-                    NavHostFragment.findNavController(LoginFragment.this).
-                            navigate(R.id.action_loginFragment_to_mainActivity);
-                } else {
-                    updateUIForFailure(authenticationResponse.getMessage());
-                }
-            }
-        });
-
-        final Button buttonLoginWithEmail = view.findViewById(R.id.login_button);
-        buttonLoginWithEmail.setOnClickListener(item -> {
-
-            mEmail = editTextEmail.getText().toString();
-            mPassword = editTextPassword.getText().toString();
-            mUserViewModel.signInWithEmail(mEmail, mPassword);
-        });
-
-        final SignInButton buttonRegisterWithGoogle = view.findViewById(R.id.google_login_button);
+        final Button buttonRegisterWithGoogle = view.findViewById(R.id.btnLoginGoogle);
         buttonRegisterWithGoogle.setOnClickListener(item -> {
 
             GoogleSignInOptions gso = new GoogleSignInOptions
@@ -107,12 +82,12 @@ public class LoginFragment extends Fragment {
             mGoogleSignUpActivityResult.launch(signInIntent);
         });
 
-        final TextView textViewCreateAccount = view.findViewById(R.id.textview_create_account);
+        final TextView textViewCreateAccount = view.findViewById(R.id.linkSignup);
         textViewCreateAccount.setOnClickListener(v ->
                 Navigation.findNavController(v)
                         .navigate(R.id.action_loginFragment_to_registerFragment));
 
-        final TextView skipLoginTextView = view.findViewById(R.id.skipLoginTextView);
+        final Button skipLoginTextView = view.findViewById(R.id.btnSigninAsGuest);
         skipLoginTextView.setOnClickListener(v -> {
             SharedPreferencesProvider sharedPreferencesProvider =
                     new SharedPreferencesProvider(requireActivity().getApplication());

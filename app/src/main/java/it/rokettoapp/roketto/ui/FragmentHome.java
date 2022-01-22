@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,6 @@ public class FragmentHome extends Fragment {
     private AstronautViewModel mAstroViewModel;
     private List<Event> mEvents;
     private List<Astronaut> mAstros;
-//    private Button mBtnSeeMore;
 
     public FragmentHome() {
     }
@@ -61,6 +61,8 @@ public class FragmentHome extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home,container, false);
         //mBtnSeeMore = rootView.findViewById(R.id.seeMoreButton);
 
+        SwipeRefreshLayout mSwipe = rootView.findViewById(R.id.swipeHome);
+
         RecyclerView mRecyclerViewEvents = (RecyclerView) rootView.findViewById(R.id.rvEvents);
         RecyclerView mRecyclerViewAstro = (RecyclerView) rootView.findViewById(R.id.rvAstronauts);
 
@@ -82,6 +84,7 @@ public class FragmentHome extends Fragment {
             if (!response.isError()) {
                 mEvents.addAll(response.getResults());
                 mAdapterEvents.notifyDataSetChanged();
+                mSwipe.setRefreshing(false);
             } else {
                 showError(response.getMessage());
             }
@@ -91,37 +94,19 @@ public class FragmentHome extends Fragment {
         mAstroViewModel.getLiveData().observe(getViewLifecycleOwner(), response -> {
             mAstros.clear();
             if (!response.isError()) {
-              mAstros.addAll(response.getResults());
-              mAstros.add(null);
-              mAstroViewModel.setLoading(false);
-              mAdapterAstro.notifyDataSetChanged();
+                mAstros.addAll(response.getResults());
+                mAstros.add(null);
+                mAstroViewModel.setLoading(false);
+                mAdapterAstro.notifyDataSetChanged();
+                mSwipe.setRefreshing(false);
             } else {
                 showError(response.getMessage());
             }
         });
         mAstroViewModel.getAstronauts(isConnected());
-        /*
-        mBtnSeeMore.setVisibility(View.VISIBLE);
-        mRecyclerViewEvents.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                Log.i("Pos",llm.findFirstVisibleItemPosition() + "");
-                if (llm.findFirstVisibleItemPosition() == 0) {
-                    mBtnSeeMore.setVisibility(View.GONE);
-                }
-                else {
-                    mBtnSeeMore.setVisibility(View.VISIBLE);
 
-                }
-            }
-        });*/
 
-        Button button = rootView.findViewById(R.id.astronauts_see_all);
         Button seeAllEvents = rootView.findViewById(R.id.events_see_all);
-        button.setOnClickListener(view -> {
-            mEventViewModel.getEvents(isConnected());
-            mAstroViewModel.refreshAstronauts();
-        });
         seeAllEvents.setOnClickListener(v ->
                 requireActivity().startActivity(
                         new Intent(requireActivity(),SeeAllEventsActivity.class)));
@@ -148,6 +133,11 @@ public class FragmentHome extends Fragment {
                     }
                 }
             }
+        });
+
+        mSwipe.setOnRefreshListener(() -> {
+            mEventViewModel.getEvents(isConnected());
+            mAstroViewModel.refreshAstronauts();
         });
 
         return rootView;

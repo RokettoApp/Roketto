@@ -144,7 +144,7 @@ public class AstronautRepository {
     private void fetchAstronauts() {
 
         Call<ResponseList<Astronaut>> astronautResponseCall =
-                mAstronautApiService.getAstronauts(5, count);
+                mAstronautApiService.getAstronauts(5, 0);
         astronautResponseCall.enqueue(new Callback<ResponseList<Astronaut>>() {
 
             @Override
@@ -176,7 +176,7 @@ public class AstronautRepository {
                 Log.e(TAG, t.getMessage());
             }
         });
-        count += 5;
+        count = 5;
     }
 
     private void fetchNewAstronauts() {
