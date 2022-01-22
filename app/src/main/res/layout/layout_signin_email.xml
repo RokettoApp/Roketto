@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -73,7 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/signup_txt"
+                android:text="@string/signin_txt"
                 android:fontFamily="@font/montserratbold"
                 android:textSize="32sp"
                 android:layout_centerHorizontal="true"
@@ -127,34 +126,12 @@
                 android:id="@+id/editPassword"
                 android:inputType="textPassword"
                 android:layout_marginTop="16dp"
-                >
-            </EditText>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_ri_lock_password_line"
-                android:layout_below="@id/iconPassword"
-                android:layout_marginTop="32dp"
-                android:layout_marginLeft="8dp"
-                android:id="@+id/iconConfirmPassword"
-                >
-            </ImageView>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/iconPerson"
-                android:layout_below="@id/editPassword"
-                android:layout_marginRight="32dp"
-                android:layout_marginLeft="16dp"
-                android:hint="@string/confirm_password_hint"
-                android:id="@+id/editConfirmPassword"
-                android:inputType="textPassword"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
                 >
             </EditText>
+
+
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -166,8 +143,8 @@
         android:layout_marginRight="60dp"
         android:layout_below="@+id/cardSignup"
         android:layout_marginTop="32dp"
+        android:text="@string/signin_txt"
         android:textAllCaps="false"
-        android:text="@string/signup"
         android:id="@+id/btnSignup"
         ></Button>
 
@@ -179,13 +156,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
         android:clickable="true"
-        android:text="@string/taglogin"
+        android:text="@string/tagsignup"
         android:gravity="center"
         android:selectAllOnFocus="false"
         android:linksClickable="false"
         android:autoLink="all"
-        android:layout_marginBottom="32dp"
         android:id="@+id/linkLogin"
+        android:layout_marginBottom="32dp"
         android:textColor="@color/black">
 
     </TextView>
