@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import it.rokettoapp.roketto.R;
 import it.rokettoapp.roketto.util.CSVCountries;
+import it.rokettoapp.roketto.util.SharedPreferencesProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,8 +64,12 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
-            Intent intent = new Intent(this, AuthenticationActivity.class);
-            startActivity(intent);
+            SharedPreferencesProvider sharedPreferencesProvider =
+                    new SharedPreferencesProvider(getApplication());
+            if (!sharedPreferencesProvider.isLoginSkipped()) {
+                Intent intent = new Intent(this, AuthenticationActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }

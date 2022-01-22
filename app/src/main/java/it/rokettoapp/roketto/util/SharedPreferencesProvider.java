@@ -26,6 +26,20 @@ public class SharedPreferencesProvider {
         editor.apply();
     }
 
+    public void clearAllLastUpdates() {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_AGENCY);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_ARTICLE);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_REPORT);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_BLOGPOST);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_ASTRONAUT);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_EVENT);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_PROGRAM);
+        editor.remove(Constants.SHARED_PREFERENCES_LAST_UPDATE_SPACECRAFT);
+        editor.apply();
+    }
+
     public void setAuthenticationToken(String token) {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -34,9 +48,22 @@ public class SharedPreferencesProvider {
     }
 
     public void setUserId(String userId) {
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.USER_ID, userId);
         editor.apply();
+    }
+
+    public void setLoginSkipped() {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.SHARED_PREFERENCES_LOGIN_SKIPPED, true);
+        editor.apply();
+    }
+
+    public boolean isLoginSkipped() {
+
+        return sharedPreferences.getBoolean(Constants.SHARED_PREFERENCES_LOGIN_SKIPPED, false);
     }
 
     public void deleteAll() {

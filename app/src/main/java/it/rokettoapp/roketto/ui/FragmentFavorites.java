@@ -72,6 +72,7 @@ public class FragmentFavorites extends Fragment {
 
     @Override
     public void onResume() {
+
         super.onResume();
 
         mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), events -> {
@@ -80,13 +81,5 @@ public class FragmentFavorites extends Fragment {
             mAdapterEvents.notifyDataSetChanged();
         });
         mFavViewModel.getFavoritesEvents();
-    }
-
-    private boolean isConnected() {
-        ConnectivityManager cm =
-                (ConnectivityManager)requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }
