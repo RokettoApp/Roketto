@@ -26,9 +26,17 @@
     <string name="diameter">Diameter:</string>
     <string name="fairing_diameter">Fairing diameter:</string>
     <string name="signin">Sign in with Google</string>
+    <string name="signin_email">Sign in with email</string>
     <string name="roketto">Roketto</string>
     <string name="rokettogiappo">ロケット</string>
     <string name="rokettotag">Space at your fingertips</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="signup">Sign up</string>
+    <string name="taglogin">Do you already have an account? <u>Log in from here</u></string>
+    <string name="tagsignup">Do not have an account? <u>Sign up from here</u></string>
+
     <string name="launch_mass">Launch mass:</string>
     <string name="thrust">Thrust:</string>
     <string name="family_title">Family</string>
