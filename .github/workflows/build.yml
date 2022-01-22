@@ -21,6 +21,13 @@ jobs:
           echo "${{ secrets.KEYSTORE }}" > encoded_keystore.txt
           touch app/roketto.keystore
           openssl base64 -d -out app/roketto.keystore < encoded_keystore.txt
+      - name: Setting constants
+        env:
+          DEFAULT_WEB_CLIENT_ID: ${{ secrets.DEFAULT_WEB_CLIENT_ID }}
+          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+        run: |
+          perl -pi -e 's/FIREBASE_ID/$ENV{DEFAULT_WEB_CLIENT_ID}/' app/src/main/java/it/rokettoapp/roketto/util/Constants.java
+          perl -pi -e 's/FIREBASE_URL/$ENV{FIREBASE_DATABASE_URL}/' app/src/main/java/it/rokettoapp/roketto/util/Constants.java
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: build
