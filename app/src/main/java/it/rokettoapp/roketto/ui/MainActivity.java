@@ -34,6 +34,17 @@ public class MainActivity extends AppCompatActivity {
         CSVCountries mTest = CSVCountries.getInstanceCountry();
         mTest.readFromCSV(this);
 
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            FavouritesViewModel favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
+            favouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
+                    .observe(this, user -> {
+                        if (user != null) {
+                            favouritesViewModel.refreshFavouriteEvents(user.getFavouriteEvents());
+                        }
+                    });
+        }
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentHome()).commit();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -72,14 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AuthenticationActivity.class);
                 startActivity(intent);
             }
-        } else {
-            FavouritesViewModel favouritesViewModel = new ViewModelProvider(this).get(FavouritesViewModel.class);
-            favouritesViewModel.readFavouriteEvents(firebaseUser.getUid())
-                    .observe(this, user -> {
-                        if (user != null) {
-                            favouritesViewModel.refreshFavouriteEvents(user.getFavouriteEvents());
-                        }
-                    });
         }
     }
 }

@@ -66,10 +66,6 @@ public class FragmentFavorites extends Fragment {
 
         super.onResume();
 
-        mFavViewModel.getLiveData().observe(getViewLifecycleOwner(), responseList -> {
-            mEvents.clear();
-            mEvents.addAll(responseList.getResults());
-            mAdapterEvents.notifyDataSetChanged();
-        });
+        mFavViewModel.getFavoritesEvents();
     }
 }
